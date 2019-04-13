@@ -72,7 +72,7 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
                 }
             }
         })
-        //performSegue(withIdentifier: "toPreview", sender: self)
+        performSegue(withIdentifier: "toPreview", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
