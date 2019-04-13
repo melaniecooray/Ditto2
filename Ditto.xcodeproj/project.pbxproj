@@ -22,6 +22,11 @@
 		423C25E622594EE700703008 /* PreviewPlaylistVC - UISetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C25E522594EE700703008 /* PreviewPlaylistVC - UISetup.swift */; };
 		423C25E822595E5100703008 /* NavBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C25E722595E5100703008 /* NavBarController.swift */; };
 		42F76C5B226166FD00DD83C5 /* BlurImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F76C5A226166FD00DD83C5 /* BlurImage.swift */; };
+		42F76C5D2261ACBB00DD83C5 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F76C5C2261ACBB00DD83C5 /* Playlist.swift */; };
+		42F76C5F2261AE5F00DD83C5 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F76C5E2261AE5F00DD83C5 /* Chat.swift */; };
+		42F76C612261AE9E00DD83C5 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F76C602261AE9E00DD83C5 /* Message.swift */; };
+		42F76C632261AFFE00DD83C5 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F76C622261AFFE00DD83C5 /* Song.swift */; };
+		42F76C652261B6FC00DD83C5 /* ToDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F76C642261B6FC00DD83C5 /* ToDate.swift */; };
 		42F9BE8922608D46004F744C /* PreviewPlaylistVC - Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F9BE8822608D46004F744C /* PreviewPlaylistVC - Collection.swift */; };
 		42F9BE8B22608D64004F744C /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F9BE8A22608D64004F744C /* ProfileCell.swift */; };
 		42F9BE8D22608D78004F744C /* RoundedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F9BE8C22608D78004F744C /* RoundedImage.swift */; };
@@ -90,6 +95,11 @@
 		423C25E522594EE700703008 /* PreviewPlaylistVC - UISetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PreviewPlaylistVC - UISetup.swift"; sourceTree = "<group>"; };
 		423C25E722595E5100703008 /* NavBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBarController.swift; sourceTree = "<group>"; };
 		42F76C5A226166FD00DD83C5 /* BlurImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurImage.swift; sourceTree = "<group>"; };
+		42F76C5C2261ACBB00DD83C5 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
+		42F76C5E2261AE5F00DD83C5 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
+		42F76C602261AE9E00DD83C5 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		42F76C622261AFFE00DD83C5 /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
+		42F76C642261B6FC00DD83C5 /* ToDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDate.swift; sourceTree = "<group>"; };
 		42F9BE8822608D46004F744C /* PreviewPlaylistVC - Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PreviewPlaylistVC - Collection.swift"; sourceTree = "<group>"; };
 		42F9BE8A22608D64004F744C /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		42F9BE8C22608D78004F744C /* RoundedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedImage.swift; sourceTree = "<group>"; };
@@ -168,6 +178,10 @@
 			isa = PBXGroup;
 			children = (
 				423C25CA22545A6C00703008 /* User.swift */,
+				42F76C5C2261ACBB00DD83C5 /* Playlist.swift */,
+				42F76C5E2261AE5F00DD83C5 /* Chat.swift */,
+				42F76C602261AE9E00DD83C5 /* Message.swift */,
+				42F76C622261AFFE00DD83C5 /* Song.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -202,6 +216,7 @@
 				7B77C05D225FEDFC00674712 /* Constants.swift */,
 				42F9BE8C22608D78004F744C /* RoundedImage.swift */,
 				42F76C5A226166FD00DD83C5 /* BlurImage.swift */,
+				42F76C642261B6FC00DD83C5 /* ToDate.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -619,18 +634,23 @@
 				423C25E422594ED000703008 /* EnterCodeVC - UISetup.swift in Sources */,
 				7B77C0642261644100674712 /* PlaylistsVC.swift in Sources */,
 				423C25CF22545AB000703008 /* FirebaseClient.swift in Sources */,
+				42F76C632261AFFE00DD83C5 /* Song.swift in Sources */,
 				7B5AFEFC223DE55400B6168B /* SignUpVC.swift in Sources */,
 				EF9B482522592786008EAA21 /* PlaylistsVC - UISetup.swift in Sources */,
+				42F76C612261AE9E00DD83C5 /* Message.swift in Sources */,
 				7B556F4A224E97F80003FA96 /* SignUpVC - UISetup.swift in Sources */,
 				EFF7237D225DAE1600115052 /* SpotifyConnectViewController.swift in Sources */,
 				7B77C04922596F1900674712 /* ProfileVC - Table.swift in Sources */,
+				42F76C652261B6FC00DD83C5 /* ToDate.swift in Sources */,
 				7B77C0662261645A00674712 /* PreviewPlaylistVC.swift in Sources */,
 				423C25E022594E4900703008 /* EnterCodeVC.swift in Sources */,
+				42F76C5F2261AE5F00DD83C5 /* Chat.swift in Sources */,
 				7B5AFF04223E00EA00B6168B /* LoginVC - UISetup.swift in Sources */,
 				42F9BE8D22608D78004F744C /* RoundedImage.swift in Sources */,
 				EF9B4827225938AF008EAA21 /* PlaylistsVC - Table.swift in Sources */,
 				7B77C068226164F700674712 /* CurrentPlaylistVC.swift in Sources */,
 				7B5AFF02223DE77000B6168B /* LaunchVC - UISetup.swift in Sources */,
+				42F76C5D2261ACBB00DD83C5 /* Playlist.swift in Sources */,
 				7B77C0622261582800674712 /* AudioViewController.swift in Sources */,
 				42F76C5B226166FD00DD83C5 /* BlurImage.swift in Sources */,
 				423C25D42259234300703008 /* ConnectVC - UISetup.swift in Sources */,
