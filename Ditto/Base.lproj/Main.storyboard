@@ -279,6 +279,7 @@
                     </tableView>
                     <connections>
                         <outlet property="searchBar" destination="Lb3-Ie-B3v" id="hdJ-a2-V4e"/>
+                        <segue destination="57K-8U-Swn" kind="show" identifier="createdPlaylist" id="Jqt-Pv-moA"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="36O-1f-xOp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -312,6 +313,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="c0J-Xr-F2s"/>
+        <segue reference="Jqt-Pv-moA"/>
         <segue reference="ebl-aY-Xac"/>
     </inferredMetricsTieBreakers>
 </document>
