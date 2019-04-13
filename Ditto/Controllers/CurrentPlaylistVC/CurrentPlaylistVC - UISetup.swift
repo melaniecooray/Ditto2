@@ -25,7 +25,7 @@ extension CurrentPlaylistViewController {
         backImage.image = image
         backImage.contentMode = .scaleAspectFill
         backImage.alpha = 0.4
-        backImage.addBlurEffect()
+        //backImage.addBlurEffect()
         view.addSubview(backImage)
     }
     

@@ -154,11 +154,14 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
         //            vc.mainSongTitle = posts[indexPath!].name
         //        }
         
-        let vc = segue.destination as! AudioViewController
+        //let vc = segue.destination as! AudioViewController
         
-        vc.image = posts[indexPath!].mainImage
+        //vc.image = posts[indexPath!].mainImage
         
-        vc.mainSongTitle = posts[indexPath!].name
+        //vc.mainSongTitle = posts[indexPath!].name
+        if let resultVC = segue.destination as? PreviewPlaylistViewController {
+            resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
+        }
         
         print("segue was done")
         
@@ -168,6 +171,7 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
         playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": selectedSongs])
+        performSegue(withIdentifier: "createdPlaylist", sender: self)
     }
     
 }
