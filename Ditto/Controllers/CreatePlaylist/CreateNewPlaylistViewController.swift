@@ -23,6 +23,9 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
     @IBOutlet var searchBar: UISearchBar!
     
     var posts = [post]()
+    var selectedSongs: [String] = []
+    var uris : [String] = []
+    var checked : [Bool] = []
     
     var searchURL = String()
     
@@ -45,6 +48,7 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.delegate = self
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(pickedSongs))
         // Do any additional setup after loading the view, typically from a nib.
         
         //callAlamo(url: searchURL, headers: parameters)
@@ -83,6 +87,8 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
                                 
                                 
                                 posts.append(post.init(mainImage: mainImage, name: name))
+                                uris.append(uri)
+                                checked.append(false)
                                 print("adding to table")
                                 self.tableView.reloadData()
                                 
@@ -112,7 +118,26 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
         
         mainLabel.text = posts[indexPath.row].name
         
+        
         return cell!
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (checked[indexPath[1]] == false) {
+            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+            selectedSongs.append(uris[indexPath[1]])
+            checked[indexPath[1]] = true
+        } else {
+            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+            for num in 0..<selectedSongs.count {
+                if selectedSongs[num] == uris[indexPath[1]] {
+                    selectedSongs.remove(at: num)
+                    break;
+                }
+            }
+            checked[indexPath[1]] = false
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     
@@ -137,6 +162,12 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
         
         print("segue was done")
         
+    }
+    
+    @objc func pickedSongs() {
+        let db = Database.database().reference()
+        let playlistNode = db.child("playlists")
+        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": selectedSongs])
     }
     
 }
