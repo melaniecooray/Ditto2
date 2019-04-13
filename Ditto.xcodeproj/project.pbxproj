@@ -18,7 +18,6 @@
 		423C25DA225941A400703008 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 423C25D9225941A400703008 /* Roboto-Light.ttf */; };
 		423C25DC2259430D00703008 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C25DB2259430D00703008 /* TabBarController.swift */; };
 		423C25E022594E4900703008 /* EnterCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C25DF22594E4900703008 /* EnterCodeVC.swift */; };
-		423C25E222594E5C00703008 /* PreviewPlaylistVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C25E122594E5C00703008 /* PreviewPlaylistVC.swift */; };
 		423C25E422594ED000703008 /* EnterCodeVC - UISetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C25E322594ED000703008 /* EnterCodeVC - UISetup.swift */; };
 		423C25E622594EE700703008 /* PreviewPlaylistVC - UISetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C25E522594EE700703008 /* PreviewPlaylistVC - UISetup.swift */; };
 		423C25E822595E5100703008 /* NavBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C25E722595E5100703008 /* NavBarController.swift */; };
@@ -35,8 +34,6 @@
 		7B5AFEDF223DD0A600B6168B /* DittoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5AFEDE223DD0A600B6168B /* DittoUITests.swift */; };
 		7B5AFEEA223DD2E600B6168B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7B5AFEE9223DD2E600B6168B /* GoogleService-Info.plist */; };
 		7B5AFEF4223DE4EE00B6168B /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5AFEF3223DE4EE00B6168B /* ProfileVC.swift */; };
-		7B5AFEF6223DE4FD00B6168B /* CurrentPlaylistVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5AFEF5223DE4FD00B6168B /* CurrentPlaylistVC.swift */; };
-		7B5AFEF8223DE53200B6168B /* PlaylistsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5AFEF7223DE53200B6168B /* PlaylistsVC.swift */; };
 		7B5AFEFA223DE54000B6168B /* ConnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5AFEF9223DE54000B6168B /* ConnectViewController.swift */; };
 		7B5AFEFC223DE55400B6168B /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5AFEFB223DE55400B6168B /* SignUpVC.swift */; };
 		7B5AFEFE223DE56100B6168B /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5AFEFD223DE56100B6168B /* LoginVC.swift */; };
@@ -46,13 +43,16 @@
 		7B5AFF0C2243567D00B6168B /* ConnectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5AFF0B2243567D00B6168B /* ConnectButton.swift */; };
 		7B77C0472259607000674712 /* ProfileVC - UISetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B77C0462259607000674712 /* ProfileVC - UISetup.swift */; };
 		7B77C04922596F1900674712 /* ProfileVC - Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B77C04822596F1900674712 /* ProfileVC - Table.swift */; };
-		7B77C04F22599EA300674712 /* CurrentPlaylistVC - UISetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B77C04E22599EA300674712 /* CurrentPlaylistVC - UISetup.swift */; };
 		7B77C057225FEA1600674712 /* SpotifyMetadata.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B77C056225FEA1500674712 /* SpotifyMetadata.framework */; };
 		7B77C059225FEA1E00674712 /* SpotifyAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B77C058225FEA1E00674712 /* SpotifyAuthentication.framework */; };
 		7B77C05B225FEA2600674712 /* SpotifyAudioPlayback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B77C05A225FEA2500674712 /* SpotifyAudioPlayback.framework */; };
 		7B77C05E225FEDFC00674712 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B77C05D225FEDFC00674712 /* Constants.swift */; };
 		7B77C0602261582100674712 /* CreateNewPlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B77C05F2261582100674712 /* CreateNewPlaylistViewController.swift */; };
 		7B77C0622261582800674712 /* AudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B77C0612261582800674712 /* AudioViewController.swift */; };
+		7B77C0642261644100674712 /* PlaylistsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B77C0632261644100674712 /* PlaylistsVC.swift */; };
+		7B77C0662261645A00674712 /* PreviewPlaylistVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B77C0652261645A00674712 /* PreviewPlaylistVC.swift */; };
+		7B77C068226164F700674712 /* CurrentPlaylistVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B77C067226164F700674712 /* CurrentPlaylistVC.swift */; };
+		7B77C06A2261650900674712 /* CurrentPlaylistVC - UISetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B77C0692261650800674712 /* CurrentPlaylistVC - UISetup.swift */; };
 		EF11BBFD226064980064B4C6 /* SpotifyAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF11BBFC226064980064B4C6 /* SpotifyAPIClient.swift */; };
 		EF9B482522592786008EAA21 /* PlaylistsVC - UISetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9B482422592786008EAA21 /* PlaylistsVC - UISetup.swift */; };
 		EF9B4827225938AF008EAA21 /* PlaylistsVC - Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9B4826225938AF008EAA21 /* PlaylistsVC - Table.swift */; };
@@ -85,7 +85,6 @@
 		423C25D9225941A400703008 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
 		423C25DB2259430D00703008 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		423C25DF22594E4900703008 /* EnterCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterCodeVC.swift; sourceTree = "<group>"; };
-		423C25E122594E5C00703008 /* PreviewPlaylistVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewPlaylistVC.swift; sourceTree = "<group>"; };
 		423C25E322594ED000703008 /* EnterCodeVC - UISetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnterCodeVC - UISetup.swift"; sourceTree = "<group>"; };
 		423C25E522594EE700703008 /* PreviewPlaylistVC - UISetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PreviewPlaylistVC - UISetup.swift"; sourceTree = "<group>"; };
 		423C25E722595E5100703008 /* NavBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBarController.swift; sourceTree = "<group>"; };
@@ -107,8 +106,6 @@
 		7B5AFEE0223DD0A600B6168B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7B5AFEE9223DD2E600B6168B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7B5AFEF3223DE4EE00B6168B /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
-		7B5AFEF5223DE4FD00B6168B /* CurrentPlaylistVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentPlaylistVC.swift; sourceTree = "<group>"; };
-		7B5AFEF7223DE53200B6168B /* PlaylistsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistsVC.swift; sourceTree = "<group>"; };
 		7B5AFEF9223DE54000B6168B /* ConnectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectViewController.swift; sourceTree = "<group>"; };
 		7B5AFEFB223DE55400B6168B /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		7B5AFEFD223DE56100B6168B /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -118,7 +115,6 @@
 		7B5AFF0B2243567D00B6168B /* ConnectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectButton.swift; sourceTree = "<group>"; };
 		7B77C0462259607000674712 /* ProfileVC - UISetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileVC - UISetup.swift"; sourceTree = "<group>"; };
 		7B77C04822596F1900674712 /* ProfileVC - Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileVC - Table.swift"; sourceTree = "<group>"; };
-		7B77C04E22599EA300674712 /* CurrentPlaylistVC - UISetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrentPlaylistVC - UISetup.swift"; sourceTree = "<group>"; };
 		7B77C056225FEA1500674712 /* SpotifyMetadata.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyMetadata.framework; sourceTree = "<group>"; };
 		7B77C058225FEA1E00674712 /* SpotifyAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyAuthentication.framework; sourceTree = "<group>"; };
 		7B77C05A225FEA2500674712 /* SpotifyAudioPlayback.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyAudioPlayback.framework; sourceTree = "<group>"; };
@@ -126,6 +122,10 @@
 		7B77C05D225FEDFC00674712 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		7B77C05F2261582100674712 /* CreateNewPlaylistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateNewPlaylistViewController.swift; sourceTree = "<group>"; };
 		7B77C0612261582800674712 /* AudioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioViewController.swift; sourceTree = "<group>"; };
+		7B77C0632261644100674712 /* PlaylistsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistsVC.swift; sourceTree = "<group>"; };
+		7B77C0652261645A00674712 /* PreviewPlaylistVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewPlaylistVC.swift; sourceTree = "<group>"; };
+		7B77C067226164F700674712 /* CurrentPlaylistVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentPlaylistVC.swift; sourceTree = "<group>"; };
+		7B77C0692261650800674712 /* CurrentPlaylistVC - UISetup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CurrentPlaylistVC - UISetup.swift"; sourceTree = "<group>"; };
 		83B198A80D7721665334537E /* Pods-DittoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DittoUITests.debug.xcconfig"; path = "Target Support Files/Pods-DittoUITests/Pods-DittoUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		8D8F77EEC14D69478BDD6B73 /* Pods_Ditto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ditto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDBA1BDEAC3FC82272D3F5CF /* Pods_DittoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DittoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -224,7 +224,7 @@
 		423C25DE22594E0E00703008 /* PreviewPlaylistVC */ = {
 			isa = PBXGroup;
 			children = (
-				423C25E122594E5C00703008 /* PreviewPlaylistVC.swift */,
+				7B77C0652261645A00674712 /* PreviewPlaylistVC.swift */,
 				423C25E522594EE700703008 /* PreviewPlaylistVC - UISetup.swift */,
 				42F9BE8822608D46004F744C /* PreviewPlaylistVC - Collection.swift */,
 			);
@@ -351,7 +351,7 @@
 		7B5AFEF0223DE49E00B6168B /* PlaylistsVC */ = {
 			isa = PBXGroup;
 			children = (
-				7B5AFEF7223DE53200B6168B /* PlaylistsVC.swift */,
+				7B77C0632261644100674712 /* PlaylistsVC.swift */,
 				EF9B482422592786008EAA21 /* PlaylistsVC - UISetup.swift */,
 				EF9B4826225938AF008EAA21 /* PlaylistsVC - Table.swift */,
 			);
@@ -361,8 +361,8 @@
 		7B5AFEF1223DE4C200B6168B /* CurrentPlaylistVC */ = {
 			isa = PBXGroup;
 			children = (
-				7B5AFEF5223DE4FD00B6168B /* CurrentPlaylistVC.swift */,
-				7B77C04E22599EA300674712 /* CurrentPlaylistVC - UISetup.swift */,
+				7B77C067226164F700674712 /* CurrentPlaylistVC.swift */,
+				7B77C0692261650800674712 /* CurrentPlaylistVC - UISetup.swift */,
 			);
 			path = CurrentPlaylistVC;
 			sourceTree = "<group>";
@@ -614,21 +614,24 @@
 				EF9B48292259394B008EAA21 /* PlaylistViewCell.swift in Sources */,
 				EF9B48312259990D008EAA21 /* NewPlaylistVC - UISetup.swift in Sources */,
 				423C25E422594ED000703008 /* EnterCodeVC - UISetup.swift in Sources */,
+				7B77C0642261644100674712 /* PlaylistsVC.swift in Sources */,
 				423C25CF22545AB000703008 /* FirebaseClient.swift in Sources */,
 				7B5AFEFC223DE55400B6168B /* SignUpVC.swift in Sources */,
 				EF9B482522592786008EAA21 /* PlaylistsVC - UISetup.swift in Sources */,
 				7B556F4A224E97F80003FA96 /* SignUpVC - UISetup.swift in Sources */,
 				EFF7237D225DAE1600115052 /* SpotifyConnectViewController.swift in Sources */,
 				7B77C04922596F1900674712 /* ProfileVC - Table.swift in Sources */,
+				7B77C0662261645A00674712 /* PreviewPlaylistVC.swift in Sources */,
 				423C25E022594E4900703008 /* EnterCodeVC.swift in Sources */,
 				7B5AFF04223E00EA00B6168B /* LoginVC - UISetup.swift in Sources */,
 				42F9BE8D22608D78004F744C /* RoundedImage.swift in Sources */,
 				EF9B4827225938AF008EAA21 /* PlaylistsVC - Table.swift in Sources */,
+				7B77C068226164F700674712 /* CurrentPlaylistVC.swift in Sources */,
 				7B5AFF02223DE77000B6168B /* LaunchVC - UISetup.swift in Sources */,
 				7B77C0622261582800674712 /* AudioViewController.swift in Sources */,
 				423C25D42259234300703008 /* ConnectVC - UISetup.swift in Sources */,
+				7B77C06A2261650900674712 /* CurrentPlaylistVC - UISetup.swift in Sources */,
 				7B5AFEFA223DE54000B6168B /* ConnectViewController.swift in Sources */,
-				7B77C04F22599EA300674712 /* CurrentPlaylistVC - UISetup.swift in Sources */,
 				EF11BBFD226064980064B4C6 /* SpotifyAPIClient.swift in Sources */,
 				423C25D222545AC300703008 /* Utils.swift in Sources */,
 				423C25DC2259430D00703008 /* TabBarController.swift in Sources */,
@@ -636,13 +639,10 @@
 				7B5AFEFE223DE56100B6168B /* LoginVC.swift in Sources */,
 				7B77C0472259607000674712 /* ProfileVC - UISetup.swift in Sources */,
 				423C25C92252E29300703008 /* HexString.swift in Sources */,
-				7B5AFEF6223DE4FD00B6168B /* CurrentPlaylistVC.swift in Sources */,
 				423C25CD22545A9A00703008 /* Cell.swift in Sources */,
 				7B5AFEF4223DE4EE00B6168B /* ProfileVC.swift in Sources */,
-				423C25E222594E5C00703008 /* PreviewPlaylistVC.swift in Sources */,
 				EF9B4833225999F3008EAA21 /* NewPlaylistVC - Image.swift in Sources */,
 				7B5AFF00223DE57400B6168B /* LaunchVC.swift in Sources */,
-				7B5AFEF8223DE53200B6168B /* PlaylistsVC.swift in Sources */,
 				7B5AFECA223DD0A300B6168B /* AppDelegate.swift in Sources */,
 				423C25E622594EE700703008 /* PreviewPlaylistVC - UISetup.swift in Sources */,
 				42F9BE8922608D46004F744C /* PreviewPlaylistVC - Collection.swift in Sources */,
