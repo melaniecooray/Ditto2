@@ -37,7 +37,7 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
         print("clicked")
 
         let keywords = searchBar.text
-        let finalKeywords = keywords?.replacingOccurrences(of: "", with: "+")
+        let finalKeywords = keywords?.replacingOccurrences(of: " ", with: "+")
         searchURL  = "https://api.spotify.com/v1/search?q=\(finalKeywords!)&type=track"
         posts.removeAll()
         
