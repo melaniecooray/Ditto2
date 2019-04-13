@@ -1,0 +1,6 @@
+framework module Pods_DittoUITests {
+  umbrella header "Pods-DittoUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
