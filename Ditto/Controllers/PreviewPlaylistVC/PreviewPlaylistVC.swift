@@ -32,22 +32,15 @@ class PreviewPlaylistViewController: UIViewController, UIScrollViewDelegate {
     }
     
     @objc func toPlaylist(_ sender: UIButton) {
-        //performSegue(withIdentifier: "toPlaylist", sender: self)
-        let currentVC = CurrentPlaylistViewController()
-        currentVC.code = code
-        present(currentVC, animated: true, completion: nil)
+        performSegue(withIdentifier: "toPlaylist", sender: self)
+        //let currentVC = CurrentPlaylistViewController()
+        //currentVC.code = code
+        //present(currentVC, animated: true, completion: nil)
     }
     
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
-}
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            let currentVC = segue.destination as! CurrentPlaylistViewController
+            currentVC.code = code
+        }
+    }
 

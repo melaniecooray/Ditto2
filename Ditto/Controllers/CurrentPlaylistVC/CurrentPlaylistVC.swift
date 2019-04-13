@@ -10,8 +10,14 @@ import UIKit
 
 class CurrentPlaylistViewController: UIViewController {
     
+    var image: UIImage!
+    var backImage: UIImageView!
+    
     var customSC: UISegmentedControl!
+    var nameLabel: UILabel!
     var codeLabel: UILabel!
+    var numberLabel: UILabel!
+    var playlistLabel: UILabel!
     var playlistName: UILabel!
     
     var songImage: UIImageView!
@@ -22,6 +28,10 @@ class CurrentPlaylistViewController: UIViewController {
         super.viewDidLoad()
 
         initUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
     }
     
 }
