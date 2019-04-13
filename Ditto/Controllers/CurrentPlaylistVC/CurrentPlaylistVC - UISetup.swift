@@ -71,21 +71,12 @@ extension CurrentPlaylistViewController {
     }
     
     func setupPlaylistName() {
-        let playlistView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width * 2/3, height: view.frame.height/25))
-        playlistView.center = CGPoint(x: view.frame.width/2, y: codeLabel.frame.maxY + view.frame.height/30)
-        
-        playlistLabel = UILabel(frame: CGRect(x: playlistView.frame.minX, y: playlistView.frame.minY, width: playlistView.frame.width/2, height: playlistView.frame.height))
-        playlistLabel.text = "Playlist: "
-        playlistLabel.textAlignment = .right
-        playlistLabel.font = UIFont(name: "Roboto-Regular", size: 15)
-        playlistLabel.textColor = .black
-        view.addSubview(playlistLabel)
-        
-        playlistName = UILabel(frame: CGRect(x: playlistLabel.frame.maxX, y: playlistLabel.frame.minY, width: playlistView.frame.width/2, height: playlistView.frame.height))
-        playlistName.text = "vibe station"
-        playlistName.font = UIFont(name: "Roboto-Bold", size: 15)
+        playlistName = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width * 2/3, height: view.frame.height/25))
+        playlistName.center = CGPoint(x: view.frame.width/2, y: codeLabel.frame.maxY + view.frame.height/34)
+        playlistName.text = "\"vibe station\""
+        playlistName.font = UIFont(name: "Roboto-Bold", size: 18)
         playlistName.textColor = .black
-        playlistName.textAlignment = .left
+        playlistName.textAlignment = .center
         playlistName.adjustsFontSizeToFitWidth = true
         view.addSubview(playlistName)
     }

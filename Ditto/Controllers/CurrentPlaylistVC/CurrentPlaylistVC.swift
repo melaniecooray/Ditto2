@@ -18,7 +18,6 @@ class CurrentPlaylistViewController: UIViewController {
     var nameLabel: UILabel!
     var codeLabel: UILabel!
     var numberLabel: UILabel!
-    var playlistLabel: UILabel!
     var playlistName: UILabel!
     
     var songImage: UIImageView!
