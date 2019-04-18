@@ -52,7 +52,7 @@ extension CurrentPlaylistViewController {
         
         numberLabel = UILabel(frame: CGRect(x: codeLabel.frame.maxX - view.frame.width/18, y: codeLabel.frame.minY, width: view.frame.width * 0.7 - codeLabel.frame.width, height: codeLabel.frame.height))
         numberLabel.font = UIFont(name: "Roboto-Bold", size: 25)
-        numberLabel.text = "  " + Utils.space(text: code) + " "
+        numberLabel.text = "  " + Utils.space(text: playlist.code) + " "
         numberLabel.textColor = UIColor(hexString: "#7383C5")
         numberLabel.layer.borderColor = UIColor.clear.cgColor
         numberLabel.layer.cornerRadius = 5
@@ -73,7 +73,7 @@ extension CurrentPlaylistViewController {
     func setupPlaylistName() {
         playlistName = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width * 2/3, height: view.frame.height/25))
         playlistName.center = CGPoint(x: view.frame.width/2, y: codeLabel.frame.maxY + view.frame.height/34)
-        playlistName.text = "\"vibe station\""
+        playlistName.text = "\"\(playlist.name)\""
         playlistName.font = UIFont(name: "Roboto-Bold", size: 18)
         playlistName.textColor = .black
         playlistName.textAlignment = .center
