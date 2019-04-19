@@ -12,10 +12,12 @@ class Song {
     var id: String!
     var name: String!
     var artist: String!
+    var image: UIImage!
     
     init(id: String, song: [String: Any]) {
         self.id = id
-        self.name = song["name"] as? String
-        self.artist = song["name"] as? String
+        //self.name = song["name"] as? String
+        //self.artist = song["name"] as? String
+        self.image = song["image"] as? UIImage
     }
 }

@@ -11,16 +11,22 @@ import Firebase
 
 class CurrentPlaylistViewController: UIViewController {
     
+    var playlist: Playlist!
     var image: UIImage!
     var backImage: UIImageView!
     
     var customSC: UISegmentedControl!
     var nameLabel: UILabel!
     var codeLabel: UILabel!
+    var barsButton: UIButton!
+    
     var numberLabel: UILabel!
     var playlistName: UILabel!
     
     var songImage: UIImageView!
+    
+    var songName: UILabel!
+    var artistName: UILabel!
 
     var code: String!
     

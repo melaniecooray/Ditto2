@@ -22,8 +22,10 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
 
     @IBOutlet var searchBar: UISearchBar!
     
+    var name : String!
     var posts = [post]()
-    var selectedSongs: [String] = []
+    var selectedSongs: [Song] = []
+    var imageList: [UIImage] = []
     var uris : [String] = []
     var checked : [Bool] = []
     
@@ -85,7 +87,6 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
                                 
                                 let mainImage = UIImage(data: mainImageData as! Data)
                                 
-                                
                                 posts.append(post.init(mainImage: mainImage, name: name))
                                 uris.append(uri)
                                 checked.append(false)
@@ -125,12 +126,12 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if (checked[indexPath[1]] == false) {
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-            selectedSongs.append(uris[indexPath[1]])
+            selectedSongs.append(Song(id: uris[indexPath[1]], song: ["name": posts[indexPath[1]].name, "image": posts[indexPath[1]].mainImage]))
             checked[indexPath[1]] = true
         } else {
             tableView.cellForRow(at: indexPath)?.accessoryType = .none
             for num in 0..<selectedSongs.count {
-                if selectedSongs[num] == uris[indexPath[1]] {
+                if selectedSongs[num].id == uris[indexPath[1]] {
                     selectedSongs.remove(at: num)
                     break;
                 }
@@ -161,6 +162,7 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
         //vc.mainSongTitle = posts[indexPath!].name
         if let resultVC = segue.destination as? PreviewPlaylistViewController {
             resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
+            resultVC.playlist = Playlist(id: UserDefaults.standard.value(forKey: "code") as! String, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs])
         }
         
         print("segue was done")
@@ -168,9 +170,15 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
     }
     
     @objc func pickedSongs() {
+        
+        var songuris: [String] = []
+        for song in selectedSongs {
+            songuris.append(song.id)
+        }
+        
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
-        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": selectedSongs])
+        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": songuris])
         performSegue(withIdentifier: "createdPlaylist", sender: self)
     }
     

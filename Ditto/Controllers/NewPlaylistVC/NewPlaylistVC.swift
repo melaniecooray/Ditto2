@@ -65,4 +65,10 @@ class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
     @objc func dismissKeyboard() {
         newPlaylistTextField.resignFirstResponder()
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let resultVC = segue.destination as? CreateNewPlaylistTableViewController {
+            resultVC.name = newPlaylistTextField.text
+        }
+    }
 }

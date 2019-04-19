@@ -61,34 +61,36 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
         }
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
-        playlistNode.observeSingleEvent(of: .value, with: { (snapshot) in
-            for playlist in snapshot.children {
-                let newPlaylist = playlist as! DataSnapshot
-                let dict = newPlaylist.value as! [String : Any]
-                let codeCheck = dict["code"] as! String
-                print(self.code)
-                print(dict["code"]!)
-                if (self.code as! String == codeCheck) {
-                    print("code worked")
-                    UserDefaults.standard.set(self.code, forKey: "code")
-                    self.codeWorked()
-                    
-                    
-//                    DispatchQueue.main.async {
-//                        self.performSegue(withIdentifier: "toPreview", sender: self)
-//                    }
-                    //self.performSegue(withIdentifier: "toPreview", sender: self)
-                }
+        
+        playlistNode.child(self.code).observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.exists() {
+                UserDefaults.standard.set(self.code, forKey: "code")
+                print("code worked")
+                self.performSegue(withIdentifier: "toPreview", sender: self)
+            } else {
+                print("error with " + self.code)
+                print(snapshot)
+                self.showError(title: "Error", message: "A playlist with that code does not exist.")
             }
         })
-        //showError(title: "Invalid", message: "A playlist with that code does not exist.")
+        
+//        playlistNode.observeSingleEvent(of: .value, with: { (snapshot) in
+//            for playlist in snapshot.children {
+//                let newPlaylist = playlist as! DataSnapshot
+//                let dict = newPlaylist.value as! [String : Any]
+//                let codeCheck = dict["code"] as! String
+//                print(self.code)
+//                print(dict["code"]!)
+//                if (self.code == codeCheck) {
+//                    UserDefaults.standard.set(self.code, forKey: "code")
+//                    print("code worked")
+//                    self.performSegue(withIdentifier: "toPreview", sender: self)
+//                } else {
+//                    self.showError(title: "Error", message: "A playlist with that code does not exist.")
+//                }
+//            }
+//        })
         //performSegue(withIdentifier: "toPreview", sender: self)
-    }
-    
-    func codeWorked() {
-        //self.present(PreviewPlaylistViewController(), animated: true, completion: nil)
-        //self.navigationController?.pushViewController(PreviewPlaylistViewController, animated: true)
-        performSegue(withIdentifier: "toPreview", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

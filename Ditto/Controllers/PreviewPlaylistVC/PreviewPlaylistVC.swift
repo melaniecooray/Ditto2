@@ -12,6 +12,7 @@ import UIKit
 class PreviewPlaylistViewController: UIViewController, UIScrollViewDelegate {
     
     var code: String!
+    var playlist: Playlist!
     
     var colorBlock: UIView!
     var playButton: UIButton!
@@ -39,8 +40,10 @@ class PreviewPlaylistViewController: UIViewController, UIScrollViewDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-            let currentVC = segue.destination as! CurrentPlaylistViewController
+        if let currentVC = segue.destination as? CurrentPlaylistViewController {
             currentVC.code = code
+            currentVC.playlist = playlist
         }
     }
+}
 
