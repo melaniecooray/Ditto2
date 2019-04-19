@@ -48,7 +48,7 @@ class CurrentPlaylistViewController: UIViewController {
     }
     
     func playSong(song: String) {
-        SPTAudioStreamingController.sharedInstance().playSpotifyURI(song, startingWith: 0, startingWithPosition: 0, callback: { (error) in
+        SPTAudioStreamingController.sharedInstance().playSpotifyURI(playlist.id, startingWith: 0, startingWithPosition: 0, callback: { (error) in
             if error != nil {
                 print("*** failed to play: \(String(describing: error))")
                 return

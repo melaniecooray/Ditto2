@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import Firebase
+import SwiftyJSON
 
 struct post {
     let mainImage : UIImage!
@@ -23,6 +24,8 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
     @IBOutlet var searchBar: UISearchBar!
     
     var name : String!
+    var userID: String!
+    var playlistID: String!
     var posts = [post]()
     var selectedSongs: [Song] = []
     var imageList: [UIImage] = []
@@ -30,7 +33,8 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
     var checked : [Bool] = []
     
     var searchURL = String()
-    
+    //var createPlaylistURL = "https://api.spotify.com/v1/playlists"
+    var getUserURL = "https://api.spotify.com/v1/me"
     let parameters: HTTPHeaders = ["Accept":"application/json", "Authorization":"Bearer \(UserDefaults.standard.value(forKey: "accessToken")!)"]
     
     typealias JSONStandard = [String : AnyObject]
@@ -162,7 +166,7 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
         //vc.mainSongTitle = posts[indexPath!].name
         if let resultVC = segue.destination as? PreviewPlaylistViewController {
             resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
-            resultVC.playlist = Playlist(id: UserDefaults.standard.value(forKey: "code") as! String, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs])
+            resultVC.playlist = Playlist(id: playlistID, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs])
         }
         
         print("segue was done")
@@ -179,7 +183,81 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
         playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": songuris])
-        performSegue(withIdentifier: "createdPlaylist", sender: self)
+        
+        
+        //let jsonData = {"name" : name, "description" : "", "public" : true}
+        AF.request(getUserURL, headers: parameters).responseJSON(completionHandler: {
+            response in
+            do {
+                print("Success!!!!")
+                var readableJSON = try JSONSerialization.jsonObject(with: response.data!, options: .mutableContainers) as! JSONStandard
+                if let user_id = readableJSON["id"] {
+                    print(user_id)
+                    UserDefaults.standard.set(user_id, forKey: "user_id")
+                    self.userID = user_id as? String
+                    let createPlaylistURL = "https://api.spotify.com/v1/users/\(user_id)/playlists"
+                    print(self.userID)
+                    AF.request(createPlaylistURL, method: .post, parameters: ["name" : self.name, "description" : "", "public" : true],encoding: JSONEncoding.default, headers: self.parameters).responseData {
+                        response in
+                        
+                        do {
+                            var readableJSON = try JSONSerialization.jsonObject(with: response.data!, options: .mutableContainers) as! JSONStandard
+                            if let playlist_id = readableJSON["id"] {
+                                self.playlistID = playlist_id as? String
+                            }
+                        }catch{
+                            print(error)
+                        }
+                        
+                        switch response.result {
+                        case .success:
+                            print(response)
+                            let addTracksURL = "https://api.spotify.com/v1/playlists/\(self.playlistID!)/tracks"
+                            AF.request(addTracksURL, method: .post, parameters: ["uris" : songuris],encoding: JSONEncoding.default, headers: self.parameters).responseData {
+                                response in
+                                switch response.result {
+                                case .success:
+                                    print(response)
+                                    self.performSegue(withIdentifier: "createdPlaylist", sender: self)
+                                case .failure(let error):
+                                    print(error)
+                                    self.showError(title: "Error:", message: "Unable to add songs to playlist")
+                                }
+                            }
+                            //self.performSegue(withIdentifier: "createdPlaylist", sender: self)
+                        //break
+                        case .failure(let error):
+                            print(error)
+                            self.showError(title: "Error:", message: "Unable to create playlist")
+                        }
+                    }
+                }
+            }catch{
+                print(error)
+            }
+            
+            switch response.result {
+            case.success:
+                print("success!")
+            case.failure(let error):
+                print(error)
+                
+            }
+            
+            
+        })
+        
+        
+        
+        
+        //performSegue(withIdentifier: "createdPlaylist", sender: self)
+    }
+    
+    func showError(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(defaultAction)
+        self.present(alert, animated: true, completion: nil)
     }
     
 }

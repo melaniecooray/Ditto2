@@ -73,7 +73,7 @@ extension CurrentPlaylistViewController {
     func setupPlaylistName() {
         playlistName = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width * 2/3, height: view.frame.height/25))
         playlistName.center = CGPoint(x: view.frame.width/2, y: codeLabel.frame.maxY + view.frame.height/34)
-        playlistName.text = "\"\(playlist.name)\""
+        playlistName.text = playlist.name
         playlistName.font = UIFont(name: "Roboto-Bold", size: 18)
         playlistName.textColor = .black
         playlistName.textAlignment = .center
