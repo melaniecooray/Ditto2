@@ -89,7 +89,7 @@ extension CurrentPlaylistViewController {
             .font: UIFont(name: "Roboto-Bold", size: 18)
             //.backgroundColor: UIColor.white what if background is black :(
         ]
-        let attribute = NSAttributedString(string: "\"vibe station\"", attributes: attributes)
+        let attribute = NSAttributedString(string: playlist.name, attributes: attributes)
         playlistName.attributedText = attribute
         //playlistName.font = UIFont(name: "Roboto-Bold", size: 18)
         playlistName.textColor = .black
