@@ -13,47 +13,61 @@ import Firebase
 struct post {
     let mainImage : UIImage!
     let name : String!
-    
+    let artist: String!
 }
 
+class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegate {
 
-class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDelegate {
-    
-
-    @IBOutlet var searchBar: UISearchBar!
+    //@IBOutlet var searchBar: UISearchBar!
+    lazy var searchBar: UISearchBar = {
+        let bar = UISearchBar()
+        bar.translatesAutoresizingMaskIntoConstraints = false
+        return bar
+    }()
+    var backgroundImage: UIImageView!
+    var tableView: UITableView!
     
     var name : String!
     var posts = [post]()
+    var temp: [Song] = []
     var selectedSongs: [Song] = []
     var imageList: [UIImage] = []
     var uris : [String] = []
     var checked : [Bool] = []
     
     var searchURL = String()
-    
     let parameters: HTTPHeaders = ["Accept":"application/json", "Authorization":"Bearer \(UserDefaults.standard.value(forKey: "accessToken")!)"]
-    
     typealias JSONStandard = [String : AnyObject]
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(pickedSongs))
+        setUpBackground()
+        setUpSearchBar()
+        setUpTable()
+        searchBar.delegate = self
+        // Do any additional setup after loading the view, typically from a nib.
+        
+        //callAlamo(url: searchURL, headers: parameters)
+    }
+    
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        return true
+    }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print("clicked")
-
         let keywords = searchBar.text
         let finalKeywords = keywords?.replacingOccurrences(of: " ", with: "+")
         searchURL  = "https://api.spotify.com/v1/search?q=\(finalKeywords!)&type=track"
         posts.removeAll()
+        selectedSongs.append(contentsOf: temp)
+        temp.removeAll()
         
         callAlamo(url: searchURL, headers: parameters)
         self.view.endEditing(true)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        searchBar.delegate = self
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(pickedSongs))
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        //callAlamo(url: searchURL, headers: parameters)
     }
     
     func callAlamo(url : String, headers: HTTPHeaders){
@@ -87,7 +101,17 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
                                 
                                 let mainImage = UIImage(data: mainImageData as! Data)
                                 
-                                posts.append(post.init(mainImage: mainImage, name: name))
+                                let artists = album["artists"] as! [JSONStandard]
+                                var artistString = ""
+                                
+                                for artist in artists {
+                                    let artistName = artist["name"] as! String
+                                    artistString += artistName + ", "
+                                }
+                                
+                                artistString = String(artistString.dropLast(2))
+                                
+                                posts.append(post.init(mainImage: mainImage, name: name, artist: artistString))
                                 uris.append(uri)
                                 checked.append(false)
                                 print("adding to table")
@@ -104,73 +128,7 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
         }
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")
-        
-        let mainImageView = cell?.viewWithTag(2) as! UIImageView
-        
-        mainImageView.image = posts[indexPath.row].mainImage
-        
-        let mainLabel = cell?.viewWithTag(1) as! UILabel
-        
-        mainLabel.text = posts[indexPath.row].name
-        
-        
-        return cell!
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (checked[indexPath[1]] == false) {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-            selectedSongs.append(Song(id: uris[indexPath[1]], song: ["name": posts[indexPath[1]].name, "image": posts[indexPath[1]].mainImage]))
-            checked[indexPath[1]] = true
-        } else {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-            for num in 0..<selectedSongs.count {
-                if selectedSongs[num].id == uris[indexPath[1]] {
-                    selectedSongs.remove(at: num)
-                    break;
-                }
-            }
-            checked[indexPath[1]] = false
-        }
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let indexPath = self.tableView.indexPathForSelectedRow?.row
-        
-        //        if let vc = segue.destination as? AudioVC {
-        //            vc.image = posts[indexPath!].mainImage
-        //            vc.mainSongTitle = posts[indexPath!].name
-        //        }
-        
-        //let vc = segue.destination as! AudioViewController
-        
-        //vc.image = posts[indexPath!].mainImage
-        
-        //vc.mainSongTitle = posts[indexPath!].name
-        if let resultVC = segue.destination as? PreviewPlaylistViewController {
-            resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
-            resultVC.playlist = Playlist(id: UserDefaults.standard.value(forKey: "code") as! String, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs])
-        }
-        
-        print("segue was done")
-        
-    }
-    
     @objc func pickedSongs() {
-        
         var songuris: [String] = []
         for song in selectedSongs {
             songuris.append(song.id)
@@ -179,7 +137,14 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
         playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": songuris])
-        performSegue(withIdentifier: "createdPlaylist", sender: self)
+        //performSegue(withIdentifier: "createdPlaylist", sender: self)
+        self.tabBarController?.selectedIndex = 1
+        let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
+        let resultVC = CurrentPlaylistViewController()
+        resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
+        resultVC.playlist = Playlist(id: UserDefaults.standard.value(forKey: "code") as! String, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs])
+        navController.pushViewController(resultVC, animated: true)
+        
     }
     
 }
