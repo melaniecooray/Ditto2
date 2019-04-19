@@ -182,7 +182,7 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
         
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
-        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": songuris])
+        //playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": songuris])
         
         
         //let jsonData = {"name" : name, "description" : "", "public" : true}
@@ -195,6 +195,7 @@ class CreateNewPlaylistTableViewController: UITableViewController, UISearchBarDe
                     print(user_id)
                     UserDefaults.standard.set(user_id, forKey: "user_id")
                     self.userID = user_id as? String
+                    playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": songuris, "members" : [UserDefaults.standard.value(forKey: "id")]])
                     let createPlaylistURL = "https://api.spotify.com/v1/users/\(user_id)/playlists"
                     print(self.userID)
                     AF.request(createPlaylistURL, method: .post, parameters: ["name" : self.name, "description" : "", "public" : true],encoding: JSONEncoding.default, headers: self.parameters).responseData {
