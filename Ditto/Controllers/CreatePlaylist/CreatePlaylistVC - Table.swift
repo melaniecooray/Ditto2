@@ -24,14 +24,21 @@ extension CreateNewPlaylistTableViewController: UITableViewDelegate, UITableView
         cell.songImage.image = posts[indexPath.row].mainImage
         cell.label.text = posts[indexPath.row].name
         cell.artist.text = posts[indexPath.row].artist
+        
+        if posts[indexPath.row].checked {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
+        }
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (checked[indexPath[1]] == false) {
+        if !posts[indexPath[1]].checked {
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
             temp.append(Song(id: uris[indexPath[1]], song: ["name": posts[indexPath[1]].name, "image": posts[indexPath[1]].mainImage, "artist": posts[indexPath[1]].artist]))
-            checked[indexPath[1]] = true
+            posts[indexPath[1]].checked = true
         } else {
             tableView.cellForRow(at: indexPath)?.accessoryType = .none
             for num in 0..<selectedSongs.count {
@@ -40,9 +47,18 @@ extension CreateNewPlaylistTableViewController: UITableViewDelegate, UITableView
                     break;
                 }
             }
-            checked[indexPath[1]] = false
+            posts[indexPath[1]].checked = false
         }
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func resetAccessoryType(){
+        for section in 0 ..< self.tableView.numberOfSections{
+            for row in 0 ..< self.tableView.numberOfRows(inSection: section){
+                let cell = self.tableView.cellForRow(at: IndexPath(row: row, section: section))
+                cell?.accessoryType = .none
+            }
+        }
     }
     
 }
