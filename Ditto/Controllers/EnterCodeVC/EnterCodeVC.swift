@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 class EnterCodeViewController: UIViewController, UITextFieldDelegate {
-
+    
     var backgroundImage: UIImageView!
     var tagLabel: UILabel!
     var codeInput: UITextField!
@@ -74,40 +74,28 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
             }
         })
         
-//        playlistNode.observeSingleEvent(of: .value, with: { (snapshot) in
-//            for playlist in snapshot.children {
-//                let newPlaylist = playlist as! DataSnapshot
-//                let dict = newPlaylist.value as! [String : Any]
-//                let codeCheck = dict["code"] as! String
-//                print(self.code)
-//                print(dict["code"]!)
-//                if (self.code == codeCheck) {
-//                    UserDefaults.standard.set(self.code, forKey: "code")
-//                    print("code worked")
-//                    self.performSegue(withIdentifier: "toPreview", sender: self)
-//                } else {
-//                    self.showError(title: "Error", message: "A playlist with that code does not exist.")
-//                }
-//            }
-//        })
+        //        playlistNode.observeSingleEvent(of: .value, with: { (snapshot) in
+        //            for playlist in snapshot.children {
+        //                let newPlaylist = playlist as! DataSnapshot
+        //                let dict = newPlaylist.value as! [String : Any]
+        //                let codeCheck = dict["code"] as! String
+        //                print(self.code)
+        //                print(dict["code"]!)
+        //                if (self.code == codeCheck) {
+        //                    UserDefaults.standard.set(self.code, forKey: "code")
+        //                    print("code worked")
+        //                    self.performSegue(withIdentifier: "toPreview", sender: self)
+        //                } else {
+        //                    self.showError(title: "Error", message: "A playlist with that code does not exist.")
+        //                }
+        //            }
+        //        })
         //performSegue(withIdentifier: "toPreview", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == "toPreview"  {
-                
-                if let childVC = navController.topViewController as? PreviewPlaylistViewController {
-                    childVC.code  = code
-                    //TODO: access here chid VC  like childVC.yourTableViewArray = localArrayValue
-                    
-                    
-                }
-                
-            }
-            
-        }
-
+        let previewVC = segue.destination as! PreviewPlaylistViewController
+        previewVC.code = code
     }
     
     func showError(title: String, message: String) {
@@ -116,15 +104,18 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
         alert.addAction(defaultAction)
         self.present(alert, animated: true, completion: nil)
     }
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
+
+
+
