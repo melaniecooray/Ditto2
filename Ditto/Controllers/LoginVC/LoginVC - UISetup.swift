@@ -49,8 +49,8 @@ extension LoginViewController {
     }
     
     func setupLogo() {
-        logo = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width * 3/4, height: view.frame.height/3))
-        logo.center = CGPoint(x: view.frame.width/2, y: code.frame.maxY * 7/3)
+        logo = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height * 2/5))
+        logo.center = CGPoint(x: view.frame.width/2, y: code.frame.maxY * 6/3)
         logo.image = UIImage(named: "logo")
         logo.contentMode = .scaleAspectFit
         scrollView.addSubview(logo)
@@ -69,7 +69,7 @@ extension LoginViewController {
     }
     
     func setupPasswordTextField() {
-        passwordTextField = SkyFloatingLabelTextField(frame: CGRect(x: view.frame.width/8, y: emailTextField.frame.maxY * 15/14, width: view.frame.width * 3/4, height: view.frame.height/12))
+        passwordTextField = SkyFloatingLabelTextField(frame: CGRect(x: view.frame.width/8, y: emailTextField.frame.maxY * 30/29, width: view.frame.width * 3/4, height: view.frame.height/12))
         passwordTextField.isSecureTextEntry = true
         passwordTextField.placeholder = "Password"
         passwordTextField.title = "Password"
@@ -82,7 +82,7 @@ extension LoginViewController {
     }
     
     func setupLoginButton() {
-        loginButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width/2, height: view.frame.height/12))
+        loginButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width * 0.42, height: view.frame.height/15))
         loginButton.center = CGPoint(x: view.frame.width/2, y: passwordTextField.frame.maxY * 7/6)
         loginButton.setTitle("Login", for: .normal)
         loginButton.titleLabel?.font = UIFont(name: "Roboto-Regular", size: 25)
@@ -94,11 +94,11 @@ extension LoginViewController {
     
     func setupSignUp() {
         signUpText = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width/2, height: view.frame.height/16))
-        signUpText.center = CGPoint(x: view.frame.width/2 * 7/8, y: loginButton.frame.maxY * 15/14)
+        signUpText.center = CGPoint(x: view.frame.width/2 * 14/15, y: loginButton.frame.maxY * 15/14)
         signUpText.text = "Don't have an account?"
         signUpText.font = UIFont(name: "Roboto-Regular", size: 15)
         scrollView.addSubview(signUpText)
-        signUpButton = UIButton(frame: CGRect(x: signUpText.frame.maxX * 4/6, y: signUpText.frame.minY, width: view.frame.width/6, height: signUpText.frame.height))
+        signUpButton = UIButton(frame: CGRect(x: signUpText.frame.maxX * 7/8, y: signUpText.frame.minY, width: view.frame.width/6, height: signUpText.frame.height))
         signUpButton.setTitle("Sign Up!", for: .normal)
         signUpButton.titleLabel?.font = UIFont(name: "Roboto-Regular", size: 15)
         signUpButton.setTitleColor(UIColor(hexString: "7383C5"), for: .normal)
