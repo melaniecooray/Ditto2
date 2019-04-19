@@ -39,8 +39,9 @@ extension ProfileViewController {
     
     func setupName() {
         nameLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 100, height: 100))
-        nameLabel.center = CGPoint(x: view.frame.width/2 + 100, y: profilePic.frame.maxY + 50)
+        nameLabel.center = CGPoint(x: view.frame.width/2, y: profilePic.frame.maxY + 50)
         nameLabel.text = "John Doe"
+        nameLabel.textAlignment = .center
         nameLabel.font = UIFont(name: "Roboto-Bold", size: 25)
         nameLabel.numberOfLines = 0
         //nameLabel.adjustsFontSizeToFitWidth = true

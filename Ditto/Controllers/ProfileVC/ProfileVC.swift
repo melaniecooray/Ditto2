@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 class ProfileViewController: UIViewController {
     
@@ -15,6 +16,7 @@ class ProfileViewController: UIViewController {
     var profilePic: UIImageView!
     
     var nameLabel: UILabel!
+    var name = ""
     
     var customSC: UISegmentedControl!
     var tableView: UITableView!
@@ -28,7 +30,32 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
 
         initUI()
+        //userInformation()
         
     }
     
+//    //added
+//    let ref = Database.database().reference(withPath: "user")
+//    ref.observeSingleEvent(of: .value, with: { snapshot in
+//
+//    if !snapshot.exists() { return }
+//
+//    print(snapshot) // Its print all values including Snap (User)
+//
+//    print(snapshot.value!)
+//
+//    let username = snapshot.childSnapshot(forPath: "full_name").value
+//    print(username!)
+//
+//    })
+//
+//    //added
+//
+//    func userInformation() {
+//
+//        let currentID = UserDefaults.standard.value(forKey: "id")!
+//        let db = Database.database().reference()
+//
+//
+//}
 }
