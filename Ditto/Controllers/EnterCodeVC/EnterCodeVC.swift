@@ -66,18 +66,46 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
                 let newPlaylist = playlist as! DataSnapshot
                 let dict = newPlaylist.value as! [String : Any]
                 let codeCheck = dict["code"] as! String
-                if (self.code == codeCheck) {
+                print(self.code)
+                print(dict["code"]!)
+                if (self.code as! String == codeCheck) {
+                    print("code worked")
                     UserDefaults.standard.set(self.code, forKey: "code")
-                    self.performSegue(withIdentifier: "toPreview", sender: self)
+                    self.codeWorked()
+                    
+                    
+//                    DispatchQueue.main.async {
+//                        self.performSegue(withIdentifier: "toPreview", sender: self)
+//                    }
+                    //self.performSegue(withIdentifier: "toPreview", sender: self)
                 }
             }
         })
+        //showError(title: "Invalid", message: "A playlist with that code does not exist.")
+        //performSegue(withIdentifier: "toPreview", sender: self)
+    }
+    
+    func codeWorked() {
+        //self.present(PreviewPlaylistViewController(), animated: true, completion: nil)
+        //self.navigationController?.pushViewController(PreviewPlaylistViewController, animated: true)
         performSegue(withIdentifier: "toPreview", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let previewVC = segue.destination as! PreviewPlaylistViewController
-        previewVC.code = code
+        
+        if segue.identifier == "toPreview"  {
+                
+                if let childVC = navController.topViewController as? PreviewPlaylistViewController {
+                    childVC.code  = code
+                    //TODO: access here chid VC  like childVC.yourTableViewArray = localArrayValue
+                    
+                    
+                }
+                
+            }
+            
+        }
+
     }
     
     func showError(title: String, message: String) {
