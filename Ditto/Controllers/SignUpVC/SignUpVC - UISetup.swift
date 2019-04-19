@@ -187,6 +187,7 @@ extension SignUpViewController {
 //                let id =
                 //added
                 UserDefaults.standard.setValue(id, forKey: "id")
+                print(UserDefaults.standard.value(forKey: "id")!)
                 let values = ["Name": userName, "Email": userEmail]
                 
 //                self.id = id
