@@ -68,7 +68,13 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         let finalKeywords = keywords?.replacingOccurrences(of: " ", with: "+")
         searchURL  = "https://api.spotify.com/v1/search?q=\(finalKeywords!)&type=track"
         posts.removeAll()
-        selectedSongs.append(contentsOf: temp)
+        print("printing temp")
+        print(temp)
+        for song in temp {
+            selectedSongs.append(song)
+        }
+        //selectedSongs.append(contentsOf: temp)
+        print(selectedSongs)
         temp.removeAll()
         
         callAlamo(url: searchURL, headers: parameters)
@@ -135,6 +141,10 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
     
     @objc func pickedSongs() {
         var songuris: [String] = []
+        for song in temp {
+            selectedSongs.append(song)
+        }
+        print(selectedSongs)
         for song in selectedSongs {
             songuris.append(song.id)
         }
@@ -170,10 +180,12 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                         case .success:
                             print(response)
                             let addTracksURL = "https://api.spotify.com/v1/playlists/\(self.playlistID!)/tracks"
+                            print(songuris)
                             AF.request(addTracksURL, method: .post, parameters: ["uris" : songuris],encoding: JSONEncoding.default, headers: self.parameters).responseData {
                                 response in
                                 switch response.result {
                                 case .success:
+                                    print("added songs")
                                     print(response)
                                     self.success(songuris: songuris)
                                 case .failure(let error):

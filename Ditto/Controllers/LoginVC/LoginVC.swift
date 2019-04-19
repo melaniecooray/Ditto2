@@ -126,6 +126,7 @@ class LoginViewController: UIViewController {
     
     
     func alreadySignedIn() {
+        print("performing segue")
         performSegue(withIdentifier: "loggedIn", sender: self)
     }
 
