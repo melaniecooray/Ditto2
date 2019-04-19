@@ -21,7 +21,7 @@ class SignUpViewController: UIViewController {
     
     var loginText: UILabel!
     var loginButton: UIButton!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

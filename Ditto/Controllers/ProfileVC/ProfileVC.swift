@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 class ProfileViewController: UIViewController {
     
@@ -15,6 +16,7 @@ class ProfileViewController: UIViewController {
     var profilePic: UIImageView!
     
     var nameLabel: UILabel!
+    var retrievedName = ""
     
     var customSC: UISegmentedControl!
     var tableView: UITableView!
@@ -26,9 +28,53 @@ class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        getUserInformation()
         initUI()
         
     }
-    
+    func getUserInformation() {
+        let currentID = UserDefaults.standard.value(forKey: "id")!
+        print(currentID)
+        print("just tried to print current id")
+        let db = Database.database().reference()
+        let userNode = db.child("users")
+        
+        userNode.child(currentID as! String).observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.exists() {
+                
+                let value = snapshot.value as? NSDictionary
+                let retrievedName = value?["Name"] as? String
+                print("fullnameretrieved")
+                print(retrievedName)
+                self.nameLabel.text = retrievedName
+            } else {
+                print(snapshot)
+                print("why is going here")
+            }
+        })
+    }
+//    //added
+//    let ref = Database.database().reference(withPath: "user")
+//    ref.observeSingleEvent(of: .value, with: { snapshot in
+//
+//    if !snapshot.exists() { return }
+//
+//    print(snapshot) // Its print all values including Snap (User)
+//
+//    print(snapshot.value!)
+//
+//    let username = snapshot.childSnapshot(forPath: "full_name").value
+//    print(username!)
+//
+//    })
+//
+//    //added
+//
+//    func userInformation() {
+//
+//        let currentID = UserDefaults.standard.value(forKey: "id")!
+//        let db = Database.database().reference()
+//
+//
+//}
 }

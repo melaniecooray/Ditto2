@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import Alamofire
 
 class CurrentPlaylistViewController: UIViewController {
     
@@ -29,12 +30,15 @@ class CurrentPlaylistViewController: UIViewController {
     var artistName: UILabel!
 
     var code: String!
+    let parameters: HTTPHeaders = ["Accept":"application/json", "Authorization":"Bearer \(UserDefaults.standard.value(forKey: "accessToken")!)"]
+    
+    var timer : Timer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         initUI()
-        findSong()
+        //findSong()
+        playSong()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -48,19 +52,33 @@ class CurrentPlaylistViewController: UIViewController {
             let dict = snapshot.value as! [String : Any]
             let songs = dict["songs"] as! [String]
             let firstSong = songs[0]
-            self.playSong(song: firstSong)
+            //self.playSong(song: firstSong)
         })
     }
     
-    func playSong(song: String) {
-        SPTAudioStreamingController.sharedInstance().playSpotifyURI(song, startingWith: 0, startingWithPosition: 0, callback: { (error) in
+    func playSong() {
+        print(playlist.id!)
+        AF.request("https://api.spotify.com/v1/me/player/play", method: .put, parameters: ["context_uri" : playlist.id!],encoding: JSONEncoding.default, headers: self.parameters).responseData {
+            response in
+            
+        }
+        
+        SPTAudioStreamingController.sharedInstance().playSpotifyURI(playlist.id!, startingWith: 0, startingWithPosition: 0, callback: { (error) in
             if error != nil {
                 print("*** failed to play: \(String(describing: error))")
                 return
             }else{
                 print("Playing!!")
+                self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.runTimedCode), userInfo: nil, repeats: true)
             }
         })
+    }
+    
+    @objc func runTimedCode() {
+        let db = Database.database().reference()
+        let playlistNode = db.child("playlists").child(playlist.code!)
+        
+        playlistNode.updateChildValues(["song" : 0, "time": 0])
     }
     
 }

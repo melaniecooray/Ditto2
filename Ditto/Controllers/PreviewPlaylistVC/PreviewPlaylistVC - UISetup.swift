@@ -27,7 +27,7 @@ extension PreviewPlaylistViewController {
         nameLabel.center = CGPoint(x: view.frame.width/2, y: view.frame.height * 0.21)
         nameLabel.adjustsFontSizeToFitWidth = true
         nameLabel.font = UIFont(name: "Roboto-Bold", size: 48)
-        nameLabel.text = "vibe station"
+        nameLabel.text = playlist.name
         nameLabel.textColor = .white
         nameLabel.textAlignment = .center
         view.addSubview(nameLabel)

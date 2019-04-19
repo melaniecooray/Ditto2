@@ -13,32 +13,37 @@ extension NewPlaylistViewController {
     
     func newPlaylistSetUp() {
         
-        blueBackground = UILabel(frame: CGRect(x: 0, y: 0 , width: view.frame.width, height: view.frame.height * 1.23/4 + view.frame.height * 1/3))
-        blueBackground.backgroundColor = UIColor(hexString: "#7383C5")
-        view.addSubview(blueBackground)
-        
 
-        
+
+    
         newPlaylistTextField = UITextField(frame: CGRect(x: 0, y: 0, width: view.frame.width * 3/5, height: view.frame.height/18))
         newPlaylistTextField.center = CGPoint(x: view.frame.width * 0.5, y: view.frame.height * 2.55/5)
         newPlaylistTextField.font = UIFont(name: "Roboto-Light", size: 28)
         newPlaylistTextField.textAlignment = .center
-        newPlaylistTextField.textColor = UIColor(hexString: "#ffffff")
-        newPlaylistTextField.layer.borderWidth = 1.0
-        newPlaylistTextField.layer.borderColor = UIColor(hexString: "#ffffff").cgColor
-        newPlaylistTextField.layer.cornerRadius = 7.0
+        newPlaylistTextField.textColor = UIColor(hexString: "7383C5")
+        //newPlaylistTextField.layer.borderWidth = 1.0
+        //newPlaylistTextField.layer.borderColor = UIColor(hexString: "#ffffff").cgColor
+        newPlaylistTextField.borderStyle = UITextField.BorderStyle.none
+        //newPlaylistTextField.layer.cornerRadius = 7.0
         //codeInput.keyboardType = UIKeyboardType.numberPad
         newPlaylistTextField.attributedPlaceholder = NSAttributedString(string: "playlist name",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor(hexString: "#ffffff")])
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor(hexString: "7383C5")])
         view.addSubview(newPlaylistTextField)
+        
+        var bottomLine = UILabel(frame: CGRect(x: 0, y: newPlaylistTextField.frame.maxY * 1.2, width: view.frame.width * 3/5, height: 3))
+        bottomLine.center = CGPoint(x: view.frame.width * 0.5, y: view.frame.height * 2.75/5)
+        bottomLine.backgroundColor = UIColor(hexString: "7383C5")
+        view.addSubview(bottomLine)
         
         createButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width * 2/5, height: 50))
         createButton.center = CGPoint(x: view.frame.width/2, y: view.frame.height * 3.2/5)
         createButton.setTitle("Create", for: .normal)
-        createButton.titleLabel?.font = UIFont(name: "Roboto-Regular", size: 25)
-        createButton.setTitleColor(UIColor(hexString: "ffffff"), for: .normal)
+        createButton.titleLabel?.font = UIFont(name: "Roboto-Light", size: 25)
+        createButton.setTitleColor(UIColor(hexString: "3E2450"), for: .normal)
+        createButton.layer.borderColor = UIColor.black.cgColor
+        createButton.layer.borderWidth = 1
         createButton.layer.cornerRadius = 10
-        createButton.backgroundColor = UIColor(hexString: "BF95DC")
+        createButton.backgroundColor = UIColor.clear
         createButton.addTarget(self, action: #selector(createButtonClicked), for: .touchUpInside)
         view.addSubview(createButton)
 
@@ -54,7 +59,7 @@ extension NewPlaylistViewController {
         view.addSubview(imagePicker)
         
         imageView = UIImageView(frame: CGRect(x: view.frame.width * 0.52, y: imagePicker.frame.maxY - view.frame.height/20, width: view.frame.width/8, height: view.frame.width/8))
-        imageView.image = UIImage(named: "click")
+        //imageView.image = UIImage(named: "click")
         imageView.contentMode = .scaleAspectFit
         view.addSubview(imageView)
     }

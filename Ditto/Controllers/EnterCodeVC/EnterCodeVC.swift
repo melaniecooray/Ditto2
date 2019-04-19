@@ -66,6 +66,10 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
             if snapshot.exists() {
                 UserDefaults.standard.set(self.code, forKey: "code")
                 print("code worked")
+                let dict = snapshot.value as! [String : Any]
+                var previousMembers = dict["members"] as! [String]
+                previousMembers.append(UserDefaults.standard.value(forKey: "id") as! String)
+                playlistNode.child(self.code).updateChildValues(["members" : previousMembers])
                 self.performSegue(withIdentifier: "toPreview", sender: self)
             } else {
                 print("error with " + self.code)

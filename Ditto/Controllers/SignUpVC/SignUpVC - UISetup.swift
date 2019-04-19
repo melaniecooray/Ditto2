@@ -179,10 +179,29 @@ extension SignUpViewController {
                 guard (user?.user.uid) != nil else {
                     return
                 }
+                
+                
                 let ref = Database.database().reference()
-                let userRef = ref.child("users").child(userName!)
-                UserDefaults.standard.setValue(userName, forKey: "name")
+                let id = ref.childByAutoId().key
+                let userRef = ref.child("users").child(id!)
+//                let id =
+                //added
+                UserDefaults.standard.setValue(id, forKey: "id")
+                print(UserDefaults.standard.value(forKey: "id")!)
                 let values = ["Name": userName, "Email": userEmail]
+                
+//                self.id = id
+//                
+//                var user: [String: Any] = [:]
+//                user["name"] = self.userName
+//                user["lastName"] = self.lastName
+//                user["email"] = self.userEmail
+//                user["userFriends"] = friends
+                
+                //ref.setValue(values)
+                
+                
+                //added
                 
                 userRef.updateChildValues(values, withCompletionBlock: { (error, ref) in
                     if error != nil {
