@@ -29,15 +29,20 @@ class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        Auth.auth().addStateDidChangeListener { auth, user in
-            if let user = user {
-                print("logged in")
-                self.alreadySignedIn()
-            } else {
-                self.initUI()
-                self.addTapDismiss()
-            }
+//        Auth.auth().addStateDidChangeListener { auth, user in
+//            if let user = user {
+//                print("logged in")
+//                self.alreadySignedIn()
+//            } else {
+//                self.initUI()
+//                self.addTapDismiss()
+//            }
+//        }
+        if Auth.auth().currentUser != nil {
+            print("logged in")
+            self.alreadySignedIn()
         }
+        
         initUI()
         addTapDismiss()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)

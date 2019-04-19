@@ -26,12 +26,12 @@ class SongCell: UITableViewCell {
         songImage.image = UIImage(named: "blacksquare")
         contentView.addSubview(songImage)
         
-        label = UILabel(frame: CGRect(x: size.width * 0.3, y: size.height/5, width: size.width * 0.62, height: size.height/3))
+        label = UILabel(frame: CGRect(x: size.width * 0.3, y: size.height/5, width: size.width * 0.56, height: size.height/3))
         label.font = UIFont(name: "Roboto-Bold", size: 15)
         label.adjustsFontSizeToFitWidth = true
         contentView.addSubview(label)
         
-        artist = UILabel(frame: CGRect(x: size.width * 0.3, y: label.frame.maxY, width: size.width * 0.62, height: size.height/4))
+        artist = UILabel(frame: CGRect(x: size.width * 0.3, y: label.frame.maxY, width: size.width * 0.56, height: size.height/4))
         artist.font = UIFont(name: "Roboto-Regular", size: 12)
         artist.adjustsFontSizeToFitWidth = true
         artist.textColor = UIColor(hexString: "7383C5")

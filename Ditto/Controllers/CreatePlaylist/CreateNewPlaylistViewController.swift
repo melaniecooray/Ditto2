@@ -175,7 +175,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                                 switch response.result {
                                 case .success:
                                     print(response)
-                                    self.success()
+                                    self.success(songuris: songuris)
                                 case .failure(let error):
                                     print(error)
                                     self.showError(title: "Error:", message: "Unable to add songs to playlist")
@@ -203,7 +203,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         })
     }
     
-    func success() {
+    func success(songuris: [String]) {
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
         
