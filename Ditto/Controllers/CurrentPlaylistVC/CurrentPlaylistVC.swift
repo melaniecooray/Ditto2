@@ -11,6 +11,7 @@ import Firebase
 
 class CurrentPlaylistViewController: UIViewController {
     
+    var playlist: Playlist!
     var image: UIImage!
     var backImage: UIImageView!
     

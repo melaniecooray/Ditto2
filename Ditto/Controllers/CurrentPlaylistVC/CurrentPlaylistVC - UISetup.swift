@@ -54,7 +54,7 @@ extension CurrentPlaylistViewController {
         
         numberLabel = UILabel(frame: CGRect(x: codeLabel.frame.maxX - view.frame.width/18, y: codeLabel.frame.minY, width: view.frame.width * 0.7 - codeLabel.frame.width, height: codeLabel.frame.height))
         numberLabel.font = UIFont(name: "Roboto-Bold", size: 25)
-        numberLabel.text = "  " + Utils.space(text: code) + " "
+        numberLabel.text = "  " + Utils.space(text: playlist.code) + " "
         numberLabel.textColor = UIColor(hexString: "#7383C5")
         numberLabel.layer.borderColor = UIColor.clear.cgColor
         numberLabel.layer.cornerRadius = 5

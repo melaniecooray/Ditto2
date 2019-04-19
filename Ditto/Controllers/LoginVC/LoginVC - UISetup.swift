@@ -24,7 +24,7 @@ extension LoginViewController {
     }
     
     func setupCode() {
-        code = UITextField(frame: CGRect(x: 50, y: 70, width: view.frame.width - 200, height: 50))
+        code = UITextField(frame: CGRect(x: view.frame.width/18, y: view.frame.width/7, width: view.frame.width * 2/3, height: view.frame.height/13))
         code.font = UIFont(name: "Roboto-Bold", size: 20)
         code.textAlignment = .center
         code.placeholder = "PLAYLIST CODE"
@@ -39,8 +39,8 @@ extension LoginViewController {
         code.title = "Code"
  */
         scrollView.addSubview(code)
-        joinButton = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
-        joinButton.center = CGPoint(x: code.frame.maxX + 70, y: 100)
+        joinButton = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 30))
+        joinButton.center = CGPoint(x: code.frame.maxX + 60, y: 100)
         joinButton.setTitle("Join", for: .normal)
         joinButton.layer.cornerRadius = 10
         joinButton.backgroundColor = UIColor(hexString: "#BF95DC")
@@ -49,13 +49,13 @@ extension LoginViewController {
     
     func setupLogo() {
         logo = UIImageView(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
-        logo.center = CGPoint(x: view.frame.width/2, y: 280)
+        logo.center = CGPoint(x: view.frame.width/2, y: code.frame.maxY * 7/3)
         logo.image = UIImage(named: "logo")
         scrollView.addSubview(logo)
     }
     
     func setupEmailTextField() {
-        emailTextField = SkyFloatingLabelTextField(frame: CGRect(x: 50, y: logo.frame.maxY - 50, width: view.frame.width - 100, height: 70))
+        emailTextField = SkyFloatingLabelTextField(frame: CGRect(x: view.frame.width/8, y: logo.frame.maxY, width: view.frame.width * 3/4, height: view.frame.height/12))
         emailTextField.placeholder = "Email"
         emailTextField.title = "Email Address"
         emailTextField.font = UIFont(name: "Roboto-Light", size: 25)
@@ -65,7 +65,8 @@ extension LoginViewController {
     }
     
     func setupPasswordTextField() {
-        passwordTextField = SkyFloatingLabelTextField(frame: CGRect(x: 50, y: emailTextField.frame.maxY + 10, width: view.frame.width - 100, height: 70))
+        passwordTextField = SkyFloatingLabelTextField(frame: CGRect(x: view.frame.width/8, y: emailTextField.frame.maxY * 15/14, width: view.frame.width * 3/4, height: view.frame.height/12))
+        passwordTextField.isSecureTextEntry = true
         passwordTextField.placeholder = "Password"
         passwordTextField.title = "Password"
         passwordTextField.font = UIFont(name: "Roboto-Light", size: 25)
@@ -76,7 +77,7 @@ extension LoginViewController {
     
     func setupLoginButton() {
         loginButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width/2, height: 50))
-        loginButton.center = CGPoint(x: view.frame.width/2, y: passwordTextField.frame.maxY + 80)
+        loginButton.center = CGPoint(x: view.frame.width/2, y: passwordTextField.frame.maxY * 7/6)
         loginButton.setTitle("Login", for: .normal)
         loginButton.titleLabel?.font = UIFont(name: "Roboto-Regular", size: 25)
         loginButton.layer.cornerRadius = 10
@@ -87,11 +88,11 @@ extension LoginViewController {
     
     func setupSignUp() {
         signUpText = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width/2, height: 50))
-        signUpText.center = CGPoint(x: view.frame.width/2 - 10, y: loginButton.frame.maxY + 30)
+        signUpText.center = CGPoint(x: view.frame.width/2 * 7/8, y: loginButton.frame.maxY * 15/14)
         signUpText.text = "Don't have an account?"
         signUpText.font = UIFont(name: "Roboto-Regular", size: 15)
         scrollView.addSubview(signUpText)
-        signUpButton = UIButton(frame: CGRect(x: view.frame.width/2 - 15, y: signUpText.frame.minY, width: 200, height: 50))
+        signUpButton = UIButton(frame: CGRect(x: signUpText.frame.maxX * 4/6, y: signUpText.frame.minY, width: 200, height: 50))
         signUpButton.setTitle("Sign Up!", for: .normal)
         signUpButton.titleLabel?.font = UIFont(name: "Roboto-Regular", size: 15)
         signUpButton.setTitleColor(UIColor(hexString: "7383C5"), for: .normal)

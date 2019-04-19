@@ -11,7 +11,7 @@ import UIKit
 class Playlist {
     var id: String!
     var name: String!
-    var songs: [String] = []
+    var songs: [Song] = []
     var chat: Chat!
     var code: String!
     
@@ -26,11 +26,11 @@ class Playlist {
     init(id: String, playlist: [String: Any]) {
         self.id = id
         self.name = playlist["name"] as? String
-        self.chat = Chat(id: playlist["chatID"] as! String, messages: [])
+        //self.chat = Chat(id: playlist["chatID"] as! String, messages: [])
         //add messages later? not sure how to fetch this
         self.code = playlist["code"] as! String
         //get songs
-        self.songs = playlist["songs"] as? [String] ?? []
+        self.songs = playlist["songs"] as? [Song] ?? []
         //when playing, can get each song individually
         
         //get owner
