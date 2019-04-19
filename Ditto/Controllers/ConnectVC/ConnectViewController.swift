@@ -34,7 +34,9 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
         connectButton.setTitle("Connect To Spotify", for: .normal)
         connectButton.addTarget(self, action: #selector(connectButtonPressed), for: .touchUpInside)
         connectButton.titleLabel?.font = UIFont(name: "Roboto-Regular", size: 18)
-        connectButton.backgroundColor = UIColor(red:(29.0 / 255.0), green:(185.0 / 255.0), blue:(84.0 / 255.0), alpha:1.0)
+        connectButton.backgroundColor = UIColor.clear
+        connectButton.layer.borderColor = UIColor(hexString: "#ffffff").cgColor
+        connectButton.layer.borderWidth = 1
         //connectButton.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.systemFontSize, weight: .heavy)
         connectButton.layer.cornerRadius = 10
 //        connectButton.layer.borderColor = UIColor(hexString: "#ffffff").cgColor
