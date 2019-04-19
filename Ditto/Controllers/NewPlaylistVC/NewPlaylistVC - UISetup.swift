@@ -48,7 +48,7 @@ extension NewPlaylistViewController {
     func setUpImagePicker() {
         imagePicker = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width * 4/5, height: view.frame.height/4))
         imagePicker.center = CGPoint(x: view.frame.width/2, y: view.frame.height * (1.65/5))
-        imagePicker.setImage(UIImage(named: "playlistimage"), for: .normal)
+        imagePicker.setImage(UIImage(named: "playlistdefaultpicture"), for: .normal)
         imagePicker.imageView?.contentMode = .scaleAspectFit
         imagePicker.addTarget(self, action: #selector(openImageOptions), for: .touchUpInside)
         view.addSubview(imagePicker)

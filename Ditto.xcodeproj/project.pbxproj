@@ -21,6 +21,8 @@
 		423C25E422594ED000703008 /* EnterCodeVC - UISetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C25E322594ED000703008 /* EnterCodeVC - UISetup.swift */; };
 		423C25E622594EE700703008 /* PreviewPlaylistVC - UISetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C25E522594EE700703008 /* PreviewPlaylistVC - UISetup.swift */; };
 		423C25E822595E5100703008 /* NavBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C25E722595E5100703008 /* NavBarController.swift */; };
+		42858E752265B08200F0344A /* CurrentOptionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42858E742265B08200F0344A /* CurrentOptionsVC.swift */; };
+		42858E772265B09E00F0344A /* CurrentOptionsVC - UISetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42858E762265B09E00F0344A /* CurrentOptionsVC - UISetup.swift */; };
 		42F76C5B226166FD00DD83C5 /* BlurImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F76C5A226166FD00DD83C5 /* BlurImage.swift */; };
 		42F76C5D2261ACBB00DD83C5 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F76C5C2261ACBB00DD83C5 /* Playlist.swift */; };
 		42F76C5F2261AE5F00DD83C5 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F76C5E2261AE5F00DD83C5 /* Chat.swift */; };
@@ -94,6 +96,8 @@
 		423C25E322594ED000703008 /* EnterCodeVC - UISetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnterCodeVC - UISetup.swift"; sourceTree = "<group>"; };
 		423C25E522594EE700703008 /* PreviewPlaylistVC - UISetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PreviewPlaylistVC - UISetup.swift"; sourceTree = "<group>"; };
 		423C25E722595E5100703008 /* NavBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBarController.swift; sourceTree = "<group>"; };
+		42858E742265B08200F0344A /* CurrentOptionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentOptionsVC.swift; sourceTree = "<group>"; };
+		42858E762265B09E00F0344A /* CurrentOptionsVC - UISetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrentOptionsVC - UISetup.swift"; sourceTree = "<group>"; };
 		42F76C5A226166FD00DD83C5 /* BlurImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurImage.swift; sourceTree = "<group>"; };
 		42F76C5C2261ACBB00DD83C5 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		42F76C5E2261AE5F00DD83C5 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
@@ -249,6 +253,15 @@
 			path = PreviewPlaylistVC;
 			sourceTree = "<group>";
 		};
+		42F76C662265ADB500DD83C5 /* CurrentOptionsVC */ = {
+			isa = PBXGroup;
+			children = (
+				42858E742265B08200F0344A /* CurrentOptionsVC.swift */,
+				42858E762265B09E00F0344A /* CurrentOptionsVC - UISetup.swift */,
+			);
+			path = CurrentOptionsVC;
+			sourceTree = "<group>";
+		};
 		5B869B98994058ADADABF6D4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -312,6 +325,7 @@
 		7B5AFEEB223DE43F00B6168B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				42F76C662265ADB500DD83C5 /* CurrentOptionsVC */,
 				EF11BBF8226005FA0064B4C6 /* CreatePlaylist */,
 				423C25DE22594E0E00703008 /* PreviewPlaylistVC */,
 				423C25DD22594DFE00703008 /* EnterCodeVC */,
@@ -653,6 +667,7 @@
 				42F76C5D2261ACBB00DD83C5 /* Playlist.swift in Sources */,
 				7B77C0622261582800674712 /* AudioViewController.swift in Sources */,
 				42F76C5B226166FD00DD83C5 /* BlurImage.swift in Sources */,
+				42858E772265B09E00F0344A /* CurrentOptionsVC - UISetup.swift in Sources */,
 				423C25D42259234300703008 /* ConnectVC - UISetup.swift in Sources */,
 				7B77C06A2261650900674712 /* CurrentPlaylistVC - UISetup.swift in Sources */,
 				7B5AFEFA223DE54000B6168B /* ConnectViewController.swift in Sources */,
@@ -665,6 +680,7 @@
 				423C25C92252E29300703008 /* HexString.swift in Sources */,
 				423C25CD22545A9A00703008 /* Cell.swift in Sources */,
 				7B5AFEF4223DE4EE00B6168B /* ProfileVC.swift in Sources */,
+				42858E752265B08200F0344A /* CurrentOptionsVC.swift in Sources */,
 				EF9B4833225999F3008EAA21 /* NewPlaylistVC - Image.swift in Sources */,
 				7B5AFF00223DE57400B6168B /* LaunchVC.swift in Sources */,
 				7B5AFECA223DD0A300B6168B /* AppDelegate.swift in Sources */,
@@ -840,6 +856,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Ditto/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -865,6 +882,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Ditto/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
