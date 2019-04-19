@@ -39,6 +39,7 @@ class LoginViewController: UIViewController {
 //            }
 //        }
         if Auth.auth().currentUser != nil {
+            UserDefaults.standard.set(Auth.auth().currentUser?.uid, forKey: "id")
             print("logged in")
             self.alreadySignedIn()
         }
@@ -126,6 +127,7 @@ class LoginViewController: UIViewController {
     
     
     func alreadySignedIn() {
+        print("performing segue")
         performSegue(withIdentifier: "loggedIn", sender: self)
     }
 
