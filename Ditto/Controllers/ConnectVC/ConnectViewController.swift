@@ -20,17 +20,28 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        makeButtons()
+        
+        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
+        backgroundImage.image = UIImage(named: "spotifyconnectback")
+        backgroundImage.contentMode = UIView.ContentMode.scaleAspectFill
+        self.view.insertSubview(backgroundImage, at: 0)
+        
+        //makeButtons()
+        setupUI()
         
         connectButton = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
-        connectButton.center = CGPoint(x: view.frame.width/2, y: view.frame.height/2)
+        connectButton.center = CGPoint(x: view.frame.width/2, y: view.frame.height*2.10/3)
         connectButton.setTitle("Connect To Spotify", for: .normal)
         connectButton.addTarget(self, action: #selector(connectButtonPressed), for: .touchUpInside)
+        connectButton.titleLabel?.font = UIFont(name: "Roboto-Regular", size: 18)
         connectButton.backgroundColor = UIColor(red:(29.0 / 255.0), green:(185.0 / 255.0), blue:(84.0 / 255.0), alpha:1.0)
-        connectButton.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.systemFontSize, weight: .heavy)
+        //connectButton.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.systemFontSize, weight: .heavy)
         connectButton.layer.cornerRadius = 10
+//        connectButton.layer.borderColor = UIColor(hexString: "#ffffff").cgColor
+//        connectButton.layer.borderWidth = 2
         view.addSubview(connectButton)
     }
+    
     
     @objc func connectButtonPressed() {
         let appURL = SPTAuth.defaultInstance().spotifyAppAuthenticationURL()!

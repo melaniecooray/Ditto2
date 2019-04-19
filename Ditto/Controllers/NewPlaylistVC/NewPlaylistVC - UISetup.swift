@@ -59,7 +59,7 @@ extension NewPlaylistViewController {
         view.addSubview(imagePicker)
         
         imageView = UIImageView(frame: CGRect(x: view.frame.width * 0.52, y: imagePicker.frame.maxY - view.frame.height/20, width: view.frame.width/8, height: view.frame.width/8))
-        imageView.image = UIImage(named: "click")
+        //imageView.image = UIImage(named: "click")
         imageView.contentMode = .scaleAspectFit
         view.addSubview(imageView)
     }

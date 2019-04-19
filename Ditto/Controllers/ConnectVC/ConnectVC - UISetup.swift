@@ -44,4 +44,22 @@ extension ConnectViewController {
     @objc func toSpotifyConnect() {
         performSegue(withIdentifier: "toConnectSpotify", sender: self)
     }
+    
+    func setupUI() {
+        let letsBeginLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height / 2))
+        letsBeginLabel.center = CGPoint(x: view.frame.width/2, y: view.frame.height*0.80/3)
+        letsBeginLabel.textAlignment = .center
+        letsBeginLabel.text = "Let's Begin"
+        letsBeginLabel.textColor = .white 
+        letsBeginLabel.font = UIFont(name: "Roboto-Regular", size: 20)
+        view.addSubview(letsBeginLabel)
+        
+        
+        
+        let spotifyPhoneImage = UIImageView(frame: CGRect(x: 0, y: view.frame.height*0.5, width: view.frame.width, height: view.frame.height * 1/3))
+        spotifyPhoneImage.center = CGPoint(x: view.frame.width / 2, y: view.frame.height*0.90/2)
+        spotifyPhoneImage.image = UIImage(named: "spotifyconnectwhite")
+        spotifyPhoneImage.contentMode = .scaleAspectFit
+        view.addSubview(spotifyPhoneImage)
+    }
 }
