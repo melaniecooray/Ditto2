@@ -58,6 +58,7 @@ extension SignUpViewController {
     func setupPasswordTextField() {
         passwordTextField = SkyFloatingLabelTextField(frame: CGRect(x: 0, y: 0, width: view.frame.width * 3/4, height: view.frame.height/10))
         passwordTextField.center = CGPoint(x: view.frame.width/2, y: emailTextField.frame.maxY * 11/10)
+        passwordTextField.isSecureTextEntry = true
         passwordTextField.placeholder = "Password"
         passwordTextField.title = "Password"
         passwordTextField.font = UIFont(name: "Roboto-Light", size: 20)
@@ -192,7 +193,7 @@ extension SignUpViewController {
                 
                 
                 let ref = Database.database().reference()
-                let id = ref.childByAutoId().key
+                let id = user?.user.uid
                 let userRef = ref.child("users").child(id!)
 //                let id =
                 //added
