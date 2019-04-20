@@ -35,13 +35,13 @@ class PlaylistsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
         setUpSearchBar()
         setUpBackground()
         setUpTable()
         setUpLabel()
         setUpAddButton()
         getUserInformation()
+        addTapDismiss()
         
         mainSearchBar.delegate = self
         mainSearchBar.returnKeyType = UIReturnKeyType.done
@@ -86,6 +86,13 @@ class PlaylistsViewController: UIViewController {
                 print("why is going here")
             }
         })
+    }
+    
+    func addTapDismiss() {
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
+    }
+    @objc func dismissKeyboard() {
+        mainSearchBar.resignFirstResponder()
     }
     
     
