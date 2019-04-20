@@ -47,6 +47,7 @@ class PreviewPlaylistViewController: UIViewController, UIScrollViewDelegate {
         if let currentVC = segue.destination as? CurrentPlaylistViewController {
             currentVC.code = code
             currentVC.playlist = playlist
+            currentVC.songs = playlist.songs
         }
     }
 }
