@@ -15,12 +15,12 @@ class PreviewPlaylistViewController: UIViewController, UIScrollViewDelegate {
     var code: String!
     var playlist: Playlist!
     
-    var colorBlock: UIView!
     var playButton: UIButton!
     var scrollPics: UICollectionView!
     
     var nameLabel: UILabel!
-    var codeLabel: UILabel!
+    //var codeLabel: UILabel!
+    var numberPicture: UIImageView!
     var numberLabel: UILabel!
     var liveLabel: UILabel!
     
