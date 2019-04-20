@@ -108,16 +108,16 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
                     var track = try JSONSerialization.jsonObject(with: response.data!, options: .mutableContainers) as! JSONStandard
                     print(songuri)
                     print(track)
-                
-                    let artists = track["artists"] as! [JSONStandard]
                     var artistString = ""
-                
-                    for artist in artists {
-                        let artistName = artist["name"] as! String
-                        artistString += artistName + ", "
+                    if let artists = track["artists"] as? [JSONStandard] {
+                    
+                        for artist in artists {
+                            let artistName = artist["name"] as! String
+                            artistString += artistName + ", "
+                        }
+                    
+                        artistString = String(artistString.dropLast(2))
                     }
-                
-                    artistString = String(artistString.dropLast(2))
                     songs[index].artist = artistString
                     songs[index].name = track["name"] as! String
                 
