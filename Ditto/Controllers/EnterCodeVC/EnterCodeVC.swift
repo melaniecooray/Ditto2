@@ -101,14 +101,16 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
         }
         
         let dispatchGroup = DispatchGroup()
-        var done = false
         for (index, songuri) in songuris.enumerated() {
             dispatchGroup.enter()
-            AF.request(url + songuri, headers: parameters).responseJSON(completionHandler: {
+            let indexString = songuri.index(songuri.startIndex, offsetBy: 15)
+            let trackID = String(songuri[indexString...])
+            AF.request(url + trackID, headers: parameters).responseJSON(completionHandler: {
                 response in
                 do {
                     var track = try JSONSerialization.jsonObject(with: response.data!, options: .mutableContainers) as! JSONStandard
                     print(songuri)
+                    print(trackID)
                     print(track)
                 
                     let artists = track["artists"] as! [JSONStandard]
