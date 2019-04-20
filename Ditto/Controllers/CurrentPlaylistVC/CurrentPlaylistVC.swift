@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import Alamofire
 
-class CurrentPlaylistViewController: UIViewController {
+class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate {
     
     var playlist: Playlist!
     var image: UIImage!
@@ -41,6 +41,8 @@ class CurrentPlaylistViewController: UIViewController {
     
     var timer : Timer!
     
+    var player: SPTAudioStreamingController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
@@ -64,10 +66,38 @@ class CurrentPlaylistViewController: UIViewController {
     }
     
     func playSong() {
+        print("printing playlist id")
         print(playlist.id!)
+        /*
         AF.request("https://api.spotify.com/v1/me/player/play", method: .put, parameters: ["context_uri" : playlist.id!],encoding: JSONEncoding.default, headers: self.parameters).responseData {
             response in
+            switch response.result {
+            case.success:
+                print("success! playing playlist")
+            case.failure(let error):
+                print(error)
+                
+            }
             
+        }
+ */
+        /*
+        self.player = SPTAudioStreamingController.sharedInstance()
+        self.player?.delegate = self
+        self.player?.playbackDelegate = self
+        self.player?.login(withAccessToken: UserDefaults.standard.value(forKey: "accessToken") as! String)
+ */
+        do {
+            try SPTAudioStreamingController.sharedInstance()!.start(withClientId: SPTAuth.defaultInstance().clientID, audioController: nil, allowCaching: true)
+            SPTAudioStreamingController.sharedInstance().delegate = self
+            SPTAudioStreamingController.sharedInstance().playbackDelegate = self
+            SPTAudioStreamingController.sharedInstance().diskCache = SPTDiskCache() /* capacity: 1024 * 1024 * 64 */
+            SPTAudioStreamingController.sharedInstance().login(withAccessToken: SPTAuth.defaultInstance().session.accessToken!)
+        } catch {
+            let alert = UIAlertController(title: "Error init", message: error.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            self.displayErrorMessage(error: error as! Error)
+            //self.closeSession()
         }
         
         SPTAudioStreamingController.sharedInstance().playSpotifyURI(playlist.id!, startingWith: 0, startingWithPosition: 0, callback: { (error) in
@@ -81,11 +111,38 @@ class CurrentPlaylistViewController: UIViewController {
         })
     }
     
+    func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didStartPlayingTrack trackUri: String!) {
+        
+        print("This works: didStartPlayingTrack")
+        
+    }
+    
+    func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didReceiveError error: Error!) {
+        displayErrorMessage(error: error)
+    }
+    
+    func displayErrorMessage(error: Error) {
+        // When changing the UI, all actions must be done on the main thread,
+        // since this can be called from a notification which doesn't run on
+        // the main thread, we must add this code to the main thread's queue
+        
+        DispatchQueue.main.async {
+            let alertController = UIAlertController(title: "Error",
+                                                    message: error.localizedDescription,
+                                                    preferredStyle: .alert)
+            
+            let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+            alertController.addAction(okAction)
+            
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
     @objc func runTimedCode() {
         let db = Database.database().reference()
         let playlistNode = db.child("playlists").child(playlist.code!)
-        
-        playlistNode.updateChildValues(["song" : 0, "time": 0])
+        print("updating timer")
+        playlistNode.updateChildValues(["song" : 0, "time": 0, "isPlaying" : true])
     }
     
 }
