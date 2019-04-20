@@ -15,14 +15,14 @@ extension ConnectViewController {
         dummyLogButton.layer.cornerRadius = 5.0
         dummyLogButton.backgroundColor = .gray
         dummyLogButton.addTarget(self, action: #selector(toLogin), for: .touchUpInside)
-        view.addSubview(dummyLogButton)
+        //view.addSubview(dummyLogButton)
         
         dummyProfileButton = UIButton(frame: CGRect(x: view.frame.width * 4/6, y: view.frame.height/15, width: view.frame.width/4, height: view.frame.height/20))
         dummyProfileButton.setTitle("To Profile", for: .normal)
         dummyProfileButton.layer.cornerRadius = 5.0
         dummyProfileButton.backgroundColor = .gray
         dummyProfileButton.addTarget(self, action: #selector(toTabBar), for: .touchUpInside)
-        view.addSubview(dummyProfileButton)
+        //view.addSubview(dummyProfileButton)
         
         let dummyConnectSpotify = UIButton(frame: CGRect(x: view.frame.width * 4/6, y: view.frame.height/2, width: view.frame.width/4, height: view.frame.height/20))
         dummyConnectSpotify.setTitle("To Spotify Connect", for: .normal)

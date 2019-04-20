@@ -17,6 +17,7 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
     
     var session: SPTSession!
     var player: SPTAudioStreamingController?
+    var audioStreaming : SPTAudioStreamingController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,6 +73,7 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
         NotificationCenter.default.removeObserver(self,
                                                   name: NSNotification.Name.Spotify.authURLOpened,
                                                   object: nil)
+        UserDefaults.standard.set(url.absoluteString, forKey: "url")
         
         SPTAuth.defaultInstance().handleAuthCallback(withTriggeredAuthURL: url) { (error, session) in
             //Check if there is an error because then there won't be a session.
@@ -130,15 +132,21 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let resultVC = segue.destination as? LoginViewController {
+            resultVC.player = self.audioStreaming
+        }
+    }
+    
     func audioStreamingDidLogout(_ audioStreaming: SPTAudioStreamingController!) {
         print("after logout")
-        try! self.player?.stop()
+        //try! self.player?.stop()
         self.performSegue(withIdentifier: "toLogin", sender: self)
     }
     
     
     func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
-        /*
+        self.audioStreaming = audioStreaming
         audioStreaming.playSpotifyURI("spotify:track:3skn2lauGk7Dx6bVIt5DVj", startingWith: 0, startingWithPosition: 0, callback: { (error) in
             if error != nil {
                 print("*** failed to play: \(String(describing: error))")
@@ -147,7 +155,7 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
                 print("Playing!!")
             }
         })
- */
+ 
         self.successfulLogin()
     }
     

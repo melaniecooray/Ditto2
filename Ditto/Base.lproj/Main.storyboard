@@ -269,6 +269,7 @@
         <image name="profile" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="1TG-Gx-A8d"/>
         <segue reference="kMD-M7-tv2"/>
         <segue reference="2aW-xw-dQ1"/>
     </inferredMetricsTieBreakers>

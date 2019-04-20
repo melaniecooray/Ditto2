@@ -17,6 +17,7 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
     var searchButton: UIButton!
     
     var code = ""
+    var playlist : Playlist!
     
     override func viewDidLoad() {
         super.viewDidLoad()

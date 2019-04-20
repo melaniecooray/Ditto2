@@ -41,6 +41,7 @@ class PlaylistsViewController: UIViewController {
         setUpTable()
         setUpLabel()
         setUpAddButton()
+        getUserInformation()
         
         mainSearchBar.delegate = self
         mainSearchBar.returnKeyType = UIReturnKeyType.done
@@ -53,6 +54,31 @@ class PlaylistsViewController: UIViewController {
     
     @objc func addButtonClicked() {
         performSegue(withIdentifier: "toNewPlaylist", sender: self)
+    }
+    
+    func getUserInformation() {
+        let currentID = UserDefaults.standard.value(forKey: "id")!
+        print(currentID)
+        print("just tried to print current id")
+        let db = Database.database().reference()
+        let userNode = db.child("users")
+        
+        userNode.child(currentID as! String).observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.exists() {
+                
+                let value = snapshot.value as? NSDictionary
+                let retrievedName = value?["Name"] as? String
+                self.playlistTitleList = value?["playlists"] as! [String]
+                print("fullnameretrieved")
+                print(retrievedName)
+                self.tableView.reloadData()
+                //self.nameLabel.text = retrievedName
+            } else {
+                print(currentID)
+                print(snapshot)
+                print("why is going here")
+            }
+        })
     }
     
     

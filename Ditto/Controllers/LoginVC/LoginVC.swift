@@ -26,6 +26,8 @@ class LoginViewController: UIViewController {
     
     var signUpText: UILabel!
     var signUpButton: UIButton!
+    
+    var player : SPTAudioStreamingController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -129,6 +131,12 @@ class LoginViewController: UIViewController {
     func alreadySignedIn() {
         print("performing segue")
         performSegue(withIdentifier: "loggedIn", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let resultVC = segue.destination as? TabBarController {
+            
+        }
     }
 
 }
