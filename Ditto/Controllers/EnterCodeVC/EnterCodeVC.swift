@@ -17,6 +17,7 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
     var searchButton: UIButton!
     
     var code = ""
+    var playlist: Playlist!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,6 +71,11 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
                 var previousMembers = dict["members"] as! [String]
                 previousMembers.append(UserDefaults.standard.value(forKey: "id") as! String)
                 playlistNode.child(self.code).updateChildValues(["members" : previousMembers])
+                let owner = dict["owner"] as! String
+                let songs = dict["songs"] as! [String]
+                let name = dict["name"] as! String
+                let id = dict["id"] as! String
+                self.playlist = Playlist(id: id, playlist: ["code": self.code, "members": previousMembers, "name": name, "songs": songs, "owner": owner])
                 self.performSegue(withIdentifier: "toPreview", sender: self)
             } else {
                 print("error with " + self.code)
@@ -100,6 +106,7 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let previewVC = segue.destination as! PreviewPlaylistViewController
         previewVC.code = code
+        previewVC.playlist = playlist
     }
     
     func showError(title: String, message: String) {

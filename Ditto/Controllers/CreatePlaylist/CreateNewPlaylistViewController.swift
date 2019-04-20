@@ -33,8 +33,8 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
     var userID: String!
     var playlistID: String!
     var posts = [post]()
-    var temp: [Song] = []
-    var selectedSongs: [Song] = []
+    var temp: [String] = []
+    var selectedSongs: [String] = []
     var imageList: [UIImage] = []
     var uris : [String] = []
     var playlists : [String] = []
@@ -141,14 +141,10 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
     }
     
     @objc func pickedSongs() {
-        var songuris: [String] = []
         for song in temp {
             selectedSongs.append(song)
         }
         print(selectedSongs)
-        for song in selectedSongs {
-            songuris.append(song.id)
-        }
         
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
@@ -171,7 +167,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                     UserDefaults.standard.set(user_id, forKey: "user_id")
                     self.userID = user_id as? String
                     print(UserDefaults.standard.value(forKey: "id")!)
-                    playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": songuris, "members" : [UserDefaults.standard.value(forKey: "id")], "owner" : UserDefaults.standard.value(forKey: "id")])
+                    playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": self.selectedSongs, "members" : [UserDefaults.standard.value(forKey: "id")], "owner" : UserDefaults.standard.value(forKey: "id")])
                     self.playlists.append(UserDefaults.standard.value(forKey: "code") as! String)
                     userNode.child(UserDefaults.standard.value(forKey: "id") as! String).updateChildValues(["playlists" : self.playlists])
                     let createPlaylistURL = "https://api.spotify.com/v1/users/\(user_id)/playlists"
@@ -192,14 +188,13 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                         case .success:
                             print(response)
                             let addTracksURL = "https://api.spotify.com/v1/playlists/\(self.playlistID!)/tracks"
-                            print(songuris)
-                            AF.request(addTracksURL, method: .post, parameters: ["uris" : songuris],encoding: JSONEncoding.default, headers: self.parameters).responseData {
+                            AF.request(addTracksURL, method: .post, parameters: ["uris" : self.selectedSongs],encoding: JSONEncoding.default, headers: self.parameters).responseData {
                                 response in
                                 switch response.result {
                                 case .success:
                                     print("added songs")
                                     print(response)
-                                    self.success(songuris: songuris)
+                                    self.success()
                                 case .failure(let error):
                                     print(error)
                                     self.showError(title: "Error:", message: "Unable to add songs to playlist")
@@ -227,11 +222,11 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         })
     }
     
-    func success(songuris: [String]) {
+    func success() {
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
         
-        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": songuris])
+        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": self.selectedSongs])
         //performSegue(withIdentifier: "createdPlaylist", sender: self)
         self.tabBarController?.selectedIndex = 1
         let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
