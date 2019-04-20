@@ -20,4 +20,8 @@ class Song {
         self.artist = song["name"] as? String
         self.image = song["image"] as? UIImage
     }
+
+    init(id: String) {
+        self.id = id
+    }
 }

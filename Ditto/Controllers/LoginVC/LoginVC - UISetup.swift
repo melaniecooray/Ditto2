@@ -30,7 +30,7 @@ extension LoginViewController {
         code.attributedPlaceholder = NSAttributedString(string: "PLAYLIST CODE",
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor(hexString: "#BF95DC")])
         code.textColor = UIColor(hexString: "#BF95DC")
-        code.layer.borderWidth = 2.0
+        code.layer.borderWidth = 1.0
         code.layer.borderColor = UIColor(hexString: "#BF95DC").cgColor
         code.layer.cornerRadius = 7.0
         code.keyboardType = UIKeyboardType.numberPad

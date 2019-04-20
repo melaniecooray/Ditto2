@@ -12,6 +12,8 @@ import Firebase
 
 class ProfileViewController: UIViewController {
     
+    var backgroundImage: UIImageView!
+    
     var signOutButton: UIButton!
     
     var profilePic: UIImageView!
