@@ -48,6 +48,7 @@ class ProfileViewController: UIViewController {
                 print(retrievedName)
                 self.nameLabel.text = retrievedName
             } else {
+                print(currentID)
                 print(snapshot)
                 print("why is going here")
             }
