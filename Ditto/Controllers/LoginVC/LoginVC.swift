@@ -29,19 +29,20 @@ class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        Auth.auth().addStateDidChangeListener { auth, user in
-//            if let user = user {
-//                print("logged in")
-//                self.alreadySignedIn()
-//            } else {
-//                self.initUI()
-//                self.addTapDismiss()
-//            }
-//        }
-        if Auth.auth().currentUser != nil {
-            print("logged in")
-            self.alreadySignedIn()
+        Auth.auth().addStateDidChangeListener { auth, user in
+            if let user = user {
+                print("logged in")
+                self.alreadySignedIn()
+            } else {
+                self.initUI()
+                self.addTapDismiss()
+            }
         }
+//        if Auth.auth().currentUser != nil {
+//            UserDefaults.standard.set(Auth.auth().currentUser?.uid, forKey: "id")
+//            print("logged in")
+//            self.alreadySignedIn()
+//        }
         
         initUI()
         addTapDismiss()
@@ -126,6 +127,7 @@ class LoginViewController: UIViewController {
     
     
     func alreadySignedIn() {
+        print("performing segue")
         performSegue(withIdentifier: "loggedIn", sender: self)
     }
 
