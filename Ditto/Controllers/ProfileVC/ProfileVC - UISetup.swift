@@ -11,6 +11,7 @@ import UIKit
 extension ProfileViewController {
     
     func initUI() {
+        setUpBackground()
         setupSignOutButton()
         setupProfilePic()
         setupName()
@@ -18,10 +19,17 @@ extension ProfileViewController {
         setupTable()
     }
     
+    func setUpBackground() {
+        backgroundImage = UIImageView(frame: view.frame)
+        backgroundImage.image = UIImage(named: "codePic")
+        backgroundImage.contentMode = .scaleAspectFill
+        view.addSubview(backgroundImage)
+    }
+    
     func setupSignOutButton() {
-        signOutButton = UIButton(frame: CGRect(x: 300, y: 50, width: 100, height: 30))
+        signOutButton = UIButton(frame: CGRect(x: view.frame.maxX - view.frame.width/3.5, y: view.frame.height/20, width: 100, height: 30))
         signOutButton.setTitle("Sign Out", for: .normal)
-        signOutButton.setTitleColor(UIColor(hexString: "7383C5"), for: .normal)
+        signOutButton.setTitleColor(UIColor(hexString: "ffffff"), for: .normal)
         signOutButton.layer.cornerRadius = 10
         signOutButton.addTarget(self, action: #selector(signOut), for: .touchUpInside)
         view.addSubview(signOutButton)

@@ -134,7 +134,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                     }
                 }
             }
-            print(readableJSON)
+            //print(readableJSON)
         }catch{
             print(error)
         }
@@ -174,10 +174,10 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                     print(self.userID)
                     AF.request(createPlaylistURL, method: .post, parameters: ["name" : self.name, "description" : "", "public" : true],encoding: JSONEncoding.default, headers: self.parameters).responseData {
                         response in
-                        
                         do {
                             var readableJSON = try JSONSerialization.jsonObject(with: response.data!, options: .mutableContainers) as! JSONStandard
-                            if let playlist_id = readableJSON["id"] {
+                            //print(readableJSON)
+                            if let playlist_id = readableJSON["uri"] {
                                 self.playlistID = playlist_id as? String
                             }
                         }catch{
@@ -232,7 +232,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
         let resultVC = CurrentPlaylistViewController()
         resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
-        resultVC.playlist = Playlist(id: UserDefaults.standard.value(forKey: "code") as! String, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs])
+        resultVC.playlist = Playlist(id: playlistID!, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs])
         navController.pushViewController(resultVC, animated: true)
     }
     

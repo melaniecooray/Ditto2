@@ -17,11 +17,11 @@ extension EnterCodeViewController {
     }
     
     func setUpLabels() {
-        tagLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width * 2/3, height: view.frame.height/10))
+        tagLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width * 3/4, height: view.frame.height/10))
         tagLabel.center = CGPoint(x: view.frame.width/2, y: view.frame.height * 2/5)
         tagLabel.textAlignment = .center
-        tagLabel.text = "find a playlist"
-        tagLabel.font = UIFont(name: "Roboto-Light", size: 30)
+        tagLabel.text = "find a playlist with code"
+        tagLabel.font = UIFont(name: "Roboto-Light", size: 27)
         view.addSubview(tagLabel)
     }
     

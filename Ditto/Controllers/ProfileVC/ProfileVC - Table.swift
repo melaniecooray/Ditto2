@@ -30,6 +30,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         cell.layoutMargins = UIEdgeInsets.zero
         cell.playlistName.text = playlistTitleList[indexPath.row]
         cell.playlistName.adjustsFontSizeToFitWidth = true
+        
         cell.playlistLastPlayed.text = playlistLastPlayed[indexPath.row]
         cell.playlistName.font = UIFont(name: "Roboto-Bold", size: 15)
         cell.playlistLastPlayed.font = UIFont(name: "Roboto-Regular", size: 12)
