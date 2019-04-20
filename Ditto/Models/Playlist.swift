@@ -12,7 +12,7 @@ class Playlist {
     var id: String!
     var name: String!
     //var songs: [Song] = []
-    var songs: [String] = []
+    var songs: [Song] = []
     var chat: Chat!
     var code: String!
     
@@ -37,7 +37,7 @@ class Playlist {
         //self.songs = playlist["songs"] as? [Song] ?? []
         //when playing, can get each song individually
         
-        self.songs = playlist["songs"] as? [String] ?? []
+        self.songs = playlist["songs"] as? [Song] ?? []
         self.owner = playlist["owner"] as? String
         self.members = playlist["members"]  as? [String] ?? []
         

@@ -33,11 +33,12 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
     var userID: String!
     var playlistID: String!
     var posts = [post]()
-    var temp: [String] = []
-    var selectedSongs: [String] = []
+    var temp: [Song] = []
+    var selectedSongs: [Song] = []
     var imageList: [UIImage] = []
     var uris : [String] = []
     var playlists : [String] = []
+    var songuris : [String] = []
     
     var searchURL = String()
     //var createPlaylistURL = "https://api.spotify.com/v1/playlists"
@@ -146,6 +147,9 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
             selectedSongs.append(song)
         }
         print(selectedSongs)
+        for song in selectedSongs {
+            songuris.append(song.id)
+        }
         
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
@@ -168,7 +172,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                     UserDefaults.standard.set(user_id, forKey: "user_id")
                     self.userID = user_id as? String
                     print(UserDefaults.standard.value(forKey: "id")!)
-                    playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": self.selectedSongs, "members" : [UserDefaults.standard.value(forKey: "id")], "owner" : UserDefaults.standard.value(forKey: "id")])
+                    playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": self.songuris, "members" : [UserDefaults.standard.value(forKey: "id")], "owner" : UserDefaults.standard.value(forKey: "id")])
                     self.playlists.append(UserDefaults.standard.value(forKey: "code") as! String)
                     userNode.child(UserDefaults.standard.value(forKey: "id") as! String).updateChildValues(["owned playlists" : self.playlists])
                     let createPlaylistURL = "https://api.spotify.com/v1/users/\(user_id)/playlists"
@@ -190,7 +194,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                         case .success:
                             print(response)
                             let addTracksURL = "https://api.spotify.com/v1/playlists/\(self.playlistID!)/tracks"
-                            AF.request(addTracksURL, method: .post, parameters: ["uris" : self.selectedSongs],encoding: JSONEncoding.default, headers: self.parameters).responseData {
+                            AF.request(addTracksURL, method: .post, parameters: ["uris" : self.songuris],encoding: JSONEncoding.default, headers: self.parameters).responseData {
                                 response in
                                 switch response.result {
                                 case .success:
@@ -228,7 +232,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
         
-        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": self.selectedSongs])
+        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": self.songuris])
         //performSegue(withIdentifier: "createdPlaylist", sender: self)
         self.tabBarController?.selectedIndex = 1
         let navController = self.tabBarController?.viewControllers![1] as! UINavigationController

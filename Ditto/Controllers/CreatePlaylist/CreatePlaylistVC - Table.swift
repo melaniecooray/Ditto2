@@ -38,13 +38,13 @@ extension CreateNewPlaylistTableViewController: UITableViewDelegate, UITableView
         if !posts[indexPath[1]].checked {
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
             print("adding to temp")
-            //temp.append(Song(id: uris[indexPath[1]], song: ["name": posts[indexPath[1]].name, "image": posts[indexPath[1]].mainImage, "artist": posts[indexPath[1]].artist]))
-            temp.append(uris[indexPath[1]])
+            temp.append(Song(id: uris[indexPath[1]], song: ["name": posts[indexPath[1]].name, "image": posts[indexPath[1]].mainImage, "artist": posts[indexPath[1]].artist]))
+            //temp.append(uris[indexPath[1]])
             posts[indexPath[1]].checked = true
         } else {
             tableView.cellForRow(at: indexPath)?.accessoryType = .none
             for num in 0..<selectedSongs.count {
-                if selectedSongs[num] == uris[indexPath[1]] {
+                if selectedSongs[num].id == uris[indexPath[1]] {
                     temp.remove(at: num)
                     break;
                 }

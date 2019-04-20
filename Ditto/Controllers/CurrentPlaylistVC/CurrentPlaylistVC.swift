@@ -14,7 +14,6 @@ import SwiftyJSON
 class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate {
     
     var playlist: Playlist!
-    var image: UIImage!
     var backImage: UIImageView!
     
     var customSC: UISegmentedControl!

@@ -27,7 +27,7 @@ extension CurrentPlaylistViewController {
         view.backgroundColor = .white
         image = UIImage(named: "88rising")
         backImage = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height * 0.65))
-        backImage.image = image
+        backImage.image = songs[currentIndex].image
         backImage.contentMode = .scaleAspectFill
         backImage.alpha = 0.4
         //backImage.addBlurEffect()
