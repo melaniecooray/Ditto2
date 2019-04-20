@@ -155,7 +155,9 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         userNode.child(UserDefaults.standard.value(forKey: "id") as! String).observeSingleEvent(of: .value, with: {
             snapshot in
             let dict = snapshot.value as! [String : Any]
-            self.playlists = dict["playlists"] as! [String]
+            if let lists = dict["playlists"] as? [String] {
+                self.playlists = dict["playlists"] as! [String]
+            }
         })
         
         AF.request(getUserURL, headers: parameters).responseJSON(completionHandler: {

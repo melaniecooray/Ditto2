@@ -23,6 +23,7 @@ extension ProfileViewController {
         signOutButton.setTitle("Sign Out", for: .normal)
         signOutButton.setTitleColor(UIColor(hexString: "7383C5"), for: .normal)
         signOutButton.layer.cornerRadius = 10
+        signOutButton.addTarget(self, action: #selector(signOut), for: .touchUpInside)
         view.addSubview(signOutButton)
     }
     
