@@ -85,6 +85,7 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
                 print("there is a session")
                 UserDefaults.standard.setValue(session.accessToken, forKey: "accessToken")
                 // If there is use it to login to the audio streaming controller where we can play music.
+                
                 if self.player == nil {
                     self.player = SPTAudioStreamingController.sharedInstance()
                     if !(self.player?.loggedIn)! {
@@ -93,6 +94,7 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
                         self.player?.login(withAccessToken: session.accessToken)
                     }
                 }
+ 
                 
             }
         }
@@ -122,13 +124,21 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
         
         DispatchQueue.main.async {
             // Present next view controller or use performSegue(withIdentifier:, sender:)
-            self.performSegue(withIdentifier: "toLogin", sender: self)
+            self.player?.logout()
+            //self.performSegue(withIdentifier: "toLogin", sender: self)
             //self.present(PlaylistsViewController(), animated: true, completion: nil)
         }
     }
     
+    func audioStreamingDidLogout(_ audioStreaming: SPTAudioStreamingController!) {
+        print("after logout")
+        try! self.player?.stop()
+        self.performSegue(withIdentifier: "toLogin", sender: self)
+    }
+    
     
     func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
+        /*
         audioStreaming.playSpotifyURI("spotify:track:3skn2lauGk7Dx6bVIt5DVj", startingWith: 0, startingWithPosition: 0, callback: { (error) in
             if error != nil {
                 print("*** failed to play: \(String(describing: error))")
@@ -137,6 +147,7 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
                 print("Playing!!")
             }
         })
+ */
         self.successfulLogin()
     }
     

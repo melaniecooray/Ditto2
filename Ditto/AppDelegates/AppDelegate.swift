@@ -53,7 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         SPTAuth.defaultInstance().sessionUserDefaultsKey = Constants.sessionKey
         
         //For this application we just want to stream music, so we will only request the streaming scope
-        SPTAuth.defaultInstance().requestedScopes = [SPTAuthStreamingScope, SPTAuthPlaylistReadPrivateScope, SPTAuthPlaylistModifyPublicScope, SPTAuthPlaylistModifyPrivateScope]
+        SPTAuth.defaultInstance().requestedScopes = [SPTAuthStreamingScope, SPTAuthPlaylistReadPrivateScope, SPTAuthPlaylistModifyPublicScope, SPTAuthPlaylistModifyPrivateScope, SPTAuthUserLibraryModifyScope]
         
         // Start the player (this is only need for applications that using streaming, which we will use
         // in this tutorial)
