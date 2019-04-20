@@ -37,6 +37,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
     var selectedSongs: [Song] = []
     var imageList: [UIImage] = []
     var uris : [String] = []
+    var playlists : [String] = []
     
     var searchURL = String()
     //var createPlaylistURL = "https://api.spotify.com/v1/playlists"
@@ -151,6 +152,11 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
         let userNode = db.child("users")
+        userNode.child(UserDefaults.standard.value(forKey: "id") as! String).observeSingleEvent(of: .value, with: {
+            snapshot in
+            let dict = snapshot.value as! [String : Any]
+            self.playlists = dict["playlists"] as! [String]
+        })
         
         AF.request(getUserURL, headers: parameters).responseJSON(completionHandler: {
             response in
@@ -163,7 +169,8 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                     self.userID = user_id as? String
                     print(UserDefaults.standard.value(forKey: "id")!)
                     playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": songuris, "members" : [UserDefaults.standard.value(forKey: "id")]])
-                    userNode.child(UserDefaults.standard.value(forKey: "id") as! String).updateChildValues(["playlists" : [UserDefaults.standard.value(forKey: "code")]])
+                    self.playlists.append(UserDefaults.standard.value(forKey: "code") as! String)
+                    userNode.child(UserDefaults.standard.value(forKey: "id") as! String).updateChildValues(["playlists" : self.playlists])
                     let createPlaylistURL = "https://api.spotify.com/v1/users/\(user_id)/playlists"
                     print(self.userID)
                     AF.request(createPlaylistURL, method: .post, parameters: ["name" : self.name, "description" : "", "public" : true],encoding: JSONEncoding.default, headers: self.parameters).responseData {
