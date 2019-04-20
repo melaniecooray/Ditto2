@@ -106,6 +106,16 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                         
                         let name = item["name"] as! String
                         let uri = item["uri"] as! String
+                        let artists = item["artists"] as! [JSONStandard]
+                        var artistString = ""
+                        
+                        for artist in artists {
+                            let artistName = artist["name"] as! String
+                            artistString += artistName + ", "
+                        }
+                        
+                        artistString = String(artistString.dropLast(2))
+                        print(artistString)
                         
                         if let album = item["album"] as? JSONStandard {
                             if let images = album["images"] as? [JSONStandard] {
@@ -115,16 +125,6 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                                 
                                 let mainImage = UIImage(data: mainImageData as! Data)
                                 
-                                let artists = album["artists"] as! [JSONStandard]
-                                var artistString = ""
-                                
-                                for artist in artists {
-                                    let artistName = artist["name"] as! String
-                                    artistString += artistName + ", "
-                                }
-                                
-                                artistString = String(artistString.dropLast(2))
-                                print(artistString)
                                 //posts.append(Song(id: uri, song: ["name" : name, "artist" : artistString, "image" : mainImage]))
                                 posts.append(post.init(mainImage: mainImage, name: name, artist: artistString, checked: false))
                                 uris.append(uri)
