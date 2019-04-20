@@ -20,11 +20,18 @@ class CurrentPlaylistViewController: UIViewController {
     var nameLabel: UILabel!
     var codeLabel: UILabel!
     var barsButton: UIButton!
+    var playbutton: UIButton!
+    var rightButton: UIButton!
+    var leftButton: UIButton!
+    
+    
+    var pause = false
     
     var numberLabel: UILabel!
     var playlistName: UILabel!
     
     var songImage: UIImageView!
+    var bannerImage: UIImageView!
     
     var songName: UILabel!
     var artistName: UILabel!

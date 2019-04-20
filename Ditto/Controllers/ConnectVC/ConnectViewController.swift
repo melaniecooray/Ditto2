@@ -26,7 +26,7 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
         backgroundImage.contentMode = UIView.ContentMode.scaleAspectFill
         self.view.insertSubview(backgroundImage, at: 0)
         
-        //makeButtons()
+        makeButtons()
         setupUI()
         
         connectButton = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
