@@ -20,14 +20,10 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
     var code = ""
     var playlist : Playlist!
     
-<<<<<<< HEAD
     var getUserURL = "https://api.spotify.com/v1/me"
     let parameters: HTTPHeaders = ["Accept":"application/json", "Authorization":"Bearer \(UserDefaults.standard.value(forKey: "accessToken")!)"]
-=======
     let url = "https://api.spotify.com/v1/tracks/"
-    let parameters: HTTPHeaders = ["Accept":"application/json", "Authorization":"Bearer \(UserDefaults.standard.value(forKey: "accessToken")!)"]
     typealias JSONStandard = [String : AnyObject]
->>>>>>> 2eeae502016c6f0184eb79591623b39ac0d4412e
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,31 +81,6 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
                 }
                 previousMembers.append(UserDefaults.standard.value(forKey: "id") as! String)
                 playlistNode.child(self.code).updateChildValues(["members" : previousMembers])
-                let owner = dict["owner"] as! String
-                let songs = dict["songs"] as! [String]
-                let name = dict["name"] as! String
-                let id = dict["id"] as! String
-                self.playlist = Playlist(id: id, playlist: ["code": self.code, "members": previousMembers, "name": name, "songs": songs, "owner": owner])
-                /*
-                AF.request(getUserURL, headers: parameters).responseJSON(completionHandler: {
-                    response in
-                    do {
-                        print("Success!!!!")
-                        var readableJSON = try JSONSerialization.jsonObject(with: response.data!, options: .mutableContainers) as! JSONStandard
-                        if let user_id = readableJSON["id"] {
-                            print(user_id)
-                            UserDefaults.standard.set(user_id, forKey: "user_id")
-                            self.userID = user_id as? String
-                            print(UserDefaults.standard.value(forKey: "id")!)
-                            playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": self.songuris, "members" : [UserDefaults.standard.value(forKey: "id")], "owner" : UserDefaults.standard.value(forKey: "id")])
-                            self.playlists.append(UserDefaults.standard.value(forKey: "code") as! String)
-                            self.names.append(self.name)
-                            userNode.child(UserDefaults.standard.value(forKey: "id") as! String).updateChildValues(["owned playlist codes" : self.playlists, "owned playlist names" : self.names])
-                            let createPlaylistURL = "https://api.spotify.com/v1/users/\(user_id)/playlists"
-                            print(self.userID)
-                        }}})
- */
-                self.performSegue(withIdentifier: "toPreview", sender: self)
                 self.makePlaylist(dict: dict, previousMembers: previousMembers)
             } else {
                 print("error with " + self.code)
