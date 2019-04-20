@@ -15,6 +15,7 @@ struct post {
     let mainImage : UIImage!
     let name : String!
     let artist: String!
+    var checked: Bool!
 }
 
 class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegate {
@@ -36,7 +37,6 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
     var selectedSongs: [Song] = []
     var imageList: [UIImage] = []
     var uris : [String] = []
-    var checked : [Bool] = []
     
     var searchURL = String()
     //var createPlaylistURL = "https://api.spotify.com/v1/playlists"
@@ -122,12 +122,11 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                                 
                                 artistString = String(artistString.dropLast(2))
                                 
-                                posts.append(post.init(mainImage: mainImage, name: name, artist: artistString))
+                                posts.append(post.init(mainImage: mainImage, name: name, artist: artistString, checked: false))
                                 uris.append(uri)
-                                checked.append(false)
                                 print("adding to table")
                                 self.tableView.reloadData()
-                                
+                                resetAccessoryType()
                             }
                         }
                     }
