@@ -31,7 +31,6 @@ extension CurrentPlaylistViewController {
     
     func setUpBackground() {
         view.backgroundColor = .white
-        //image = UIImage(named: "88rising")
         backImage = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height * 0.65))
         backImage.image = songs[currentIndex].image
         backImage.contentMode = .scaleAspectFill
