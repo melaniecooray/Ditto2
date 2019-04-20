@@ -34,6 +34,7 @@ extension EnterCodeViewController {
         codeInput.layer.borderWidth = 2.0
         codeInput.layer.borderColor = UIColor(hexString: "#BF95DC").cgColor
         codeInput.layer.cornerRadius = 7.0
+        codeInput.keyboardType = .numberPad
         //codeInput.keyboardType = UIKeyboardType.numberPad
         codeInput.addTarget(self, action: #selector(codeEntered), for: .allEditingEvents)
         codeInput.attributedPlaceholder = NSAttributedString(string: "PLAYLIST CODE",
