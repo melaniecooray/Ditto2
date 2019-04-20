@@ -99,14 +99,16 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
         }
         
         let dispatchGroup = DispatchGroup()
-        var done = false
         for (index, songuri) in songuris.enumerated() {
             dispatchGroup.enter()
-            AF.request(url + songuri, headers: parameters).responseJSON(completionHandler: {
+            let indexString = songuri.index(songuri.startIndex, offsetBy: 14)
+            let trackID = String(songuri[indexString...])
+            AF.request(url + trackID, headers: parameters).responseJSON(completionHandler: {
                 response in
                 do {
                     var track = try JSONSerialization.jsonObject(with: response.data!, options: .mutableContainers) as! JSONStandard
                     print(songuri)
+                    print(trackID)
                     print(track)
                     var artistString = ""
                     if let artists = track["artists"] as? [JSONStandard] {
@@ -138,6 +140,7 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
             })
         }
         dispatchGroup.notify(queue: DispatchQueue.main, execute: {
+            print(songs)
             self.playlist = Playlist(id: id, playlist: ["code": self.code, "members": previousMembers, "name": name, "songs": songs, "owner": owner])
             self.performSegue(withIdentifier: "toPreview", sender: self)
         })

@@ -52,6 +52,10 @@ class PlaylistsViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     @objc func addButtonClicked() {
         performSegue(withIdentifier: "toNewPlaylist", sender: self)
     }
