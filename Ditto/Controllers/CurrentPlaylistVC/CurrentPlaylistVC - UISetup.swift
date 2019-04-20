@@ -100,7 +100,7 @@ extension CurrentPlaylistViewController {
     
     func setUpSongImage() {
         songImage = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width * 0.42, height: view.frame.width * 0.42))
-        songImage.center = CGPoint(x: backImage.frame.midX, y: backImage.frame.midY + view.frame.height/26)
+        songImage.center = CGPoint(x: backImage.frame.midX, y: backImage.frame.midY + view.frame.height/24)
         songImage.image = image
         songImage.contentMode = .scaleAspectFit
         songImage.layer.shadowColor = UIColor.black.cgColor
@@ -117,7 +117,7 @@ extension CurrentPlaylistViewController {
             .font: UIFont(name: "Roboto-Regular", size: 16)
             //.backgroundColor: UIColor.white what if background is black :(
         ]
-        let attribute = NSAttributedString(string: "Midsummer Madness", attributes: attributes)
+        let attribute = NSAttributedString(string: playlist.name, attributes: attributes)
         songName.attributedText = attribute
         songName.textColor = .black
         songName.textAlignment = .center
@@ -130,7 +130,7 @@ extension CurrentPlaylistViewController {
             .font: UIFont(name: "Roboto-Light", size: 16)
             //.backgroundColor: UIColor.white what if background is black :(
         ]
-        let attribute2 = NSAttributedString(string: "88rising", attributes: attributes2)
+        let attribute2 = NSAttributedString(string: "ADD ARTIST", attributes: attributes2)
         artistName.attributedText = attribute2
         artistName.textColor = .black
         artistName.textAlignment = .center

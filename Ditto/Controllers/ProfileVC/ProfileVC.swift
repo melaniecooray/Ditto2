@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseDatabase
+import Firebase
 
 class ProfileViewController: UIViewController {
     
@@ -77,4 +78,17 @@ class ProfileViewController: UIViewController {
 //
 //
 //}
+    
+    @objc func signOut() {
+        do {
+            try Auth.auth().signOut()
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+            let alertController = UIAlertController(title: "Error Logging Out", message:
+                signOutError.debugDescription, preferredStyle: UIAlertController.Style.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+        }
+        performSegue(withIdentifier: "signOut", sender: nil)
+    }
 }
