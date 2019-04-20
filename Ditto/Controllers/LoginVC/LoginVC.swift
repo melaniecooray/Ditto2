@@ -39,7 +39,7 @@ class LoginViewController: UIViewController {
 //            }
 //        }
         if Auth.auth().currentUser != nil {
-            UserDefaults.standard.set(Auth.auth().currentUser?.uid, forKey: "id")
+            //UserDefaults.standard.set(Auth.auth().currentUser?.uid, forKey: "id")
             print("logged in")
             self.alreadySignedIn()
         }
