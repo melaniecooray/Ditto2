@@ -171,7 +171,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                     UserDefaults.standard.set(user_id, forKey: "user_id")
                     self.userID = user_id as? String
                     print(UserDefaults.standard.value(forKey: "id")!)
-                    playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": songuris, "members" : [UserDefaults.standard.value(forKey: "id")]])
+                    playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": songuris, "members" : [UserDefaults.standard.value(forKey: "id")], "owner" : UserDefaults.standard.value(forKey: "id")])
                     self.playlists.append(UserDefaults.standard.value(forKey: "code") as! String)
                     userNode.child(UserDefaults.standard.value(forKey: "id") as! String).updateChildValues(["playlists" : self.playlists])
                     let createPlaylistURL = "https://api.spotify.com/v1/users/\(user_id)/playlists"

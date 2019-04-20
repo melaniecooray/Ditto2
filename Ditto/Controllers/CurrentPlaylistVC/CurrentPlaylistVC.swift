@@ -78,7 +78,7 @@ class CurrentPlaylistViewController: UIViewController {
         let db = Database.database().reference()
         let playlistNode = db.child("playlists").child(playlist.code!)
         
-        playlistNode.updateChildValues(["song" : 0, "time": 0])
+        playlistNode.updateChildValues(["song" : 0, "time": 0, "isPlaying" : true])
     }
     
 }
