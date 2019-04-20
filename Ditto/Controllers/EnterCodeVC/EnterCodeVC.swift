@@ -75,12 +75,10 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
                 print("code worked")
                 let dict = snapshot.value as! [String : Any]
                 var previousMembers = dict["members"] as! [String]
-                if previousMembers.contains(Auth.auth().currentUser!.uid) {
-                    self.showError(title: "Error:", message: "You are already part of this playlist")
-                    return
+                if !previousMembers.contains(Auth.auth().currentUser!.uid) {
+                    previousMembers.append(UserDefaults.standard.value(forKey: "id") as! String)
+                    playlistNode.child(self.code).updateChildValues(["members" : previousMembers])
                 }
-                previousMembers.append(UserDefaults.standard.value(forKey: "id") as! String)
-                playlistNode.child(self.code).updateChildValues(["members" : previousMembers])
                 self.makePlaylist(dict: dict, previousMembers: previousMembers)
             } else {
                 print("error with " + self.code)
