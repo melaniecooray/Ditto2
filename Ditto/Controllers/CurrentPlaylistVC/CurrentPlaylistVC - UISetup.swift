@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import Firebase
 
 extension CurrentPlaylistViewController {
     
@@ -21,11 +22,16 @@ extension CurrentPlaylistViewController {
         setUpSong()
         setUpNavBar()
         //setUpControl()
+        if Auth.auth().currentUser?.uid == playlist.owner {
+            view.addSubview(playbutton)
+            view.addSubview(rightButton)
+            view.addSubview(leftButton)
+        }
     }
     
     func setUpBackground() {
         view.backgroundColor = .white
-        image = UIImage(named: "88rising")
+        //image = UIImage(named: "88rising")
         backImage = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height * 0.65))
         backImage.image = songs[currentIndex].image
         backImage.contentMode = .scaleAspectFill
@@ -197,21 +203,21 @@ extension CurrentPlaylistViewController {
         playbutton.setImage(UIImage(named: "playlistpausebutton"), for: .normal)
         playbutton.contentMode = .scaleAspectFill
         playbutton.addTarget(self, action: #selector(pausePressed), for: .touchUpInside)
-        view.addSubview(playbutton)
+        //view.addSubview(playbutton)
         
         rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width/4, height: view.frame.height/7))
         rightButton.center = CGPoint(x: view.frame.width*0.75, y: view.frame.width * 1.49)
         rightButton.setImage(UIImage(named: "playlisrightbutton"), for: .normal)
         rightButton.contentMode = .scaleAspectFill
         rightButton.addTarget(self, action: #selector(goForward), for: .touchUpInside)
-        view.addSubview(rightButton)
+        //view.addSubview(rightButton)
         
         leftButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width/4, height: view.frame.height/7))
         leftButton.center = CGPoint(x: view.frame.width/4, y: view.frame.width * 1.49)
         leftButton.setImage(UIImage(named: "playlistleftbutton"), for: .normal)
         leftButton.contentMode = .scaleAspectFill
         leftButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
-        view.addSubview(leftButton)
+        //view.addSubview(leftButton)
         
         
     }
@@ -220,17 +226,6 @@ extension CurrentPlaylistViewController {
         if pause  {
             playbutton.setImage(UIImage(named: "playlistpausebutton"), for: .normal)
             pause = false
-            player?.setIsPlaying(false, callback: { (error) in
-                if error != nil {
-                    print("error pausing song")
-                    return
-                } else {
-                    print("paused song")
-                }
-            })
-        } else {
-            playbutton.setImage(UIImage(named: "playlistcodebutton"), for: .normal)
-            pause = true
             player?.setIsPlaying(true, callback:{ (error) in
                 if error != nil {
                     print("error playing song")
@@ -239,16 +234,29 @@ extension CurrentPlaylistViewController {
                     print("playing song")
                 }
             })
+        } else {
+            playbutton.setImage(UIImage(named: "playlistcodebutton"), for: .normal)
+            pause = true
+            player?.setIsPlaying(false, callback: { (error) in
+                if error != nil {
+                    print("error pausing song")
+                    return
+                } else {
+                    print("paused song")
+                }
+            })
         }
     }
     
     @objc func goBack() {
+        self.currentIndex -= 1
         player?.skipPrevious({ (error) in
             if error != nil {
                 print("error going to previous song!")
                 return
             } else {
                 print("went to the previous song")
+                self.findSong()
             }
             })
     }
@@ -261,6 +269,7 @@ extension CurrentPlaylistViewController {
                 return
             } else {
                 print("went to the next song")
+                self.findSong()
             }
             })
     }

@@ -16,7 +16,7 @@ class PlaylistsViewController: UIViewController {
     
     var recentlyPlayedLabel: UILabel!
     
-    var playlistTitleList : [String] = ["bucket list: songs we must listen to", "vibe station", "spring 2019 jams", "econ100a ~lit~ study group", "triple bffl favorites"]
+    var playlistTitleList : [String] = []
     var playlistLastPlayed : [String] = ["last played: 6h", "last played: 17h", "last played: 17h", "last played: 2d", "last played: 8d", "last played: 9d"]
     var filteredArray : [String] = []
     
@@ -57,6 +57,7 @@ class PlaylistsViewController: UIViewController {
     }
     
     func getUserInformation() {
+        UserDefaults.standard.set(Auth.auth().currentUser?.uid, forKey: "id")
         let currentID = UserDefaults.standard.value(forKey: "id")!
         print(currentID)
         print("just tried to print current id")
@@ -68,7 +69,9 @@ class PlaylistsViewController: UIViewController {
                 
                 let value = snapshot.value as? NSDictionary
                 let retrievedName = value?["Name"] as? String
-                self.playlistTitleList = value?["playlists"] as! [String]
+                if let names = value?["owned playlist names"] as? [String] {
+                    self.playlistTitleList = names
+                }
                 print("fullnameretrieved")
                 print(retrievedName)
                 self.tableView.reloadData()

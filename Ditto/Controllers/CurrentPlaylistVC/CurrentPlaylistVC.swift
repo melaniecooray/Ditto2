@@ -70,7 +70,22 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             let songs = dict["songs"] as! [String]
             self.songList = songs
             self.currentSong = songs[self.currentIndex]
-            self.playSong()
+            if self.first {
+                self.playSong()
+            } else {
+                self.songImage.image = self.songs[self.currentIndex].image
+                self.backImage.image = self.songs[self.currentIndex].image
+                self.playlistName.text = self.songs[self.currentIndex].name
+                self.artistName.text = self.songs[self.currentIndex].artist
+                self.player?.playSpotifyURI(self.currentSong, startingWith: 0, startingWithPosition: 0, callback: { (error) in
+                    if error != nil {
+                        print("*** failed to play: \(String(describing: error))")
+                        return
+                    }else{
+                        print("Playing!!")
+                    }
+                })
+            }
         })
     }
     

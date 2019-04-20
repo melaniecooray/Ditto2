@@ -49,7 +49,9 @@ class ProfileViewController: UIViewController {
                 
                 let value = snapshot.value as? NSDictionary
                 let retrievedName = value?["Name"] as? String
-                self.playlistTitleList = value?["playlists"] as! [String]
+                if let names = value?["owned playlist names"] as? [String] {
+                    self.playlistTitleList = names
+                }
                 print("fullnameretrieved")
                 print(retrievedName)
                 self.tableView.reloadData()
