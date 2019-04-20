@@ -101,7 +101,7 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
         let dispatchGroup = DispatchGroup()
         for (index, songuri) in songuris.enumerated() {
             dispatchGroup.enter()
-            let indexString = songuri.index(songuri.startIndex, offsetBy: 15)
+            let indexString = songuri.index(songuri.startIndex, offsetBy: 14)
             let trackID = String(songuri[indexString...])
             AF.request(url + trackID, headers: parameters).responseJSON(completionHandler: {
                 response in
@@ -140,6 +140,7 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
             })
         }
         dispatchGroup.notify(queue: DispatchQueue.main, execute: {
+            print(songs)
             self.playlist = Playlist(id: id, playlist: ["code": self.code, "members": previousMembers, "name": name, "songs": songs, "owner": owner])
             self.performSegue(withIdentifier: "toPreview", sender: self)
         })
