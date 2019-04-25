@@ -92,8 +92,18 @@ extension CurrentPlaylistViewController {
         barsButton.center = CGPoint(x: (view.frame.width + numberLabel.frame.maxX)/2 - view.frame.width/50, y: codeLabel.frame.midY)
         barsButton.setImage(UIImage(named: "bars"), for: .normal)
         barsButton.imageView?.contentMode = .scaleAspectFit
+        barsButton.addTarget(self, action: #selector(editPressed), for: .touchUpInside)
         view.addSubview(barsButton)
         
+    }
+    
+    @objc func editPressed() {
+        self.tabBarController?.selectedIndex = 1
+        let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
+        let resultVC = EditPlaylistViewController()
+//        resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
+//        resultVC.playlist = Playlist(id: playlistID!, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs])
+        navController.pushViewController(resultVC, animated: true)
     }
     
     func setUpPlaylistName() {

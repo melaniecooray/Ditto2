@@ -21,7 +21,7 @@ extension ProfileViewController {
     
     func setUpBackground() {
         backgroundImage = UIImageView(frame: view.frame)
-        backgroundImage.image = UIImage(named: "codePic")
+        backgroundImage.image = UIImage(named: "profilebackground")
         backgroundImage.contentMode = .scaleAspectFill
         view.addSubview(backgroundImage)
     }
@@ -81,6 +81,24 @@ extension ProfileViewController {
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: view.frame.height/8, right: 0)
         tableView.separatorColor = UIColor.gray
         view.addSubview(tableView)
+    }
+    
+    func setUpImagePicker() {
+        
+        imagePicker = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width/2 - 50, height: view.frame.width/2 - 50))
+        imagePicker.center = CGPoint(x: view.frame.width/2, y: 170)
+        imagePicker.setImage(UIImage(named: "profilepicdefault-1"), for: .normal)
+        imagePicker.imageView?.contentMode = .scaleAspectFit
+        imagePicker.layer.cornerRadius = imagePicker.frame.height/2
+        imagePicker.clipsToBounds = true
+        imagePicker.layer.masksToBounds = false
+        imagePicker.addTarget(self, action: #selector(openImageOptions), for: .touchUpInside)
+        view.addSubview(imagePicker)
+        
+        imageView = UIImageView(frame: CGRect(x: view.frame.width * 0.52, y: imagePicker.frame.maxY - view.frame.height/20, width: view.frame.width/8, height: view.frame.width/8))
+        //imageView.image = UIImage(named: "click")
+        imageView.contentMode = .scaleAspectFit
+        view.addSubview(imageView)
     }
     
 }

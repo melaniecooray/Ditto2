@@ -64,13 +64,18 @@
 		7B77C0662261645A00674712 /* PreviewPlaylistVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B77C0652261645A00674712 /* PreviewPlaylistVC.swift */; };
 		7B77C068226164F700674712 /* CurrentPlaylistVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B77C067226164F700674712 /* CurrentPlaylistVC.swift */; };
 		7B77C06A2261650900674712 /* CurrentPlaylistVC - UISetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B77C0692261650800674712 /* CurrentPlaylistVC - UISetup.swift */; };
+		EF0543C5226B9CDE0034B9C0 /* ProfileVC - Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0543C4226B9CDD0034B9C0 /* ProfileVC - Image.swift */; };
 		EF11BBFD226064980064B4C6 /* SpotifyAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF11BBFC226064980064B4C6 /* SpotifyAPIClient.swift */; };
+		EF7A7E1F226ED470009CE02C /* EditSongCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7A7E1E226ED470009CE02C /* EditSongCell.swift */; };
 		EF9B482522592786008EAA21 /* PlaylistsVC - UISetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9B482422592786008EAA21 /* PlaylistsVC - UISetup.swift */; };
 		EF9B4827225938AF008EAA21 /* PlaylistsVC - Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9B4826225938AF008EAA21 /* PlaylistsVC - Table.swift */; };
 		EF9B48292259394B008EAA21 /* PlaylistViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9B48282259394B008EAA21 /* PlaylistViewCell.swift */; };
 		EF9B482E22599109008EAA21 /* NewPlaylistVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9B482D22599109008EAA21 /* NewPlaylistVC.swift */; };
 		EF9B48312259990D008EAA21 /* NewPlaylistVC - UISetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9B48302259990D008EAA21 /* NewPlaylistVC - UISetup.swift */; };
 		EF9B4833225999F3008EAA21 /* NewPlaylistVC - Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9B4832225999F3008EAA21 /* NewPlaylistVC - Image.swift */; };
+		EFD5CB65226BAF620018982E /* EditPlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD5CB64226BAF620018982E /* EditPlaylistViewController.swift */; };
+		EFD5CB67226BAF950018982E /* EditPlaylistViewController - UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD5CB66226BAF950018982E /* EditPlaylistViewController - UI.swift */; };
+		EFD5CB69226BAFC50018982E /* EditPlaylistViewController - Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD5CB68226BAFC50018982E /* EditPlaylistViewController - Table.swift */; };
 		EFF7237D225DAE1600115052 /* SpotifyConnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF7237C225DAE1600115052 /* SpotifyConnectViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -151,13 +156,18 @@
 		83B198A80D7721665334537E /* Pods-DittoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DittoUITests.debug.xcconfig"; path = "Target Support Files/Pods-DittoUITests/Pods-DittoUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		8D8F77EEC14D69478BDD6B73 /* Pods_Ditto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ditto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDBA1BDEAC3FC82272D3F5CF /* Pods_DittoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DittoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF0543C4226B9CDD0034B9C0 /* ProfileVC - Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileVC - Image.swift"; sourceTree = "<group>"; };
 		EF11BBFC226064980064B4C6 /* SpotifyAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyAPIClient.swift; sourceTree = "<group>"; };
+		EF7A7E1E226ED470009CE02C /* EditSongCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSongCell.swift; sourceTree = "<group>"; };
 		EF9B482422592786008EAA21 /* PlaylistsVC - UISetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistsVC - UISetup.swift"; sourceTree = "<group>"; };
 		EF9B4826225938AF008EAA21 /* PlaylistsVC - Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistsVC - Table.swift"; sourceTree = "<group>"; };
 		EF9B48282259394B008EAA21 /* PlaylistViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistViewCell.swift; sourceTree = "<group>"; };
 		EF9B482D22599109008EAA21 /* NewPlaylistVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaylistVC.swift; sourceTree = "<group>"; };
 		EF9B48302259990D008EAA21 /* NewPlaylistVC - UISetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewPlaylistVC - UISetup.swift"; sourceTree = "<group>"; };
 		EF9B4832225999F3008EAA21 /* NewPlaylistVC - Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewPlaylistVC - Image.swift"; sourceTree = "<group>"; };
+		EFD5CB64226BAF620018982E /* EditPlaylistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlaylistViewController.swift; sourceTree = "<group>"; };
+		EFD5CB66226BAF950018982E /* EditPlaylistViewController - UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditPlaylistViewController - UI.swift"; sourceTree = "<group>"; };
+		EFD5CB68226BAFC50018982E /* EditPlaylistViewController - Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditPlaylistViewController - Table.swift"; sourceTree = "<group>"; };
 		EFF7237C225DAE1600115052 /* SpotifyConnectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SpotifyConnectViewController.swift; path = Ditto/Controllers/SpotifyConnectViewController.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -203,6 +213,7 @@
 				EF9B48282259394B008EAA21 /* PlaylistViewCell.swift */,
 				42F9BE8A22608D64004F744C /* ProfileCell.swift */,
 				42858E7C22699A0B00F0344A /* SongCell.swift */,
+				EF7A7E1E226ED470009CE02C /* EditSongCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -304,6 +315,7 @@
 		7B5AFEC8223DD0A300B6168B /* Ditto */ = {
 			isa = PBXGroup;
 			children = (
+				EFD5CB63226BAF3A0018982E /* EditPlaylistVC */,
 				7B5AFF0A2243519900B6168B /* AppDelegates */,
 				421D8FED22529306000E5F28 /* Models */,
 				421D8FEE2252930F000E5F28 /* Views */,
@@ -410,6 +422,7 @@
 			isa = PBXGroup;
 			children = (
 				7B5AFEF3223DE4EE00B6168B /* ProfileVC.swift */,
+				EF0543C4226B9CDD0034B9C0 /* ProfileVC - Image.swift */,
 				7B77C0462259607000674712 /* ProfileVC - UISetup.swift */,
 				7B77C04822596F1900674712 /* ProfileVC - Table.swift */,
 			);
@@ -454,6 +467,16 @@
 				EF9B48302259990D008EAA21 /* NewPlaylistVC - UISetup.swift */,
 			);
 			path = NewPlaylistVC;
+			sourceTree = "<group>";
+		};
+		EFD5CB63226BAF3A0018982E /* EditPlaylistVC */ = {
+			isa = PBXGroup;
+			children = (
+				EFD5CB64226BAF620018982E /* EditPlaylistViewController.swift */,
+				EFD5CB66226BAF950018982E /* EditPlaylistViewController - UI.swift */,
+				EFD5CB68226BAFC50018982E /* EditPlaylistViewController - Table.swift */,
+			);
+			path = EditPlaylistVC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -647,6 +670,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFD5CB65226BAF620018982E /* EditPlaylistViewController.swift in Sources */,
 				42F9BE8B22608D64004F744C /* ProfileCell.swift in Sources */,
 				423C25CB22545A6C00703008 /* User.swift in Sources */,
 				7B77C05E225FEDFC00674712 /* Constants.swift in Sources */,
@@ -665,9 +689,11 @@
 				EFF7237D225DAE1600115052 /* SpotifyConnectViewController.swift in Sources */,
 				7B77C04922596F1900674712 /* ProfileVC - Table.swift in Sources */,
 				42F76C652261B6FC00DD83C5 /* ToDate.swift in Sources */,
+				EFD5CB67226BAF950018982E /* EditPlaylistViewController - UI.swift in Sources */,
 				7B77C0662261645A00674712 /* PreviewPlaylistVC.swift in Sources */,
 				423C25E022594E4900703008 /* EnterCodeVC.swift in Sources */,
 				42F76C5F2261AE5F00DD83C5 /* Chat.swift in Sources */,
+				EF0543C5226B9CDE0034B9C0 /* ProfileVC - Image.swift in Sources */,
 				7B5AFF04223E00EA00B6168B /* LoginVC - UISetup.swift in Sources */,
 				42858E7B226996B600F0344A /* CreatePlaylistVC - UISetup.swift in Sources */,
 				42F9BE8D22608D78004F744C /* RoundedImage.swift in Sources */,
@@ -675,6 +701,8 @@
 				7B77C068226164F700674712 /* CurrentPlaylistVC.swift in Sources */,
 				7B5AFF02223DE77000B6168B /* LaunchVC - UISetup.swift in Sources */,
 				42F76C5D2261ACBB00DD83C5 /* Playlist.swift in Sources */,
+				EF7A7E1F226ED470009CE02C /* EditSongCell.swift in Sources */,
+				EFD5CB69226BAFC50018982E /* EditPlaylistViewController - Table.swift in Sources */,
 				7B77C0622261582800674712 /* AudioViewController.swift in Sources */,
 				42F76C5B226166FD00DD83C5 /* BlurImage.swift in Sources */,
 				42858E792269960400F0344A /* CreatePlaylistVC - Table.swift in Sources */,
