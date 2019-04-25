@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import Firebase
 import FirebaseAuth
+import FirebaseDatabase
 
 extension CurrentPlaylistViewController {
     
@@ -103,7 +104,7 @@ extension CurrentPlaylistViewController {
         let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
         let resultVC = EditPlaylistViewController()
 //        resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
-//        resultVC.playlist = Playlist(id: playlistID!, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs])
+        resultVC.songs = songs
         navController.pushViewController(resultVC, animated: true)
     }
     

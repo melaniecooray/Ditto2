@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseAuth
 import Firebase
 
 class ProfileViewController: UIViewController {

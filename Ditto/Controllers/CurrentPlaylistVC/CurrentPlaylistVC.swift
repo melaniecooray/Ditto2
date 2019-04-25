@@ -11,6 +11,7 @@ import Firebase
 import Alamofire
 import SwiftyJSON
 import FirebaseDatabase
+import FirebaseAuth
 
 class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate {
     
