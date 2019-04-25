@@ -140,11 +140,6 @@ extension CurrentPlaylistViewController {
         songName = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width * 2/3, height: view.frame.height/25))
         songName.center = CGPoint(x: view.frame.width/2, y: bannerImage.frame.maxY * 0.9)
         //playlistName.text = "\"vibe station\""
-        let attributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont(name: "Roboto-Regular", size: 18)
-            //.backgroundColor: UIColor.white what if background is black :(
-        ]
-        let attribute = NSAttributedString(string: playlist.name, attributes: attributes)
         songName.text = songs[currentIndex].name
         songName.font = UIFont(name: "Roboto-Regular", size: 18)
         songName.textColor = .white
@@ -169,15 +164,7 @@ extension CurrentPlaylistViewController {
         
         artistName = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width * 2/3, height: view.frame.height/25))
         artistName.center = CGPoint(x: view.frame.width/2, y: songName.frame.maxY + view.frame.width * 0.01)
-        let attributes2: [NSAttributedString.Key: Any] = [
-            .font: UIFont(name: "Roboto-Light", size: 14)
-            //.backgroundColor: UIColor.white what if background is black :(
-        ]
-        var attribute2 = NSAttributedString(string: "ARTIST NAME", attributes: attributes2)
-        if let artist = songs[currentIndex].artist {
-            attribute2 = NSAttributedString(string: songs[currentIndex].artist, attributes: attributes2)
-        }
-        artistName.attributedText = attribute2
+        artistName.text = songs[currentIndex].artist
         artistName.textColor = .white
         artistName.center = CGPoint(x: bannerImage.frame.maxX/2, y: bannerImage.frame.maxY * 0.95)
         artistName.textAlignment = .center
