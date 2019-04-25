@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import Alamofire
 import SwiftyJSON
+import FirebaseDatabase
 
 class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate {
     
@@ -29,6 +30,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     
     var numberLabel: UILabel!
     var playlistName: UILabel!
+    var nowPlayingLabel: UILabel!
     
     var songImage: UIImageView!
     var bannerImage: UIImageView!
@@ -76,6 +78,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             } else {
                 print(self.currentIndex)
                 print(self.songs[self.currentIndex].name)
+                self.nowPlayingLabel.text = self.songs[self.currentIndex].name
                 self.songImage.image = self.songs[self.currentIndex].image
                 self.backImage.image = self.songs[self.currentIndex].image
                 self.playlistName.text = self.songs[self.currentIndex].name
