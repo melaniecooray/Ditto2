@@ -70,6 +70,7 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
         }
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
+        let userNode = db.child("users")
         
         playlistNode.child(self.code).observeSingleEvent(of: .value, with: { (snapshot) in
             if snapshot.exists() {
@@ -81,6 +82,18 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
                     previousMembers.append(UserDefaults.standard.value(forKey: "id") as! String)
                     playlistNode.child(self.code).updateChildValues(["members" : previousMembers])
                 }
+                userNode.child(Auth.auth().currentUser!.uid).observeSingleEvent(of: .value, with: { (snapshot) in
+                    let dict2 = snapshot.value as! [String : Any]
+                    var currentMemPlaylistCodes : [String] = []
+                    var currentMemPlaylistNames : [String] = []
+                    if let codes = dict2["member playlist codes"] as? [String] {
+                        currentMemPlaylistCodes = codes
+                        currentMemPlaylistNames = dict2["member playlist names"] as! [String]
+                    }
+                    currentMemPlaylistCodes.append(dict["code"] as! String)
+                    currentMemPlaylistNames.append(dict["name"] as! String)
+                    userNode.child(Auth.auth().currentUser!.uid).updateChildValues(["member playlist codes" : currentMemPlaylistCodes, "member playlist names" : currentMemPlaylistNames])
+                })
                 self.makePlaylist(dict: dict, previousMembers: previousMembers)
             } else {
                 print("error with " + self.code)
