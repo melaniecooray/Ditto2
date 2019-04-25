@@ -231,6 +231,7 @@ extension CurrentPlaylistViewController {
                     return
                 } else {
                     print("playing song")
+                    self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.runTimedCode), userInfo: nil, repeats: true)
                 }
             })
         } else {
@@ -242,6 +243,7 @@ extension CurrentPlaylistViewController {
                     return
                 } else {
                     print("paused song")
+                    self.timer.invalidate()
                 }
             })
         }

@@ -118,7 +118,7 @@
 		66FF58C1B2B71EAFE1DB239C /* Pods-DittoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DittoUITests.release.xcconfig"; path = "Target Support Files/Pods-DittoUITests/Pods-DittoUITests.release.xcconfig"; sourceTree = "<group>"; };
 		7B556F49224E97F80003FA96 /* SignUpVC - UISetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SignUpVC - UISetup.swift"; sourceTree = "<group>"; };
 		7B5AFEC6223DD0A300B6168B /* Ditto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ditto.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		7B5AFEC9223DD0A300B6168B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		7B5AFEC9223DD0A300B6168B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../Models/AppDelegate.swift; sourceTree = "<group>"; };
 		7B5AFECE223DD0A300B6168B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7B5AFED0223DD0A500B6168B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7B5AFED3223DD0A500B6168B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };

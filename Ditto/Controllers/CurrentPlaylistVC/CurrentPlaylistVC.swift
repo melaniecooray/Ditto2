@@ -40,6 +40,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     let parameters: HTTPHeaders = ["Accept":"application/json", "Authorization":"Bearer \(UserDefaults.standard.value(forKey: "accessToken")!)"]
     
     var timer : Timer!
+    var time = 0
     var player : SPTAudioStreamingController?
     
     var currentSong : String!
@@ -158,6 +159,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                 return
             }else{
                 print("Playing!!")
+                self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.runTimedCode), userInfo: nil, repeats: true)
             }
         })
         if first {
@@ -183,10 +185,11 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     }
     
     @objc func runTimedCode() {
+        self.time += 1
         let db = Database.database().reference()
         let playlistNode = db.child("playlists").child(playlist.code!)
         isPlaying()
-        playlistNode.updateChildValues(["song" : self.currentIndex, "time": 0, "isPlaying" : true])
+        playlistNode.updateChildValues(["song" : self.currentIndex, "time": self.time, "isPlaying" : true])
     }
     
     func isPlaying() {
