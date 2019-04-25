@@ -24,6 +24,11 @@ class ProfileViewController: UIViewController {
     var customSC: UISegmentedControl!
     var tableView: UITableView!
     
+    var imageView: UIImageView!
+    var imagePicker: UIButton!
+    
+    var chosenImage: UIImage!
+    
     //var playlists: [String] = ["vibe station", "spring 2019 jams", "bucket list: songs we must listen to", "econ 100a ~lit~ study group"]
     //var played: [String] = ["17h", "2d", "6h", "8d"]
     var playlistTitleList : [String] = []
@@ -35,6 +40,7 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         getUserInformation()
         initUI()
+        setUpImagePicker()
         
     }
     func getUserInformation() {

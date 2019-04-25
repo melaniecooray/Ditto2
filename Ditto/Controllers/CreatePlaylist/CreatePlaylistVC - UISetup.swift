@@ -15,7 +15,7 @@ extension CreateNewPlaylistTableViewController {
         backgroundImage = UIImageView(frame: view.frame)
         backgroundImage.image = UIImage(named: "playlistbackground")
         backgroundImage.contentMode = .scaleAspectFill
-        backgroundImage.alpha = 0.5
+        backgroundImage.alpha = 1
         view.addSubview(backgroundImage)
     }
     

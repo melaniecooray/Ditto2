@@ -8,7 +8,7 @@
 
 import UIKit
 import Alamofire
-import Firebase
+import FirebaseDatabase
 import SwiftyJSON
 
 struct post {

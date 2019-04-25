@@ -149,10 +149,28 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="gD8-CB-jXS"/>
                     </view>
+                    <connections>
+                        <segue destination="XAm-xc-xmV" kind="show" identifier="toEdit" id="Tga-2c-ckQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eZ0-xj-Dgh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="7794" y="154"/>
+        </scene>
+        <!--Edit Playlist View Controller-->
+        <scene sceneID="l8V-Zi-0hZ">
+            <objects>
+                <viewController id="XAm-xc-xmV" customClass="EditPlaylistViewController" customModule="Ditto" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bsU-8H-Mib">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="cHz-eo-kpg"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ooJ-C7-4Ih" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="8666" y="154"/>
         </scene>
         <!--Profile-->
         <scene sceneID="nJK-Iv-FTP">

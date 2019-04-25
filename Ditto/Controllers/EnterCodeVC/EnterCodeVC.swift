@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseDatabase
 
 class EnterCodeViewController: UIViewController, UITextFieldDelegate {
     
@@ -94,7 +94,8 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
         //                }
         //            }
         //        })
-        //performSegue(withIdentifier: "toPreview", sender: self)
+        //DELETE THIS
+        performSegue(withIdentifier: "toPreview", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
