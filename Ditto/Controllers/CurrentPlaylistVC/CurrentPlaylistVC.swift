@@ -59,6 +59,10 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
         playSong()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.player?.logout()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
     }
