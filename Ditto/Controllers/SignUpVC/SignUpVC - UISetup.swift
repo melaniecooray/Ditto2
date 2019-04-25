@@ -9,6 +9,8 @@
 import UIKit
 import SkyFloatingLabelTextField
 import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 extension SignUpViewController {
     

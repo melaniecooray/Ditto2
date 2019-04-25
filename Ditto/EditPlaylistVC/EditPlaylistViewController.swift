@@ -7,16 +7,32 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 class EditPlaylistViewController: UIViewController {
     
     var backgroundImage: UIImageView!
     var tableView: UITableView!
     
+    var playlist: Playlist!
+    
+    var songs : [Song] = []
+    var songList : [String] = []
+    var playlistSongs : [String] = []
+    
+    var name: String!
+    var artist: String!
+//    var playlistSongs: [edit]
+//    var currentSong : String!
+//    var currentIndex = 0
+
+    
     var recentlyPlayedLabel: UILabel!
     
-    var songTitleList : [String] = ["Song Title1", "Song Title2", "Song Title3", "Song Title4", "Song Title5"]
-    var songArtistList : [String] = ["Artist Name1", "Artist Name2", "Artist Name3", "Artist Name4", "Artist Name5", "Artist Name6"]
+    var songTitleList : [String] = []
+//        = ["Song Title1", "Song Title2", "Song Title3", "Song Title4", "Song Title5"]
+    var songArtistList : [String]! = []
+//        = ["Artist Name1", "Artist Name2", "Artist Name3", "Artist Name4", "Artist Name5", "Artist Name6"]
     var filteredArray : [String] = []
     
     lazy var mainSearchBar: UISearchBar = {
@@ -33,12 +49,13 @@ class EditPlaylistViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        getPlaylistSongs()
         setUpBackground()
-        setUpSearchBar()
-        setUpTable()
-        setUpLabel()
-        setUpAddButton()
+        //setUpSearchBar()
+        //setUpTable()
+        //setUpLabel()
+        //setUpAddButton()
+        
         
         mainSearchBar.delegate = self
         mainSearchBar.returnKeyType = UIReturnKeyType.done
@@ -58,20 +75,29 @@ class EditPlaylistViewController: UIViewController {
         //        resultVC.playlist = Playlist(id: playlistID!, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs])
         navController.pushViewController(resultVC, animated: true)
     }
-
-
     
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func getPlaylistSongs() {
+        let db = Database.database().reference()
+        let playlistNode = db.child("playlists")
+        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            let dict = snapshot.value as! [String : Any]
+            let songs = dict["songs"] as! [String]
+            self.songList = songs
+            
+            for song in self.songs {
+                self.songTitleList.append(song.name)
+                self.songArtistList.append(song.artist)
+                }
+            
+//            self.currentSong = songs[self.currentIndex]
+            print(self.songTitleList)
+            print(self.songArtistList)
+            self.setUpSearchBar()
+            self.setUpTable()
+            self.setUpLabel()
+            self.setUpAddButton()
+            }
+        )}
     }
-    */
 
-}

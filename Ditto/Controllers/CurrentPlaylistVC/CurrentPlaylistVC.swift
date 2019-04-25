@@ -11,6 +11,7 @@ import Firebase
 import Alamofire
 import SwiftyJSON
 import FirebaseDatabase
+import FirebaseAuth
 
 class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate {
     
@@ -117,7 +118,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             } else {
                 print(self.currentIndex)
                 print(self.songs[self.currentIndex].name)
-                self.nowPlayingLabel.text = self.songs[self.currentIndex].name
+            
                 self.songImage.image = self.songs[self.currentIndex].image
                 self.backImage.image = self.songs[self.currentIndex].image
                 //self.playlistName.text = self.songs[self.currentIndex].name
