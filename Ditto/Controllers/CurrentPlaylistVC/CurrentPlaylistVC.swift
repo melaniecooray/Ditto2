@@ -48,6 +48,8 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     var currentSong : String!
     var currentIndex = 0
     var first = true
+    var owner = true
+    var isPlayingSong = true
     
     var songs : [Song] = []
     var songList : [String] = []
@@ -56,6 +58,10 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if Auth.auth().currentUser?.uid != playlist.owner {
+            owner = false
+            isPlayingSong = false
+        }
         initUI()
         findSong()
         playSong()
@@ -63,6 +69,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     
     override func viewWillDisappear(_ animated: Bool) {
         self.player?.logout()
+        self.timer.invalidate()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,7 +85,17 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             self.songList = songs
             self.currentSong = songs[self.currentIndex]
             if self.first {
-                self.playSong()
+                if self.owner {
+                    self.playSong()
+                } else {
+                    playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observe(.value, with: { (snapshot) in
+                        let dict = snapshot.value as! [String : Any]
+                        let isPlayingValue = dict["isPlaying"] as! Bool
+                        if (isPlayingValue) {
+                            self.playSong()
+                        }
+                    })
+                }
             } else {
                 print(self.currentIndex)
                 print(self.songs[self.currentIndex].name)

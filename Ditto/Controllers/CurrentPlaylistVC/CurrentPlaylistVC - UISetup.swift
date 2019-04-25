@@ -242,6 +242,9 @@ extension CurrentPlaylistViewController {
                 } else {
                     print("paused song")
                     self.timer.invalidate()
+                    let db = Database.database().reference()
+                    let playlistNode = db.child("playlists").child(self.playlist.code!)
+                    playlistNode.updateChildValues(["isPlaying" : false])
                 }
             })
         }
