@@ -99,7 +99,7 @@ extension CurrentPlaylistViewController {
     func setUpPlaylistName() {
         playlistName = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width * 2/3, height: view.frame.height/25))
         playlistName.center = CGPoint(x: view.frame.width/2, y: songImage.frame.minY - view.frame.height/26)
-        //playlistName.text = "\"vibe station\""
+        //playlistName.text = playlist.name
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont(name: "Roboto-Bold", size: 18)
             //.backgroundColor: UIColor.white what if background is black :(
@@ -130,7 +130,7 @@ extension CurrentPlaylistViewController {
         nowPlayingLabel.center = CGPoint(x: view.frame.width/2, y: songImage.frame.maxY + view.frame.height/9.5)
         nowPlayingLabel.textAlignment = .center
         nowPlayingLabel.textColor = .white
-        nowPlayingLabel.text = "Now Playing"
+        nowPlayingLabel.text = playlist.name
         nowPlayingLabel.font = UIFont(name: "Roboto-Bold", size: 16)
         view.addSubview(nowPlayingLabel)
         
