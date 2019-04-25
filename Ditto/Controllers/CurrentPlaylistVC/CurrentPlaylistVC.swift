@@ -61,6 +61,10 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
         playSong()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.player?.logout()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
     }
@@ -81,8 +85,9 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                 self.nowPlayingLabel.text = self.songs[self.currentIndex].name
                 self.songImage.image = self.songs[self.currentIndex].image
                 self.backImage.image = self.songs[self.currentIndex].image
-                self.playlistName.text = self.songs[self.currentIndex].name
+                //self.playlistName.text = self.songs[self.currentIndex].name
                 self.artistName.text = self.songs[self.currentIndex].artist
+                self.songName.text = self.songs[self.currentIndex].name
                 self.player?.playSpotifyURI(self.currentSong, startingWith: 0, startingWithPosition: 0, callback: { (error) in
                     if error != nil {
                         print("*** failed to play: \(String(describing: error))")
