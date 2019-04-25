@@ -15,12 +15,12 @@ class PreviewPlaylistViewController: UIViewController, UIScrollViewDelegate {
     var code: String!
     var playlist: Playlist!
     
-    var colorBlock: UIView!
     var playButton: UIButton!
     var scrollPics: UICollectionView!
     
     var nameLabel: UILabel!
-    var codeLabel: UILabel!
+    //var codeLabel: UILabel!
+    var numberPicture: UIImageView!
     var numberLabel: UILabel!
     var liveLabel: UILabel!
     
@@ -47,6 +47,7 @@ class PreviewPlaylistViewController: UIViewController, UIScrollViewDelegate {
         if let currentVC = segue.destination as? CurrentPlaylistViewController {
             currentVC.code = code
             currentVC.playlist = playlist
+            currentVC.songs = playlist.songs
         }
     }
 }

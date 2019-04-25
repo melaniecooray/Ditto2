@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+import Firebase
 
 extension CurrentPlaylistViewController {
     
@@ -20,13 +22,17 @@ extension CurrentPlaylistViewController {
         setUpSong()
         setUpNavBar()
         //setUpControl()
+        if Auth.auth().currentUser?.uid == playlist.owner {
+            view.addSubview(playbutton)
+            view.addSubview(rightButton)
+            view.addSubview(leftButton)
+        }
     }
     
     func setUpBackground() {
         view.backgroundColor = .white
-        image = UIImage(named: "88rising")
         backImage = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height * 0.65))
-        backImage.image = image
+        backImage.image = songs[currentIndex].image
         backImage.contentMode = .scaleAspectFill
         backImage.alpha = 0.4
         //backImage.addBlurEffect()
@@ -120,7 +126,7 @@ extension CurrentPlaylistViewController {
     func setUpSongImage() {
         songImage = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width * 0.6, height: view.frame.width * 0.6))
         songImage.center = CGPoint(x: backImage.frame.midX, y: backImage.frame.midY + view.frame.height/20)
-        songImage.image = image
+        songImage.image = songs[currentIndex].image
         songImage.contentMode = .scaleAspectFit
         songImage.layer.shadowColor = UIColor.black.cgColor
         songImage.layer.shadowOpacity = 0.5
@@ -144,12 +150,7 @@ extension CurrentPlaylistViewController {
         songName = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width * 2/3, height: view.frame.height/25))
         songName.center = CGPoint(x: view.frame.width/2, y: bannerImage.frame.maxY * 0.9)
         //playlistName.text = "\"vibe station\""
-        let attributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont(name: "Roboto-Regular", size: 18)
-            //.backgroundColor: UIColor.white what if background is black :(
-        ]
-        let attribute = NSAttributedString(string: playlist.name, attributes: attributes)
-        songName.text = "Song Title"
+        songName.text = songs[currentIndex].name
         songName.font = UIFont(name: "Roboto-Regular", size: 18)
         songName.textColor = .white
         songName.textAlignment = .center
@@ -173,12 +174,7 @@ extension CurrentPlaylistViewController {
         
         artistName = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width * 2/3, height: view.frame.height/25))
         artistName.center = CGPoint(x: view.frame.width/2, y: songName.frame.maxY + view.frame.width * 0.01)
-        let attributes2: [NSAttributedString.Key: Any] = [
-            .font: UIFont(name: "Roboto-Light", size: 14)
-            //.backgroundColor: UIColor.white what if background is black :(
-        ]
-        let attribute2 = NSAttributedString(string: "ADD ARTIST", attributes: attributes2)
-        artistName.attributedText = attribute2
+        artistName.text = songs[currentIndex].artist
         artistName.textColor = .white
         artistName.center = CGPoint(x: bannerImage.frame.maxX/2, y: bannerImage.frame.maxY * 0.95)
         artistName.textAlignment = .center
@@ -203,19 +199,21 @@ extension CurrentPlaylistViewController {
         playbutton.setImage(UIImage(named: "playlistpausebutton"), for: .normal)
         playbutton.contentMode = .scaleAspectFill
         playbutton.addTarget(self, action: #selector(pausePressed), for: .touchUpInside)
-        view.addSubview(playbutton)
+        //view.addSubview(playbutton)
         
         rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width/4, height: view.frame.height/7))
         rightButton.center = CGPoint(x: view.frame.width*0.75, y: view.frame.width * 1.49)
         rightButton.setImage(UIImage(named: "playlisrightbutton"), for: .normal)
         rightButton.contentMode = .scaleAspectFill
-        view.addSubview(rightButton)
+        rightButton.addTarget(self, action: #selector(goForward), for: .touchUpInside)
+        //view.addSubview(rightButton)
         
         leftButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width/4, height: view.frame.height/7))
         leftButton.center = CGPoint(x: view.frame.width/4, y: view.frame.width * 1.49)
         leftButton.setImage(UIImage(named: "playlistleftbutton"), for: .normal)
         leftButton.contentMode = .scaleAspectFill
-        view.addSubview(leftButton)
+        leftButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
+        //view.addSubview(leftButton)
         
         
     }
@@ -224,9 +222,53 @@ extension CurrentPlaylistViewController {
         if pause  {
             playbutton.setImage(UIImage(named: "playlistpausebutton"), for: .normal)
             pause = false
+            player?.setIsPlaying(true, callback:{ (error) in
+                if error != nil {
+                    print("error playing song")
+                    return
+                } else {
+                    print("playing song")
+                    self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.runTimedCode), userInfo: nil, repeats: true)
+                }
+            })
         } else {
             playbutton.setImage(UIImage(named: "playlistcodebutton"), for: .normal)
             pause = true
+            player?.setIsPlaying(false, callback: { (error) in
+                if error != nil {
+                    print("error pausing song")
+                    return
+                } else {
+                    print("paused song")
+                    self.timer.invalidate()
+                }
+            })
         }
+    }
+    
+    @objc func goBack() {
+        self.currentIndex -= 1
+        player?.skipPrevious({ (error) in
+            if error != nil {
+                print("error going to previous song!")
+                return
+            } else {
+                print("went to the previous song")
+                self.findSong()
+            }
+            })
+    }
+    
+    @objc func goForward() {
+        self.currentIndex += 1
+        player?.skipNext({ (error) in
+            if error != nil {
+                print("error going to next song")
+                return
+            } else {
+                print("went to the next song")
+                self.findSong()
+            }
+            })
     }
 }

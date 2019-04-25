@@ -16,7 +16,7 @@ class PlaylistsViewController: UIViewController {
     
     var recentlyPlayedLabel: UILabel!
     
-    var playlistTitleList : [String] = ["bucket list: songs we must listen to", "vibe station", "spring 2019 jams", "econ100a ~lit~ study group", "triple bffl favorites"]
+    var playlistTitleList : [String] = []
     var playlistLastPlayed : [String] = ["last played: 6h", "last played: 17h", "last played: 17h", "last played: 2d", "last played: 8d", "last played: 9d"]
     var filteredArray : [String] = []
     
@@ -35,12 +35,13 @@ class PlaylistsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
         setUpSearchBar()
         setUpBackground()
         setUpTable()
         setUpLabel()
         setUpAddButton()
+        getUserInformation()
+        addTapDismiss()
         
         mainSearchBar.delegate = self
         mainSearchBar.returnKeyType = UIReturnKeyType.done
@@ -51,8 +52,47 @@ class PlaylistsViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     @objc func addButtonClicked() {
         performSegue(withIdentifier: "toNewPlaylist", sender: self)
+    }
+    
+    func getUserInformation() {
+        UserDefaults.standard.set(Auth.auth().currentUser?.uid, forKey: "id")
+        let currentID = UserDefaults.standard.value(forKey: "id")!
+        print(currentID)
+        print("just tried to print current id")
+        let db = Database.database().reference()
+        let userNode = db.child("users")
+        
+        userNode.child(currentID as! String).observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.exists() {
+                
+                let value = snapshot.value as? NSDictionary
+                let retrievedName = value?["Name"] as? String
+                if let names = value?["owned playlist names"] as? [String] {
+                    self.playlistTitleList = names
+                }
+                print("fullnameretrieved")
+                print(retrievedName)
+                self.tableView.reloadData()
+                //self.nameLabel.text = retrievedName
+            } else {
+                print(currentID)
+                print(snapshot)
+                print("why is going here")
+            }
+        })
+    }
+    
+    func addTapDismiss() {
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
+    }
+    @objc func dismissKeyboard() {
+        mainSearchBar.resignFirstResponder()
     }
     
     

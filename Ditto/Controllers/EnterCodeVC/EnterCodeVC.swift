@@ -7,7 +7,10 @@
 //
 
 import UIKit
+import Firebase
 import FirebaseDatabase
+import FirebaseAuth
+import Alamofire
 
 class EnterCodeViewController: UIViewController, UITextFieldDelegate {
     
@@ -17,6 +20,12 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
     var searchButton: UIButton!
     
     var code = ""
+    var playlist : Playlist!
+    
+    var getUserURL = "https://api.spotify.com/v1/me"
+    let parameters: HTTPHeaders = ["Accept":"application/json", "Authorization":"Bearer \(UserDefaults.standard.value(forKey: "accessToken")!)"]
+    let url = "https://api.spotify.com/v1/tracks/"
+    typealias JSONStandard = [String : AnyObject]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,39 +77,81 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
                 print("code worked")
                 let dict = snapshot.value as! [String : Any]
                 var previousMembers = dict["members"] as! [String]
-                previousMembers.append(UserDefaults.standard.value(forKey: "id") as! String)
-                playlistNode.child(self.code).updateChildValues(["members" : previousMembers])
-                self.performSegue(withIdentifier: "toPreview", sender: self)
+                if !previousMembers.contains(Auth.auth().currentUser!.uid) {
+                    previousMembers.append(UserDefaults.standard.value(forKey: "id") as! String)
+                    playlistNode.child(self.code).updateChildValues(["members" : previousMembers])
+                }
+                self.makePlaylist(dict: dict, previousMembers: previousMembers)
             } else {
                 print("error with " + self.code)
                 print(snapshot)
                 self.showError(title: "Error", message: "A playlist with that code does not exist.")
             }
         })
+    }
+    
+    func makePlaylist(dict: [String: Any], previousMembers: [String]) {
+        let owner = dict["owner"] as! String
+        let name = dict["name"] as! String
+        let id = dict["uri"] as! String
+        let songuris = dict["songs"] as! [String]
+        var songs: [Song] = []
+        for songuri in songuris {
+            songs.append(Song(id: songuri))
+        }
         
-        //        playlistNode.observeSingleEvent(of: .value, with: { (snapshot) in
-        //            for playlist in snapshot.children {
-        //                let newPlaylist = playlist as! DataSnapshot
-        //                let dict = newPlaylist.value as! [String : Any]
-        //                let codeCheck = dict["code"] as! String
-        //                print(self.code)
-        //                print(dict["code"]!)
-        //                if (self.code == codeCheck) {
-        //                    UserDefaults.standard.set(self.code, forKey: "code")
-        //                    print("code worked")
-        //                    self.performSegue(withIdentifier: "toPreview", sender: self)
-        //                } else {
-        //                    self.showError(title: "Error", message: "A playlist with that code does not exist.")
-        //                }
-        //            }
-        //        })
-        //DELETE THIS
-        performSegue(withIdentifier: "toPreview", sender: self)
+        let dispatchGroup = DispatchGroup()
+        for (index, songuri) in songuris.enumerated() {
+            dispatchGroup.enter()
+            let indexString = songuri.index(songuri.startIndex, offsetBy: 14)
+            let trackID = String(songuri[indexString...])
+            AF.request(url + trackID, headers: parameters).responseJSON(completionHandler: {
+                response in
+                do {
+                    var track = try JSONSerialization.jsonObject(with: response.data!, options: .mutableContainers) as! JSONStandard
+                    print(songuri)
+                    print(trackID)
+                    print(track)
+                    var artistString = ""
+                    if let artists = track["artists"] as? [JSONStandard] {
+                    
+                        for artist in artists {
+                            let artistName = artist["name"] as! String
+                            artistString += artistName + ", "
+                        }
+                    
+                        artistString = String(artistString.dropLast(2))
+                    }
+                    songs[index].artist = artistString
+                    songs[index].name = track["name"] as! String
+                
+                    if let album = track["album"] as? JSONStandard {
+                        if let images = album["images"] as? [JSONStandard] {
+                            let imageData = images[0]
+                            let mainImageURL = URL(string: imageData["url"] as! String)
+                            let mainImageData = NSData(contentsOf: mainImageURL!)
+                            let mainImage = UIImage(data: mainImageData as! Data)
+                            songs[index].image = mainImage
+                            
+                            dispatchGroup.leave()
+                        }
+                    }
+                } catch {
+                    print(error)
+                }
+            })
+        }
+        dispatchGroup.notify(queue: DispatchQueue.main, execute: {
+            print(songs)
+            self.playlist = Playlist(id: id, playlist: ["code": self.code, "members": previousMembers, "name": name, "songs": songs, "owner": owner])
+            self.performSegue(withIdentifier: "toPreview", sender: self)
+        })
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let previewVC = segue.destination as! PreviewPlaylistViewController
         previewVC.code = code
+        previewVC.playlist = playlist
     }
     
     func showError(title: String, message: String) {

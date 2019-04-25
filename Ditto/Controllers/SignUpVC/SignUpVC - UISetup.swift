@@ -23,7 +23,7 @@ extension SignUpViewController {
     
     func setupLogo() {
         logo = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width * 3/4, height: view.frame.height/2))
-        logo.center = CGPoint(x: view.frame.width/2, y: view.frame.height/4)
+        logo.center = CGPoint(x: view.frame.width/2, y: view.frame.height * 0.22)
         logo.image = UIImage(named: "logo")
         logo.contentMode = .scaleAspectFit
         view.addSubview(logo)
@@ -31,7 +31,7 @@ extension SignUpViewController {
     
     func setupNameTextField() {
         nameTextField = SkyFloatingLabelTextField(frame: CGRect(x: 0, y: 0, width: view.frame.width * 3/4, height: view.frame.height/10))
-        nameTextField.center = CGPoint(x: view.frame.width/2, y: view.frame.height * 0.45)
+        nameTextField.center = CGPoint(x: view.frame.width/2, y: view.frame.height * 0.41)
         nameTextField.placeholder = "Full Name"
         nameTextField.title = "Full Name"
         nameTextField.font = UIFont(name: "Roboto-Light", size: 20)
@@ -44,7 +44,7 @@ extension SignUpViewController {
     
     func setupEmailTextField() {
         emailTextField = SkyFloatingLabelTextField(frame: CGRect(x: 0, y: 0, width: view.frame.width * 3/4, height: view.frame.height/10))
-        emailTextField.center = CGPoint(x: view.frame.width/2, y: nameTextField.frame.maxY * 11/10)
+        emailTextField.center = CGPoint(x: view.frame.width/2, y: nameTextField.frame.maxY * 7/6)
         emailTextField.placeholder = "Email"
         emailTextField.title = "Email Address"
         emailTextField.font = UIFont(name: "Roboto-Light", size: 20)
@@ -57,7 +57,7 @@ extension SignUpViewController {
     
     func setupPasswordTextField() {
         passwordTextField = SkyFloatingLabelTextField(frame: CGRect(x: 0, y: 0, width: view.frame.width * 3/4, height: view.frame.height/10))
-        passwordTextField.center = CGPoint(x: view.frame.width/2, y: emailTextField.frame.maxY * 11/10)
+        passwordTextField.center = CGPoint(x: view.frame.width/2, y: emailTextField.frame.maxY * 8.5/7.5)
         passwordTextField.isSecureTextEntry = true
         passwordTextField.placeholder = "Password"
         passwordTextField.title = "Password"
@@ -71,7 +71,7 @@ extension SignUpViewController {
     
     func setupSignUpButton() {
         signUpButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width * 0.42, height: view.frame.height/15))
-        signUpButton.center = CGPoint(x: view.frame.width/2, y: passwordTextField.frame.maxY * 7/6)
+        signUpButton.center = CGPoint(x: view.frame.width/2, y: passwordTextField.frame.maxY * 8/7)
         signUpButton.setTitle("Sign up", for: .normal)
         signUpButton.titleLabel?.font = UIFont(name: "Roboto-Regular", size: 25)
         signUpButton.layer.cornerRadius = 10
@@ -82,7 +82,7 @@ extension SignUpViewController {
     
     func setupLogin() {
         loginText = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width/2, height: view.frame.height/16))
-        loginText.center = CGPoint(x: view.frame.width/2 * 11/12, y: signUpButton.frame.maxY * 15/14)
+        loginText.center = CGPoint(x: view.frame.width/2 * 11/12, y: signUpButton.frame.maxY * 18/17)
         loginText.text = "Already have an account?"
         loginText.font = UIFont(name: "Roboto-Regular", size: 15)
         view.addSubview(loginText)

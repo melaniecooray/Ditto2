@@ -38,6 +38,8 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
     var imageList: [UIImage] = []
     var uris : [String] = []
     var playlists : [String] = []
+    var songuris : [String] = []
+    var names : [String] = []
     
     var searchURL = String()
     //var createPlaylistURL = "https://api.spotify.com/v1/playlists"
@@ -105,6 +107,16 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                         
                         let name = item["name"] as! String
                         let uri = item["uri"] as! String
+                        let artists = item["artists"] as! [JSONStandard]
+                        var artistString = ""
+                        
+                        for artist in artists {
+                            let artistName = artist["name"] as! String
+                            artistString += artistName + ", "
+                        }
+                        
+                        artistString = String(artistString.dropLast(2))
+                        print(artistString)
                         
                         if let album = item["album"] as? JSONStandard {
                             if let images = album["images"] as? [JSONStandard] {
@@ -114,16 +126,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                                 
                                 let mainImage = UIImage(data: mainImageData as! Data)
                                 
-                                let artists = album["artists"] as! [JSONStandard]
-                                var artistString = ""
-                                
-                                for artist in artists {
-                                    let artistName = artist["name"] as! String
-                                    artistString += artistName + ", "
-                                }
-                                
-                                artistString = String(artistString.dropLast(2))
-                                
+                                //posts.append(Song(id: uri, song: ["name" : name, "artist" : artistString, "image" : mainImage]))
                                 posts.append(post.init(mainImage: mainImage, name: name, artist: artistString, checked: false))
                                 uris.append(uri)
                                 print("adding to table")
@@ -134,14 +137,13 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                     }
                 }
             }
-            //print(readableJSON)
+            print(readableJSON)
         }catch{
             print(error)
         }
     }
     
     @objc func pickedSongs() {
-        var songuris: [String] = []
         for song in temp {
             selectedSongs.append(song)
         }
@@ -156,8 +158,11 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         userNode.child(UserDefaults.standard.value(forKey: "id") as! String).observeSingleEvent(of: .value, with: {
             snapshot in
             let dict = snapshot.value as! [String : Any]
-            if let lists = dict["playlists"] as? [String] {
-                self.playlists = dict["playlists"] as! [String]
+            if let lists = dict["owned playlist codes"] as? [String] {
+                self.playlists = lists
+            }
+            if let names = dict["owned playlist names"] as? [String] {
+                self.names = names
             }
         })
         
@@ -171,18 +176,20 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                     UserDefaults.standard.set(user_id, forKey: "user_id")
                     self.userID = user_id as? String
                     print(UserDefaults.standard.value(forKey: "id")!)
-                    playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": songuris, "members" : [UserDefaults.standard.value(forKey: "id")], "owner" : UserDefaults.standard.value(forKey: "id")])
+                    playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": self.songuris, "members" : [UserDefaults.standard.value(forKey: "id")], "owner" : UserDefaults.standard.value(forKey: "id")])
                     self.playlists.append(UserDefaults.standard.value(forKey: "code") as! String)
-                    userNode.child(UserDefaults.standard.value(forKey: "id") as! String).updateChildValues(["playlists" : self.playlists])
+                    self.names.append(self.name)
+                    userNode.child(UserDefaults.standard.value(forKey: "id") as! String).updateChildValues(["owned playlist codes" : self.playlists, "owned playlist names" : self.names])
                     let createPlaylistURL = "https://api.spotify.com/v1/users/\(user_id)/playlists"
                     print(self.userID)
                     AF.request(createPlaylistURL, method: .post, parameters: ["name" : self.name, "description" : "", "public" : true],encoding: JSONEncoding.default, headers: self.parameters).responseData {
                         response in
                         do {
                             var readableJSON = try JSONSerialization.jsonObject(with: response.data!, options: .mutableContainers) as! JSONStandard
-                            //print(readableJSON)
+                            print(readableJSON)
                             if let playlist_id = readableJSON["uri"] {
                                 self.playlistID = playlist_id as? String
+                                playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["uri" : playlist_id])
                             }
                         }catch{
                             print(error)
@@ -192,14 +199,13 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                         case .success:
                             print(response)
                             let addTracksURL = "https://api.spotify.com/v1/playlists/\(self.playlistID!)/tracks"
-                            print(songuris)
-                            AF.request(addTracksURL, method: .post, parameters: ["uris" : songuris],encoding: JSONEncoding.default, headers: self.parameters).responseData {
+                            AF.request(addTracksURL, method: .post, parameters: ["uris" : self.songuris],encoding: JSONEncoding.default, headers: self.parameters).responseData {
                                 response in
                                 switch response.result {
                                 case .success:
                                     print("added songs")
                                     print(response)
-                                    self.success(songuris: songuris)
+                                    self.success()
                                 case .failure(let error):
                                     print(error)
                                     self.showError(title: "Error:", message: "Unable to add songs to playlist")
@@ -227,17 +233,18 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         })
     }
     
-    func success(songuris: [String]) {
+    func success() {
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
         
-        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": songuris])
+        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": self.songuris])
         //performSegue(withIdentifier: "createdPlaylist", sender: self)
         self.tabBarController?.selectedIndex = 1
         let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
         let resultVC = CurrentPlaylistViewController()
         resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
-        resultVC.playlist = Playlist(id: playlistID!, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs])
+        resultVC.playlist = Playlist(id: playlistID!, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs, "owner" : UserDefaults.standard.value(forKey: "id")!])
+        resultVC.songs = selectedSongs
         navController.pushViewController(resultVC, animated: true)
     }
     

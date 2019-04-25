@@ -9,11 +9,11 @@
 import UIKit
 import Firebase
 import Alamofire
+import SwiftyJSON
 
 class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate {
     
     var playlist: Playlist!
-    var image: UIImage!
     var backImage: UIImageView!
     
     var customSC: UISegmentedControl!
@@ -40,13 +40,22 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     let parameters: HTTPHeaders = ["Accept":"application/json", "Authorization":"Bearer \(UserDefaults.standard.value(forKey: "accessToken")!)"]
     
     var timer : Timer!
+    var time = 0
+    var player : SPTAudioStreamingController?
     
-    var player: SPTAudioStreamingController?
+    var currentSong : String!
+    var currentIndex = 0
+    var first = true
+    
+    var songs : [Song] = []
+    var songList : [String] = []
+    
+    typealias JSONStandard = [String : AnyObject]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
-        //findSong()
+        findSong()
         playSong()
     }
     
@@ -60,8 +69,26 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
         playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observeSingleEvent(of: .value, with: { (snapshot) in
             let dict = snapshot.value as! [String : Any]
             let songs = dict["songs"] as! [String]
-            let firstSong = songs[0]
-            //self.playSong(song: firstSong)
+            self.songList = songs
+            self.currentSong = songs[self.currentIndex]
+            if self.first {
+                self.playSong()
+            } else {
+                print(self.currentIndex)
+                print(self.songs[self.currentIndex].name)
+                self.songImage.image = self.songs[self.currentIndex].image
+                self.backImage.image = self.songs[self.currentIndex].image
+                self.playlistName.text = self.songs[self.currentIndex].name
+                self.artistName.text = self.songs[self.currentIndex].artist
+                self.player?.playSpotifyURI(self.currentSong, startingWith: 0, startingWithPosition: 0, callback: { (error) in
+                    if error != nil {
+                        print("*** failed to play: \(String(describing: error))")
+                        return
+                    }else{
+                        print("Playing!!")
+                    }
+                })
+            }
         })
     }
     
@@ -69,7 +96,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
         print("printing playlist id")
         print(playlist.id!)
         /*
-        AF.request("https://api.spotify.com/v1/me/player/play", method: .put, parameters: ["context_uri" : playlist.id!],encoding: JSONEncoding.default, headers: self.parameters).responseData {
+        AF.request("https://api.spotify.com/v1/me/player/play", method: .put, parameters: ["context_uri" : playlist.id!, "offset" : ["position" : 0], "position_ms" : 0],encoding: JSONEncoding.default, headers: self.parameters).responseData {
             response in
             switch response.result {
             case.success:
@@ -81,25 +108,38 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             
         }
  */
-        /*
-        self.player = SPTAudioStreamingController.sharedInstance()
-        self.player?.delegate = self
-        self.player?.playbackDelegate = self
-        self.player?.login(withAccessToken: UserDefaults.standard.value(forKey: "accessToken") as! String)
- */
-        do {
-            try SPTAudioStreamingController.sharedInstance()!.start(withClientId: SPTAuth.defaultInstance().clientID, audioController: nil, allowCaching: true)
-            SPTAudioStreamingController.sharedInstance().delegate = self
-            SPTAudioStreamingController.sharedInstance().playbackDelegate = self
-            SPTAudioStreamingController.sharedInstance().diskCache = SPTDiskCache() /* capacity: 1024 * 1024 * 64 */
-            SPTAudioStreamingController.sharedInstance().login(withAccessToken: SPTAuth.defaultInstance().session.accessToken!)
-        } catch {
-            let alert = UIAlertController(title: "Error init", message: error.localizedDescription, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            self.displayErrorMessage(error: error as! Error)
-            //self.closeSession()
+        
+
+        SPTAuth.defaultInstance().handleAuthCallback(withTriggeredAuthURL: URL(string: UserDefaults.standard.value(forKey: "url") as! String)) { (error, session) in
+            //Check if there is an error because then there won't be a session.
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            // Check if there is a session
+            if let session = session {
+                print("there is a session")
+                //UserDefaults.standard.setValue(session.accessToken, forKey: "accessToken")
+                // If there is use it to login to the audio streaming controller where we can play music.
+                
+                if self.player == nil {
+                    print("player is nil")
+                    self.player = SPTAudioStreamingController.sharedInstance()
+                    if !(self.player?.loggedIn)! {
+                        print("player is not logged in")
+                        self.player?.delegate = self
+                        self.player?.playbackDelegate = self
+                        self.player?.login(withAccessToken: UserDefaults.standard.value(forKey: "accessToken") as! String)
+                    }
+                }
+                
+                
+            }
         }
         
+        
+        /*
         SPTAudioStreamingController.sharedInstance().playSpotifyURI(playlist.id!, startingWith: 0, startingWithPosition: 0, callback: { (error) in
             if error != nil {
                 print("*** failed to play: \(String(describing: error))")
@@ -109,40 +149,69 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                 self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.runTimedCode), userInfo: nil, repeats: true)
             }
         })
+ */
     }
     
-    func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didStartPlayingTrack trackUri: String!) {
-        
-        print("This works: didStartPlayingTrack")
+    func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
+        print("successfully logged in")
+        self.player = audioStreaming
+        audioStreaming.playSpotifyURI(currentSong, startingWith: 0, startingWithPosition: 0, callback: { (error) in
+            if error != nil {
+                print("*** failed to play: \(String(describing: error))")
+                return
+            }else{
+                print("Playing!!")
+                self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.runTimedCode), userInfo: nil, repeats: true)
+            }
+        })
+        if first {
+            first = false
+            let start = currentIndex + 1
+            for num in start..<songList.count {
+                audioStreaming.queueSpotifyURI(songList[num], callback: { (error) in
+                    if error != nil {
+                        print("*** failed to queue: \(String(describing: error))")
+                        return
+                    }else{
+                        print("Added to Queue!!")
+                    }
+                })
+            }
+        }
         
     }
     
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didReceiveError error: Error!) {
-        displayErrorMessage(error: error)
-    }
-    
-    func displayErrorMessage(error: Error) {
-        // When changing the UI, all actions must be done on the main thread,
-        // since this can be called from a notification which doesn't run on
-        // the main thread, we must add this code to the main thread's queue
-        
-        DispatchQueue.main.async {
-            let alertController = UIAlertController(title: "Error",
-                                                    message: error.localizedDescription,
-                                                    preferredStyle: .alert)
-            
-            let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-            alertController.addAction(okAction)
-            
-            self.present(alertController, animated: true, completion: nil)
-        }
+        print("ERROR:")
+        print(error.localizedDescription)
     }
     
     @objc func runTimedCode() {
+        self.time += 1
         let db = Database.database().reference()
         let playlistNode = db.child("playlists").child(playlist.code!)
-        print("updating timer")
-        playlistNode.updateChildValues(["song" : 0, "time": 0, "isPlaying" : true])
+        isPlaying()
+        playlistNode.updateChildValues(["song" : self.currentIndex, "time": self.time, "isPlaying" : true])
+    }
+    
+    func isPlaying() {
+        AF.request("https://api.spotify.com/v1/me/player", headers: self.parameters).responseData {
+            response in
+            do {
+                var readableJSON = try JSONSerialization.jsonObject(with: response.data!, options: .mutableContainers) as! JSONStandard
+                print(readableJSON)
+                if let result = readableJSON["is_playing"] {
+                    if (result as! Bool) == false {
+                        print("found false")
+                        self.currentIndex += 1
+                        self.findSong()
+                    }
+                }
+            }catch{
+                print(error)
+            }
+            
+        }
     }
     
 }
