@@ -65,6 +65,7 @@ extension ProfileViewController {
         customSC.selectedSegmentIndex = 0
         customSC.layer.cornerRadius = 5;
         customSC.tintColor = UIColor(hexString: "7383C5")
+        customSC.addTarget(self, action: #selector(indexChanged(_:)), for: .valueChanged)
         view.addSubview(customSC)
     }
     
