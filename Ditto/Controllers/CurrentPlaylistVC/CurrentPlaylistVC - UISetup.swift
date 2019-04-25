@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import Firebase
+import FirebaseAuth
 
 extension CurrentPlaylistViewController {
     
@@ -136,7 +137,7 @@ extension CurrentPlaylistViewController {
     }
     
     func setUpSong() {
-        let nowPlayingLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width * 2/3, height: view.frame.height/25))
+        nowPlayingLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width * 2/3, height: view.frame.height/25))
         nowPlayingLabel.center = CGPoint(x: view.frame.width/2, y: songImage.frame.maxY + view.frame.height/9.5)
         nowPlayingLabel.textAlignment = .center
         nowPlayingLabel.textColor = .white
