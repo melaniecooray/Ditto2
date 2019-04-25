@@ -146,6 +146,8 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
     
     
     func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
+        connectButton.backgroundColor = .gray
+        connectButton.setTitle("Loading...", for: .normal)
         self.audioStreaming = audioStreaming
         audioStreaming.playSpotifyURI("spotify:track:3skn2lauGk7Dx6bVIt5DVj", startingWith: 0, startingWithPosition: 0, callback: { (error) in
             if error != nil {

@@ -38,6 +38,8 @@ class ProfileViewController: UIViewController {
     //var playlistLastPlayed : [String] = ["last played: 6h", "last played: 17h", "last played: 17h", "last played: 2d", "last played: 8d", "last played: 9d"]
     var onames : [String] = []
     var mnames : [String] = []
+    var ocodes : [String] = []
+    var mcodes : [String] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +48,12 @@ class ProfileViewController: UIViewController {
         setUpImagePicker()
         
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        getUserInformation()
+        self.tableView.reloadData()
+    }
+    
     func getUserInformation() {
         let currentID = UserDefaults.standard.value(forKey: "id")!
         print(currentID)
@@ -61,9 +69,12 @@ class ProfileViewController: UIViewController {
                 if let names = value?["owned playlist names"] as? [String] {
                     self.playlistTitleList = names
                     self.onames = names
+                    self.ocodes = value?["owned playlist codes"] as! [String]
+                    self.playlistLastPlayed = self.ocodes
                 }
                 if let mnames = value?["member playlist names"] as? [String] {
                     self.mnames = mnames
+                    self.mcodes = value?["member playlist codes"] as! [String]
                 }
                 print("fullnameretrieved")
                 print(retrievedName)
@@ -118,9 +129,11 @@ class ProfileViewController: UIViewController {
         switch customSC.selectedSegmentIndex {
         case 0 :
             playlistTitleList = onames
+            playlistLastPlayed = ocodes
             self.tableView.reloadData()
         case 1:
             playlistTitleList = mnames
+            playlistLastPlayed = mcodes
             self.tableView.reloadData()
         default: break
         }

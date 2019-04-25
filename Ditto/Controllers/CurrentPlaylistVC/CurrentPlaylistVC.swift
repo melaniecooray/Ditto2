@@ -68,6 +68,10 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             isPlayingSong = false
         }
         initUI()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        first = true
         if self.owner {
             findSong()
             playSong()
@@ -94,7 +98,9 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     
     override func viewWillDisappear(_ animated: Bool) {
         self.player?.logout()
-        self.timer.invalidate()
+        if timer != nil {
+            self.timer.invalidate()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -109,10 +115,11 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             let songs = dict["songs"] as! [String]
             self.songList = songs
             self.currentSong = songs[self.currentIndex]
-            let time = dict["time"] as! Int
-            self.time = time
-            let doubleTime = Double(time)
-            self.mstime = doubleTime * 1000
+            if let time = dict["time"] as? Int {
+                self.time = time
+                let doubleTime = Double(time)
+                self.mstime = doubleTime * 1000
+            }
             if self.first {
                 self.playSong()
             } else {

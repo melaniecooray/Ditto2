@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -41,6 +42,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource, U
         cell.playlistLastPlayed.font = UIFont(name: "Roboto-Regular", size: 12)
         cell.playlistLastPlayed.textColor = UIColor(hexString: "7383C5")
         cell.playlistLastPlayed.text = playlistCodeList[playlist!]
+        cell.playButton.addTarget(self, action: #selector(playCode), for: .touchUpInside)
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor.white
         cell.selectedBackgroundView = backgroundView
@@ -59,6 +61,28 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource, U
             filteredArray = playlistTitleList.filter({$0.range(of: mainSearchBar.text!, options: .caseInsensitive) != nil})
             tableView.reloadData()
         }
+    }
+    
+    @objc func playCode() {
+        self.tabBarController?.selectedIndex = 1
+        let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
+        let resultVC = CurrentPlaylistViewController()
+        resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
+        
+        let db = Database.database().reference()
+        let playlistNode = db.child("playlists")
+        
+        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observeSingleEvent(of: .value, with: { (snapshot) in
+            let dict = snapshot.value as! [String : Any]
+            let playlistID = dict["uri"] as! String
+            let name = dict["name"] as! String
+            let selectedSongs : [Song] = []
+            let owner = dict["owner"] as! String
+            resultVC.playlist = Playlist(id: playlistID, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs, "owner" : owner])
+            resultVC.songs = selectedSongs
+            navController.pushViewController(resultVC, animated: true)
+            
+        })
     }
     
 }

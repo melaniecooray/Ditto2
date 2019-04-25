@@ -40,6 +40,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
     var playlists : [String] = []
     var songuris : [String] = []
     var names : [String] = []
+    var new = true
     
     var searchURL = String()
     //var createPlaylistURL = "https://api.spotify.com/v1/playlists"
@@ -52,6 +53,9 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         
         self.navigationController?.isNavigationBarHidden = false
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(pickedSongs))
+        if (UserDefaults.standard.value(forKey: "playlistStatus") as! String == "update") {
+            new = false
+        }
         setUpBackground()
         setUpSearchBar()
         setUpTable()
@@ -155,16 +159,19 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
         let userNode = db.child("users")
-        userNode.child(UserDefaults.standard.value(forKey: "id") as! String).observeSingleEvent(of: .value, with: {
-            snapshot in
-            let dict = snapshot.value as! [String : Any]
-            if let lists = dict["owned playlist codes"] as? [String] {
-                self.playlists = lists
-            }
-            if let names = dict["owned playlist names"] as? [String] {
-                self.names = names
-            }
-        })
+        
+        if new {
+            userNode.child(UserDefaults.standard.value(forKey: "id") as! String).observeSingleEvent(of: .value, with: {
+                snapshot in
+                let dict = snapshot.value as! [String : Any]
+                if let lists = dict["owned playlist codes"] as? [String] {
+                    self.playlists = lists
+                }
+                if let names = dict["owned playlist names"] as? [String] {
+                    self.names = names
+                }
+            })
+        }
         
         AF.request(getUserURL, headers: parameters).responseJSON(completionHandler: {
             response in
@@ -176,45 +183,61 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                     UserDefaults.standard.set(user_id, forKey: "user_id")
                     self.userID = user_id as? String
                     print(UserDefaults.standard.value(forKey: "id")!)
-                    playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": self.songuris, "members" : [UserDefaults.standard.value(forKey: "id")], "owner" : UserDefaults.standard.value(forKey: "id")])
-                    self.playlists.append(UserDefaults.standard.value(forKey: "code") as! String)
-                    self.names.append(self.name)
-                    userNode.child(UserDefaults.standard.value(forKey: "id") as! String).updateChildValues(["owned playlist codes" : self.playlists, "owned playlist names" : self.names])
-                    let createPlaylistURL = "https://api.spotify.com/v1/users/\(user_id)/playlists"
-                    print(self.userID)
-                    AF.request(createPlaylistURL, method: .post, parameters: ["name" : self.name, "description" : "", "public" : true],encoding: JSONEncoding.default, headers: self.parameters).responseData {
-                        response in
-                        do {
-                            var readableJSON = try JSONSerialization.jsonObject(with: response.data!, options: .mutableContainers) as! JSONStandard
-                            print(readableJSON)
-                            if let playlist_id = readableJSON["uri"] {
-                                self.playlistID = playlist_id as? String
-                                playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["uri" : playlist_id])
-                            }
-                        }catch{
-                            print(error)
-                        }
-                        
-                        switch response.result {
-                        case .success:
-                            print(response)
-                            let addTracksURL = "https://api.spotify.com/v1/playlists/\(self.playlistID!)/tracks"
-                            AF.request(addTracksURL, method: .post, parameters: ["uris" : self.songuris],encoding: JSONEncoding.default, headers: self.parameters).responseData {
-                                response in
-                                switch response.result {
-                                case .success:
-                                    print("added songs")
-                                    print(response)
-                                    self.success()
-                                case .failure(let error):
-                                    print(error)
-                                    self.showError(title: "Error:", message: "Unable to add songs to playlist")
+                    if self.new {
+                        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": self.songuris, "members" : [UserDefaults.standard.value(forKey: "id")], "owner" : UserDefaults.standard.value(forKey: "id")])
+                        self.playlists.append(UserDefaults.standard.value(forKey: "code") as! String)
+                        self.names.append(self.name)
+                        userNode.child(UserDefaults.standard.value(forKey: "id") as! String).updateChildValues(["owned playlist codes" : self.playlists, "owned playlist names" : self.names])
+                    
+                        let createPlaylistURL = "https://api.spotify.com/v1/users/\(user_id)/playlists"
+                        print(self.userID)
+                        AF.request(createPlaylistURL, method: .post, parameters: ["name" : self.name, "description" : "", "public" : true],encoding: JSONEncoding.default, headers: self.parameters).responseData {
+                            response in
+                            do {
+                                var readableJSON = try JSONSerialization.jsonObject(with: response.data!, options: .mutableContainers) as! JSONStandard
+                                print(readableJSON)
+                                if let playlist_id = readableJSON["uri"] {
+                                    self.playlistID = playlist_id as? String
+                                    playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["uri" : playlist_id])
                                 }
+                            }catch{
+                                print(error)
                             }
-                        case .failure(let error):
-                            print(error)
-                            self.showError(title: "Error:", message: "Unable to create playlist")
+                            
+                            switch response.result {
+                            case .success:
+                                print(response)
+                                let addTracksURL = "https://api.spotify.com/v1/playlists/\(self.playlistID!)/tracks"
+                                AF.request(addTracksURL, method: .post, parameters: ["uris" : self.songuris],encoding: JSONEncoding.default, headers: self.parameters).responseData {
+                                    response in
+                                    switch response.result {
+                                    case .success:
+                                        print("added songs")
+                                        print(response)
+                                        self.success()
+                                    case .failure(let error):
+                                        print(error)
+                                        self.showError(title: "Error:", message: "Unable to add songs to playlist")
+                                    }
+                                }
+                            case .failure(let error):
+                                print(error)
+                                self.showError(title: "Error:", message: "Unable to create playlist")
+                            }
                         }
+                    } else {
+                        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observeSingleEvent(of: .value, with: { (snapshot) in
+                            let dict = snapshot.value as! [String : Any]
+                            var toAdd : [String] = []
+                            if let currentSongs = dict["songs"] as? [String] {
+                                toAdd = currentSongs
+                            }
+                           toAdd.append(contentsOf: self.songuris)
+                            playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": toAdd])
+                            self.playlistID = dict["uri"] as! String
+                            self.name = dict["name"] as! String
+                            self.success()
+                        })
                     }
                 }
             }catch{

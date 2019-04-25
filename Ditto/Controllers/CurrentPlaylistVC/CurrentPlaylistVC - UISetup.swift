@@ -100,6 +100,10 @@ extension CurrentPlaylistViewController {
     }
     
     @objc func editPressed() {
+        self.isPlayingSong = false
+        first = true
+        self.player?.logout()
+        self.timer.invalidate()
         self.tabBarController?.selectedIndex = 1
         let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
         let resultVC = EditPlaylistViewController()
