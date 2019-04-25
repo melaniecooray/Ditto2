@@ -41,7 +41,7 @@ class PlaylistViewCell: UITableViewCell {
         //playlistLastPlayed.center = CGPoint(x: playlistPhoto.frame.maxX + 18, y: size.height * 2/3)
         playlistLastPlayed.font = UIFont(name: "Roboto-Light", size: 15)
         playlistLastPlayed.layer.masksToBounds = true
-        playlistLastPlayed.text = "last played: 17h"
+        //playlistLastPlayed.text = "last played: 17h"
         playlistLastPlayed.layer.cornerRadius = 8
         contentView.addSubview(playlistLastPlayed)
         

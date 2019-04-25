@@ -17,6 +17,7 @@ class PlaylistsViewController: UIViewController {
     var recentlyPlayedLabel: UILabel!
     
     var playlistTitleList : [String] = []
+    var playlistCodeList : [String : String] = [:]
     var playlistLastPlayed : [String] = ["last played: 6h", "last played: 17h", "last played: 17h", "last played: 2d", "last played: 8d", "last played: 9d"]
     var filteredArray : [String] = []
     
@@ -74,7 +75,22 @@ class PlaylistsViewController: UIViewController {
                 let value = snapshot.value as? NSDictionary
                 let retrievedName = value?["Name"] as? String
                 if let names = value?["owned playlist names"] as? [String] {
-                    self.playlistTitleList = names
+                    self.playlistTitleList.append(contentsOf: names)
+                }
+                if let mnames = value?["member playlist names"] as? [String] {
+                    self.playlistTitleList.append(contentsOf: mnames)
+                }
+                if let ocodes = value?["owned playlist codes"] as? [String] {
+                    var index = 0
+                    for code in ocodes {
+                        self.playlistCodeList.updateValue(code, forKey: self.playlistTitleList[index])
+                    }
+                }
+                if let mcodes = value?["member playlist codes"] as? [String] {
+                    var index = 0
+                    for code in mcodes {
+                        self.playlistCodeList.updateValue(code, forKey: self.playlistTitleList[index])
+                    }
                 }
                 print("fullnameretrieved")
                 print(retrievedName)
