@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseDatabase
 
 class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
     
@@ -50,6 +50,7 @@ class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
         let playlistID = makeCode()
         playlistNode.child(playlistID).setValue(["name": newPlaylistTextField.text!, "code": playlistID, "members": UserDefaults.standard.value(forKey: "name")])
         UserDefaults.standard.set(playlistID, forKey: "code")
+        UserDefaults.standard.set("new", forKey: "playlistStatus")
         performSegue(withIdentifier: "toCreatePlaylist", sender: self)
     }
     

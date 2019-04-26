@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseAuth
 import Firebase
 
 class ProfileViewController: UIViewController {
@@ -37,6 +38,10 @@ class ProfileViewController: UIViewController {
     //var playlistTitleList : [String] = ["bucket list: songs we must listen to", "vibe station", "spring 2019 jams", "econ100a ~lit~ study group", "triple bffl favorites"]
     var playlistLastPlayed : [String] = ["last played: 6h"]
     //var playlistLastPlayed : [String] = ["last played: 6h", "last played: 17h", "last played: 17h", "last played: 2d", "last played: 8d", "last played: 9d"]
+    var onames : [String] = []
+    var mnames : [String] = []
+    var ocodes : [String] = []
+    var mcodes : [String] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +50,12 @@ class ProfileViewController: UIViewController {
         setUpImagePicker()
         
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        getUserInformation()
+        self.tableView.reloadData()
+    }
+    
     func getUserInformation() {
         print(currentID)
         print("just tried to print current id")
@@ -58,6 +69,13 @@ class ProfileViewController: UIViewController {
                 let retrievedName = value?["Name"] as? String
                 if let names = value?["owned playlist names"] as? [String] {
                     self.playlistTitleList = names
+                    self.onames = names
+                    self.ocodes = value?["owned playlist codes"] as! [String]
+                    self.playlistLastPlayed = self.ocodes
+                }
+                if let mnames = value?["member playlist names"] as? [String] {
+                    self.mnames = mnames
+                    self.mcodes = value?["member playlist codes"] as! [String]
                 }
                 print("fullnameretrieved")
                 print(retrievedName)
@@ -106,5 +124,19 @@ class ProfileViewController: UIViewController {
             self.present(alertController, animated: true, completion: nil)
         }
         performSegue(withIdentifier: "signOut", sender: nil)
+    }
+    
+    @objc func indexChanged(_ sender: Any) {
+        switch customSC.selectedSegmentIndex {
+        case 0 :
+            playlistTitleList = onames
+            playlistLastPlayed = ocodes
+            self.tableView.reloadData()
+        case 1:
+            playlistTitleList = mnames
+            playlistLastPlayed = mcodes
+            self.tableView.reloadData()
+        default: break
+        }
     }
 }

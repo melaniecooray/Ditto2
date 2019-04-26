@@ -41,14 +41,14 @@ class PlaylistViewCell: UITableViewCell {
         //playlistLastPlayed.center = CGPoint(x: playlistPhoto.frame.maxX + 18, y: size.height * 2/3)
         playlistLastPlayed.font = UIFont(name: "Roboto-Light", size: 15)
         playlistLastPlayed.layer.masksToBounds = true
-        playlistLastPlayed.text = "last played: 17h"
+        //playlistLastPlayed.text = "last played: 17h"
         playlistLastPlayed.layer.cornerRadius = 8
         contentView.addSubview(playlistLastPlayed)
         
         playButton = UIButton(frame: CGRect(x: size.width - size.width/4, y: size.height * 0.60, width: size.width/6.5, height: size.width/13.5))
         let image = UIImage(named: "playbutton")
         playButton.setImage(image, for: .normal)
-        contentView.addSubview(playButton)
+        //contentView.addSubview(playButton)
         
     }
     

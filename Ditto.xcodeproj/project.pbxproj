@@ -318,7 +318,6 @@
 		7B5AFEC8223DD0A300B6168B /* Ditto */ = {
 			isa = PBXGroup;
 			children = (
-				EFD5CB63226BAF3A0018982E /* EditPlaylistVC */,
 				7B5AFF0A2243519900B6168B /* AppDelegates */,
 				421D8FED22529306000E5F28 /* Models */,
 				421D8FEE2252930F000E5F28 /* Views */,
@@ -347,6 +346,7 @@
 		7B5AFEEB223DE43F00B6168B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				EFD5CB63226BAF3A0018982E /* EditPlaylistVC */,
 				42F76C662265ADB500DD83C5 /* CurrentOptionsVC */,
 				EF11BBF8226005FA0064B4C6 /* CreatePlaylist */,
 				423C25DE22594E0E00703008 /* PreviewPlaylistVC */,
@@ -479,7 +479,8 @@
 				EFD5CB66226BAF950018982E /* EditPlaylistViewController - UI.swift */,
 				EFD5CB68226BAFC50018982E /* EditPlaylistViewController - Table.swift */,
 			);
-			path = EditPlaylistVC;
+			name = EditPlaylistVC;
+			path = ../EditPlaylistVC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

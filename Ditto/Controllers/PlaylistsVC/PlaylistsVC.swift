@@ -8,6 +8,8 @@
 
 import UIKit
 import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class PlaylistsViewController: UIViewController {
     
@@ -17,6 +19,7 @@ class PlaylistsViewController: UIViewController {
     var recentlyPlayedLabel: UILabel!
     
     var playlistTitleList : [String] = []
+    var playlistCodeList : [String : String] = [:]
     var playlistLastPlayed : [String] = ["last played: 6h", "last played: 17h", "last played: 17h", "last played: 2d", "last played: 8d", "last played: 9d"]
     var filteredArray : [String] = []
     
@@ -48,6 +51,12 @@ class PlaylistsViewController: UIViewController {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        getUserInformation()
+        self.tableView.reloadData()
+        addTapDismiss()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
     }
@@ -76,6 +85,25 @@ class PlaylistsViewController: UIViewController {
                 if let names = value?["owned playlist names"] as? [String] {
                     self.playlistTitleList = names
                 }
+                print(value?["member playlist names"] as? [String])
+                if let mnames = value?["member playlist names"] as? [String] {
+                    //print(value?["member playlist names"] as? [String])
+                    self.playlistTitleList.append(contentsOf: mnames)
+                }
+                var index = 0
+                if let ocodes = value?["owned playlist codes"] as? [String] {
+                    for code in ocodes {
+                        self.playlistCodeList.updateValue(code, forKey: self.playlistTitleList[index])
+                        index += 1
+                    }
+                }
+                if let mcodes = value?["member playlist codes"] as? [String] {
+                    for code in mcodes {
+                        self.playlistCodeList.updateValue(code, forKey: self.playlistTitleList[index])
+                        index += 1
+                    }
+                }
+                print(self.playlistCodeList)
                 print("fullnameretrieved")
                 print(retrievedName)
                 self.tableView.reloadData()

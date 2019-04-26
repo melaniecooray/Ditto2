@@ -24,10 +24,10 @@ class EditSongCell: UITableViewCell {
     }
     
     func initCellFrom(size: CGSize) {
-        songPhoto = UIImageView(frame: CGRect(x: 0, y: 0, width: size.width/2, height: size.height/2))
+        songPhoto = UIImageView(frame: CGRect(x: 0, y: 0, width: size.width/30, height: size.height/2))
         songPhoto.center = CGPoint(x: size.width/6, y: size.height/2)
         songPhoto.contentMode = .scaleAspectFit
-        songPhoto.image = UIImage(named: "blacksquare")
+        songPhoto.image = UIImage()
         contentView.addSubview(songPhoto)
         
         songName = UILabel(frame: CGRect(x: songPhoto.frame.maxX * 3/4.5, y: songPhoto.frame.minY * 0.70, width: size.width, height: size.height/2))
@@ -45,7 +45,7 @@ class EditSongCell: UITableViewCell {
         songArtist.layer.cornerRadius = 8
         contentView.addSubview(songArtist)
         
-        swipeButton = UIButton(frame: CGRect(x: size.width - size.width/4, y: 0, width: size.width/8.5, height: size.width/13.5))
+        swipeButton = UIButton(frame: CGRect(x: size.width - size.width/4, y: 0, width: size.width/9, height: size.width/13.5))
         swipeButton.center = CGPoint(x: size.width - size.width/8, y: size.height/2)
         let image = UIImage(named: "swipeleft")
         swipeButton.setImage(image, for: .normal)
