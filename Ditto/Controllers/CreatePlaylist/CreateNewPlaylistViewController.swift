@@ -34,6 +34,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
     var playlistID: String!
     var posts = [post]()
     var temp: [Song] = []
+    var previousSongs : [Song] = []
     var selectedSongs: [Song] = []
     var imageList: [UIImage] = []
     var uris : [String] = []
@@ -230,9 +231,11 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                             let dict = snapshot.value as! [String : Any]
                             var toAdd : [String] = []
                             if let currentSongs = dict["songs"] as? [String] {
+                                print(currentSongs)
                                 toAdd = currentSongs
                             }
                            toAdd.append(contentsOf: self.songuris)
+                            print(toAdd)
                             playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": toAdd])
                             self.playlistID = dict["uri"] as! String
                             self.name = dict["name"] as! String
@@ -260,14 +263,18 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
         
-        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": self.songuris])
+        if new {
+            playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": self.songuris])
+        }
         //performSegue(withIdentifier: "createdPlaylist", sender: self)
         self.tabBarController?.selectedIndex = 1
         let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
         let resultVC = CurrentPlaylistViewController()
         resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
         resultVC.playlist = Playlist(id: playlistID!, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs, "owner" : UserDefaults.standard.value(forKey: "id")!])
-        resultVC.songs = selectedSongs
+        var toSend = previousSongs
+        toSend.append(contentsOf: selectedSongs)
+        resultVC.songs = toSend
         navController.pushViewController(resultVC, animated: true)
     }
     

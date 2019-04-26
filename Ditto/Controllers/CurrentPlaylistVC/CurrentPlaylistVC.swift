@@ -135,6 +135,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                 self.songImage.image = self.songs[self.currentIndex].image
                 self.backImage.image = self.songs[self.currentIndex].image
                 //self.playlistName.text = self.songs[self.currentIndex].name
+                self.playlistName.text = ""
                 self.artistName.text = self.songs[self.currentIndex].artist
                 self.songName.text = self.songs[self.currentIndex].name
                 self.player?.playSpotifyURI(self.currentSong, startingWith: 0, startingWithPosition: self.mstime, callback: { (error) in
