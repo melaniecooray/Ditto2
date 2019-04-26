@@ -10,7 +10,7 @@ import UIKit
 
 extension PreviewPlaylistViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 14
+        return memberPics.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -29,7 +29,7 @@ extension PreviewPlaylistViewController: UICollectionViewDataSource, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let scrollCell = cell as! ProfileCell
-        scrollCell.profilePic.image = UIImage(named: "profilepicdefault")
+        scrollCell.profilePic.image = memberPics[indexPath.row]
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

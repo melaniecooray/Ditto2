@@ -24,12 +24,14 @@ class PreviewPlaylistViewController: UIViewController, UIScrollViewDelegate {
     var numberLabel: UILabel!
     var liveLabel: UILabel!
     
+    var memberPics: [UIImage] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpBackground()
         setUpLabels()
-        setUpProfiles()
+        getMembers()
         // Do any additional setup after loading the view.
     }
     

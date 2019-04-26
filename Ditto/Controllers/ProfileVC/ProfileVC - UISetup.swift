@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseStorage
 
 extension ProfileViewController {
     
@@ -87,12 +88,28 @@ extension ProfileViewController {
         
         imagePicker = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width/2 - 50, height: view.frame.width/2 - 50))
         imagePicker.center = CGPoint(x: view.frame.width/2, y: 170)
-        imagePicker.setImage(UIImage(named: "profilepicdefault-1"), for: .normal)
-        imagePicker.imageView?.contentMode = .scaleAspectFit
+        imagePicker.imageView?.contentMode = .scaleAspectFill
+        imagePicker.imageView?.setRounded()
         imagePicker.layer.cornerRadius = imagePicker.frame.height/2
         imagePicker.clipsToBounds = true
         imagePicker.layer.masksToBounds = false
         imagePicker.addTarget(self, action: #selector(openImageOptions), for: .touchUpInside)
+        
+        //default
+        imagePicker.setImage(UIImage(named: "profilepicdefault-1"), for: .normal)
+        let imagesRef = Storage.storage().reference().child("images")
+        let image = imagesRef.child(currentID)
+        
+        //profile pic
+        image.getData(maxSize: 30 * 1024 * 1024) { data, error in
+            if let error = error {
+                self.imagePicker.setImage(UIImage(named: "profilepicdefault-1"), for: .normal)
+            } else {
+                self.imagePicker.setImage(UIImage(data: data!), for: .normal)
+            }
+        }
+        imagePicker.imageView?.setRounded()
+        
         view.addSubview(imagePicker)
         
         imageView = UIImageView(frame: CGRect(x: view.frame.width * 0.52, y: imagePicker.frame.maxY - view.frame.height/20, width: view.frame.width/8, height: view.frame.width/8))

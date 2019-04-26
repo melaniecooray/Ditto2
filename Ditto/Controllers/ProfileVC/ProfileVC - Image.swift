@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import FirebaseStorage
 
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     //image stuff
@@ -56,7 +57,20 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         chosenImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         imagePicker.setImage(chosenImage, for: .normal)
         imageView.removeFromSuperview()
-        dismiss(animated:true, completion: nil)
+        
+        let imageRef = Storage.storage().reference().child("images").child(currentID)
+        let data = chosenImage!.pngData()!
+        imageRef.putData(data, metadata: nil) { (metadata, error) in
+            if metadata == nil {
+                return
+            }
+            imageRef.downloadURL { (url, error) in
+                if url == nil {
+                    return
+                }
+                self.dismiss(animated:true, completion: nil)
+            }
+        }
     }
 }
 

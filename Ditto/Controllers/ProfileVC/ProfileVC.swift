@@ -29,6 +29,8 @@ class ProfileViewController: UIViewController {
     
     var chosenImage: UIImage!
     
+    let currentID = UserDefaults.standard.value(forKey: "id")! as! String
+    
     //var playlists: [String] = ["vibe station", "spring 2019 jams", "bucket list: songs we must listen to", "econ 100a ~lit~ study group"]
     //var played: [String] = ["17h", "2d", "6h", "8d"]
     var playlistTitleList : [String] = []
@@ -44,13 +46,12 @@ class ProfileViewController: UIViewController {
         
     }
     func getUserInformation() {
-        let currentID = UserDefaults.standard.value(forKey: "id")!
         print(currentID)
         print("just tried to print current id")
         let db = Database.database().reference()
         let userNode = db.child("users")
         
-        userNode.child(currentID as! String).observeSingleEvent(of: .value, with: { (snapshot) in
+        userNode.child(currentID).observeSingleEvent(of: .value, with: { (snapshot) in
             if snapshot.exists() {
                 
                 let value = snapshot.value as? NSDictionary
@@ -63,7 +64,7 @@ class ProfileViewController: UIViewController {
                 self.tableView.reloadData()
                 self.nameLabel.text = retrievedName
             } else {
-                print(currentID)
+                print(self.currentID)
                 print(snapshot)
                 print("why is going here")
             }

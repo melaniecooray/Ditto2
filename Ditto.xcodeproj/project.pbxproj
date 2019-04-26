@@ -21,6 +21,7 @@
 		423C25E422594ED000703008 /* EnterCodeVC - UISetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C25E322594ED000703008 /* EnterCodeVC - UISetup.swift */; };
 		423C25E622594EE700703008 /* PreviewPlaylistVC - UISetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C25E522594EE700703008 /* PreviewPlaylistVC - UISetup.swift */; };
 		423C25E822595E5100703008 /* NavBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C25E722595E5100703008 /* NavBarController.swift */; };
+		427E78192271736000628448 /* PreviewPlaylistVC - Firebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427E78182271736000628448 /* PreviewPlaylistVC - Firebase.swift */; };
 		42858E752265B08200F0344A /* CurrentOptionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42858E742265B08200F0344A /* CurrentOptionsVC.swift */; };
 		42858E772265B09E00F0344A /* CurrentOptionsVC - UISetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42858E762265B09E00F0344A /* CurrentOptionsVC - UISetup.swift */; };
 		42858E792269960400F0344A /* CreatePlaylistVC - Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42858E782269960400F0344A /* CreatePlaylistVC - Table.swift */; };
@@ -104,6 +105,7 @@
 		423C25E322594ED000703008 /* EnterCodeVC - UISetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnterCodeVC - UISetup.swift"; sourceTree = "<group>"; };
 		423C25E522594EE700703008 /* PreviewPlaylistVC - UISetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PreviewPlaylistVC - UISetup.swift"; sourceTree = "<group>"; };
 		423C25E722595E5100703008 /* NavBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBarController.swift; sourceTree = "<group>"; };
+		427E78182271736000628448 /* PreviewPlaylistVC - Firebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PreviewPlaylistVC - Firebase.swift"; sourceTree = "<group>"; };
 		42858E742265B08200F0344A /* CurrentOptionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentOptionsVC.swift; sourceTree = "<group>"; };
 		42858E762265B09E00F0344A /* CurrentOptionsVC - UISetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrentOptionsVC - UISetup.swift"; sourceTree = "<group>"; };
 		42858E782269960400F0344A /* CreatePlaylistVC - Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CreatePlaylistVC - Table.swift"; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 				7B77C0652261645A00674712 /* PreviewPlaylistVC.swift */,
 				423C25E522594EE700703008 /* PreviewPlaylistVC - UISetup.swift */,
 				42F9BE8822608D46004F744C /* PreviewPlaylistVC - Collection.swift */,
+				427E78182271736000628448 /* PreviewPlaylistVC - Firebase.swift */,
 			);
 			path = PreviewPlaylistVC;
 			sourceTree = "<group>";
@@ -716,6 +719,7 @@
 				423C25E822595E5100703008 /* NavBarController.swift in Sources */,
 				7B5AFEFE223DE56100B6168B /* LoginVC.swift in Sources */,
 				42858E7D22699A0B00F0344A /* SongCell.swift in Sources */,
+				427E78192271736000628448 /* PreviewPlaylistVC - Firebase.swift in Sources */,
 				7B77C0472259607000674712 /* ProfileVC - UISetup.swift in Sources */,
 				423C25C92252E29300703008 /* HexString.swift in Sources */,
 				423C25CD22545A9A00703008 /* Cell.swift in Sources */,
