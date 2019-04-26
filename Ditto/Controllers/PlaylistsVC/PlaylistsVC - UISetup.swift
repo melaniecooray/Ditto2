@@ -73,6 +73,14 @@ extension PlaylistsViewController {
         view.addSubview(mainSearchBar)
     }
     
+    func setupEmptyLabel() {
+        emptyLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        emptyLabel.center = CGPoint(x: view.frame.width/2, y: view.frame.height/2)
+        emptyLabel.text = "No joined playlists"
+        emptyLabel.font = UIFont(name: "Roboto-Bold", size: 20)
+        view.addSubview(emptyLabel)
+    }
+    
     
     
 }

@@ -55,6 +55,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     
     var songs : [Song] = []
     var songList : [String] = []
+    var currentLength : Int!
     
     var mstime = 0.0
     
@@ -138,6 +139,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                 self.playlistName.text = ""
                 self.artistName.text = self.songs[self.currentIndex].artist
                 self.songName.text = self.songs[self.currentIndex].name
+                self.currentLength = self.songs[self.currentIndex].length
                 self.player?.playSpotifyURI(self.currentSong, startingWith: 0, startingWithPosition: self.mstime, callback: { (error) in
                     if error != nil {
                         print("*** failed to play: \(String(describing: error))")
@@ -253,7 +255,21 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     }
     
     @objc func runTimedCode() {
+        self.currentLength = self.songs[self.currentIndex].length
         self.time += 1
+        if self.time > self.currentLength {
+            self.time = 0
+            self.currentIndex += 1
+            player?.skipNext({ (error) in
+                if error != nil {
+                    print("error going to next song")
+                    return
+                } else {
+                    print("went to the next song")
+                    self.findSong()
+                }
+            })
+        }
         let db = Database.database().reference()
         let playlistNode = db.child("playlists").child(playlist.code!)
         //isPlaying()

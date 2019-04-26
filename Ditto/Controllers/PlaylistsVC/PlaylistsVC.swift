@@ -32,7 +32,7 @@ class PlaylistsViewController: UIViewController {
     var isSearching = false
     
     var addButton: UIButton!
-    
+    var emptyLabel : UILabel!
 
 
     override func viewDidLoad() {
@@ -106,7 +106,12 @@ class PlaylistsViewController: UIViewController {
                 print(self.playlistCodeList)
                 print("fullnameretrieved")
                 print(retrievedName)
-                self.tableView.reloadData()
+                if self.playlistCodeList.isEmpty {
+                    self.recentlyPlayedLabel.text = "No joined playlists"
+                } else {
+                    self.tableView.reloadData()
+                }
+                //self.tableView.reloadData()
                 //self.nameLabel.text = retrievedName
             } else {
                 print(currentID)

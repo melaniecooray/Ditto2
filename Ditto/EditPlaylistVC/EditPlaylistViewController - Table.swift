@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 extension EditPlaylistViewController: UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -66,11 +67,21 @@ extension EditPlaylistViewController: UITableViewDelegate, UITableViewDataSource
             if self.isSearching {
                 let cell = tableView.cellForRow(at: indexPath) as? EditSongCell
                 let text = cell?.songName.text
+                let artist = cell?.songArtist.text
                 
                 self.filteredArray.remove(at: indexPath.row)
 
                 
                 self.songTitleList = self.songTitleList.filter {$0 != text}
+                self.songArtistList = self.songArtistList.filter {$0 != artist}
+                var ind = 0
+                for song in self.songs {
+                    if song.name == text {
+                        self.songs.remove(at: ind)
+                        break
+                    }
+                    ind += 1
+                }
                 
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 print(text)
@@ -80,8 +91,18 @@ extension EditPlaylistViewController: UITableViewDelegate, UITableViewDataSource
             } else {
                 tableView.reloadData()
                 self.songTitleList.remove(at: indexPath.row)
+                self.songArtistList.remove(at: indexPath.row)
+                self.songs.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 print(self.songTitleList)
+                
+                let db = Database.database().reference()
+                let playlistNode = db.child("playlists")
+                var songuris : [String] = []
+                for song in self.songs {
+                    songuris.append(song.id)
+                }
+                playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs" : songuris])
             }
         }
         

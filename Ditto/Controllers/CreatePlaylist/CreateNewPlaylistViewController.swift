@@ -15,6 +15,7 @@ struct post {
     let mainImage : UIImage!
     let name : String!
     let artist: String!
+    let length: Int!
     var checked: Bool!
 }
 
@@ -28,6 +29,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
     }()
     var backgroundImage: UIImageView!
     var tableView: UITableView!
+    var loadingLabel : UILabel!
     
     var name : String!
     var userID: String!
@@ -100,6 +102,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
     }
     
     func parseData(JSONData : Data) {
+        setupLoadingLabel()
         do {
             var readableJSON = try JSONSerialization.jsonObject(with: JSONData, options: .mutableContainers) as! JSONStandard
             
@@ -113,6 +116,9 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                         let name = item["name"] as! String
                         let uri = item["uri"] as! String
                         let artists = item["artists"] as! [JSONStandard]
+                        var length = item["duration_ms"] as! Int
+                        length = length / 1000
+                        //print(length)
                         var artistString = ""
                         
                         for artist in artists {
@@ -121,7 +127,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                         }
                         
                         artistString = String(artistString.dropLast(2))
-                        print(artistString)
+                        //print(artistString)
                         
                         if let album = item["album"] as? JSONStandard {
                             if let images = album["images"] as? [JSONStandard] {
@@ -132,9 +138,10 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                                 let mainImage = UIImage(data: mainImageData as! Data)
                                 
                                 //posts.append(Song(id: uri, song: ["name" : name, "artist" : artistString, "image" : mainImage]))
-                                posts.append(post.init(mainImage: mainImage, name: name, artist: artistString, checked: false))
+                                posts.append(post.init(mainImage: mainImage, name: name, artist: artistString, length: length, checked: false))
                                 uris.append(uri)
-                                print("adding to table")
+                                //print("adding to table")
+                                self.loadingLabel.removeFromSuperview()
                                 self.tableView.reloadData()
                                 resetAccessoryType()
                             }
@@ -142,7 +149,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                     }
                 }
             }
-            print(readableJSON)
+            //print(readableJSON)
         }catch{
             print(error)
         }
@@ -196,7 +203,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                             response in
                             do {
                                 var readableJSON = try JSONSerialization.jsonObject(with: response.data!, options: .mutableContainers) as! JSONStandard
-                                print(readableJSON)
+                                //print(readableJSON)
                                 if let playlist_id = readableJSON["uri"] {
                                     self.playlistID = playlist_id as? String
                                     playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["uri" : playlist_id])
@@ -207,14 +214,14 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                             
                             switch response.result {
                             case .success:
-                                print(response)
+                                //print(response)
                                 let addTracksURL = "https://api.spotify.com/v1/playlists/\(self.playlistID!)/tracks"
                                 AF.request(addTracksURL, method: .post, parameters: ["uris" : self.songuris],encoding: JSONEncoding.default, headers: self.parameters).responseData {
                                     response in
                                     switch response.result {
                                     case .success:
                                         print("added songs")
-                                        print(response)
+                                        //print(response)
                                         self.success()
                                     case .failure(let error):
                                         print(error)
