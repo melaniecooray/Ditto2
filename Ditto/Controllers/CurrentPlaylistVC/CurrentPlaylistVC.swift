@@ -68,6 +68,13 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             owner = false
             isPlayingSong = false
         }
+        let db = Database.database().reference()
+        let playlistNode = db.child("playlists")
+        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observeSingleEvent(of: .value, with: { (snapshot) in
+            let dict = snapshot.value as! [String : Any]
+            var lengths = dict["lengths"] as! [Int]
+            self.currentLength = lengths[self.currentIndex]
+        })
         initUI()
     }
     

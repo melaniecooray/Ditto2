@@ -23,6 +23,7 @@
                     <connections>
                         <segue destination="p8A-R9-1BG" kind="show" identifier="toSignUp" id="FPd-zu-OTQ"/>
                         <segue destination="UIE-NL-Uri" kind="show" identifier="loggedIn" id="kMD-M7-tv2"/>
+                        <segue destination="57K-8U-Swn" kind="show" identifier="joinedCode" id="QKN-Uv-Wzt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0st-HB-aR1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -288,7 +289,8 @@
         <image name="profile" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bXb-Os-G2J"/>
+        <segue reference="kMD-M7-tv2"/>
+        <segue reference="QKN-Uv-Wzt"/>
         <segue reference="ebl-aY-Xac"/>
     </inferredMetricsTieBreakers>
 </document>
