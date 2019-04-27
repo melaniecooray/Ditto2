@@ -34,6 +34,7 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
     var songArtistList : [String]! = []
 //        = ["Artist Name1", "Artist Name2", "Artist Name3", "Artist Name4", "Artist Name5", "Artist Name6"]
     var filteredArray : [String] = []
+    var lengths : [Int] = []
     
     lazy var mainSearchBar: UISearchBar = {
         let bar = UISearchBar()
@@ -88,7 +89,7 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
         let resultVC = CreateNewPlaylistTableViewController()
         //        resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
         //        resultVC.playlist = Playlist(id: playlistID!, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs])
-        //resultVC.previousSongs = songs
+        resultVC.previousSongs = songs
         UserDefaults.standard.set("update", forKey: "playlistStatus")
         navController.pushViewController(resultVC, animated: true)
     }
@@ -101,6 +102,7 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
             let dict = snapshot.value as! [String : Any]
             let songs = dict["songs"] as! [String]
             self.songList = songs
+            self.lengths = dict["lengths"] as! [Int]
             
             for song in self.songs {
                 self.songTitleList.append(song.name)

@@ -240,13 +240,18 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                         playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observeSingleEvent(of: .value, with: { (snapshot) in
                             let dict = snapshot.value as! [String : Any]
                             var toAdd : [String] = []
+                            var addLengths : [Int] = []
                             if let currentSongs = dict["songs"] as? [String] {
                                 print(currentSongs)
                                 toAdd = currentSongs
                             }
-                           toAdd.append(contentsOf: self.songuris)
+                            if let currentLengths = dict["lengths"] as? [Int] {
+                                addLengths = currentLengths
+                            }
+                            toAdd.append(contentsOf: self.songuris)
+                            addLengths.append(contentsOf: self.lengths)
                             print(toAdd)
-                            playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": toAdd])
+                            playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": toAdd, "lengths" : addLengths])
                             self.playlistID = dict["uri"] as! String
                             self.name = dict["name"] as! String
                             self.success()
@@ -284,6 +289,8 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         resultVC.playlist = Playlist(id: playlistID!, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs, "owner" : UserDefaults.standard.value(forKey: "id")!])
         var toSend = previousSongs
         toSend.append(contentsOf: selectedSongs)
+        print("songs that are being passed")
+        print(toSend)
         resultVC.songs = toSend
         navController.pushViewController(resultVC, animated: true)
     }
