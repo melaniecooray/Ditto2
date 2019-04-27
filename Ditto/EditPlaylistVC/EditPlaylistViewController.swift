@@ -9,7 +9,7 @@
 import UIKit
 import FirebaseDatabase
 
-class EditPlaylistViewController: UIViewController, UISearchBarDelegate {
+class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavigationControllerDelegate {
     
     var backgroundImage: UIImageView!
     var tableView: UITableView!
@@ -46,18 +46,20 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate {
     var addButton: UIButton!
     
     var player : SPTAudioStreamingController?
-    
+    var pause : Bool!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         getPlaylistSongs()
         setUpBackground()
+        addTapDismiss()
         //setUpSearchBar()
         //setUpTable()
         //setUpLabel()
         //setUpAddButton()
         
+        self.navigationController?.delegate = self
         
         self.mainSearchBar.delegate = self
         self.mainSearchBar.returnKeyType = UIReturnKeyType.done
@@ -68,6 +70,13 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate {
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonClicked))
+    }
+    
+    func addTapDismiss() {
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
+    }
+    @objc func dismissKeyboard() {
+        mainSearchBar.resignFirstResponder()
     }
     
     @objc func addButtonClicked() {
@@ -122,6 +131,10 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate {
             filteredArray = songTitleList.filter({$0.range(of: mainSearchBar.text!, options: .caseInsensitive) != nil})
             tableView.reloadData()
         }
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        (viewController as? CurrentPlaylistViewController)?.pause = self.pause
     }
     
 }

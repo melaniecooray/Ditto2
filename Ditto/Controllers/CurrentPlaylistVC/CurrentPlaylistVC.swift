@@ -61,6 +61,8 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     
     var ownerLabel : UILabel!
     
+    var status = true
+    
     typealias JSONStandard = [String : AnyObject]
     
     override func viewDidLoad() {
@@ -81,12 +83,15 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        if self.timer != nil {
+            self.timer.invalidate()
+        }
         first = true
         var firstPaused = false
         var started = false
         if self.owner {
             findSong()
-            playSong()
+            //playSong()
         } else {
             let db = Database.database().reference()
             let playlistNode = db.child("playlists")
@@ -115,12 +120,12 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                                 } else {
                                     print("paused song")
                                     self.findSong()
-                                    self.playSong()
+                                    //self.playSong()
                                 }
                             })
                         } else {
                             self.findSong()
-                            self.playSong()
+                            //self.playSong()
                         }
                     }
                     firstPaused = true
@@ -165,6 +170,8 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
         playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observeSingleEvent(of: .value, with: { (snapshot) in
             let dict = snapshot.value as! [String : Any]
             let songs = dict["songs"] as! [String]
+            self.currentIndex = dict["song"] as! Int
+            print(self.currentIndex)
             self.songList = songs
             self.currentSong = songs[self.currentIndex]
             print("current song:")
@@ -174,25 +181,43 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                 let doubleTime = Double(time)
                 self.mstime = doubleTime * 1000
             }
+            self.songImage.image = self.songs[self.currentIndex].image
+            self.backImage.image = self.songs[self.currentIndex].image
+            //self.playlistName.text = self.songs[self.currentIndex].name
+            self.playlistName.text = ""
+            self.artistName.text = self.songs[self.currentIndex].artist
+            self.songName.text = self.songs[self.currentIndex].name
+            self.currentLength = self.songs[self.currentIndex].length
             if self.first {
                 self.playSong()
             } else {
                 print(self.currentIndex)
                 print(self.songs[self.currentIndex].name)
-            
-                self.songImage.image = self.songs[self.currentIndex].image
-                self.backImage.image = self.songs[self.currentIndex].image
-                //self.playlistName.text = self.songs[self.currentIndex].name
-                self.playlistName.text = ""
-                self.artistName.text = self.songs[self.currentIndex].artist
-                self.songName.text = self.songs[self.currentIndex].name
-                self.currentLength = self.songs[self.currentIndex].length
-                self.player?.playSpotifyURI(self.currentSong!, startingWith: 0, startingWithPosition: self.mstime, callback: { (error) in
+                
+                self.player?.playSpotifyURI(self.currentSong!, startingWith: 0, startingWithPosition: self.mstime,callback: { (error) in
                     if error != nil {
                         print("*** failed to play: \(String(describing: error))")
                         return
                     }else{
                         print("Playing!!")
+                        if self.pause {
+                            self.player?.setIsPlaying(true, callback: { (error) in
+                                if error != nil {
+                                    print("error playing song")
+                                    return
+                                } else {
+                                    print("playing song")
+                                    self.player?.setIsPlaying(false, callback: { (error) in
+                                        if error != nil {
+                                            print("error pausing song")
+                                            return
+                                        } else {
+                                            print("paused song")
+                                        }
+                                    })
+                                }
+                            })
+                        }
                     }
                 })
             }
@@ -268,6 +293,24 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                 return
             }else{
                 print("Playing!!")
+                if self.pause {
+                    self.player?.setIsPlaying(true, callback: { (error) in
+                        if error != nil {
+                            print("error playing song")
+                            return
+                        } else {
+                            print("playing song")
+                            self.player?.setIsPlaying(false, callback: { (error) in
+                                if error != nil {
+                                    print("error pausing song")
+                                    return
+                                } else {
+                                    print("paused song")
+                                }
+                            })
+                        }
+                    })
+                }
                 let db = Database.database().reference()
                 let playlistNode = db.child("playlists")
                 playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -275,8 +318,10 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                     if let currTime = dict["time"] as? Int {
                         self.time = currTime
                     }
-                    self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector:
+                    if !self.pause {
+                        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector:
                         #selector(self.runTimedCode), userInfo: nil, repeats: true)
+                    }
                 })
             }
         })
