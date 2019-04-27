@@ -83,7 +83,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
         var firstPaused = true
         if self.owner {
             findSong()
-            playSong()
+            //playSong()
         } else {
             let db = Database.database().reference()
             let playlistNode = db.child("playlists")
@@ -101,6 +101,14 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                     self.isPlayingSong = true
                     if (!self.startedPlaying) {
                         self.startedPlaying = true
+                        self.player?.setIsPlaying(true, callback:{ (error) in
+                            if error != nil {
+                                print("error playing song")
+                                return
+                            } else {
+                                print("playing song")
+                            }
+                        })
                         self.findSong()
                         self.playSong()
                     }
@@ -110,14 +118,17 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                         self.timer.invalidate()
                     }
                     self.pause = true
-                    self.player?.setIsPlaying(false, callback: { (error) in
-                        if error != nil {
-                            print("error pausing song")
-                            return
-                        } else {
-                            print("paused song")
-                        }
-                    })
+                    self.startedPlaying = false
+                    if firstPaused {
+                        self.player?.setIsPlaying(false, callback: { (error) in
+                            if error != nil {
+                                print("error pausing song")
+                                return
+                            } else {
+                                print("paused song")
+                            }
+                        })
+                    }
                 }
             })
         }
