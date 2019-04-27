@@ -56,6 +56,6 @@ extension NewPlaylistViewController: UIImagePickerControllerDelegate, UINavigati
         chosenImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         imagePicker.setImage(chosenImage, for: .normal)
         imageView.removeFromSuperview()
-        dismiss(animated:true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 }

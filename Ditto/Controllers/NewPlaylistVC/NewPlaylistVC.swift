@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseStorage
 
 class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
     
@@ -19,6 +20,8 @@ class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
     var chosenImage: UIImage!
     
     var createButton: UIButton!
+    
+    var code: String!
     
 
     override func viewDidLoad() {
@@ -47,11 +50,24 @@ class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
     @objc func createButtonClicked() {
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
-        let playlistID = makeCode()
-        playlistNode.child(playlistID).setValue(["name": newPlaylistTextField.text!, "code": playlistID, "members": UserDefaults.standard.value(forKey: "name")])
-        UserDefaults.standard.set(playlistID, forKey: "code")
+        code = makeCode()
+        playlistNode.child(code).setValue(["name": newPlaylistTextField.text!, "code": code, "members": UserDefaults.standard.value(forKey: "name")])
+        UserDefaults.standard.set(code, forKey: "code")
         UserDefaults.standard.set("new", forKey: "playlistStatus")
-        performSegue(withIdentifier: "toCreatePlaylist", sender: self)
+        
+        let imageRef = Storage.storage().reference().child("images").child(code)
+        let data = chosenImage!.pngData()!
+        imageRef.putData(data, metadata: nil) { (metadata, error) in
+            if metadata == nil {
+                return
+            }
+            imageRef.downloadURL { (url, error) in
+                if url == nil {
+                    return
+                }
+                self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
+            }
+        }
     }
     
     func makeCode() -> String {
@@ -60,6 +76,13 @@ class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
             key += String(Int.random(in: 0...9))
             //key += ((Int.random(in: 0...9) * Int(truncating: NSDecimalNumber(decimal: pow(10, num) - 1))))
         }
+        let db = Database.database().reference()
+        let playlistNode = db.child("playlists")
+        playlistNode.child(key).observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.exists() {
+                key = self.makeCode()
+            }
+        })
         return key
     }
     

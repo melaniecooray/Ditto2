@@ -42,6 +42,8 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource, U
         cell.playlistLastPlayed.font = UIFont(name: "Roboto-Regular", size: 12)
         cell.playlistLastPlayed.textColor = UIColor(hexString: "7383C5")
         cell.playlistLastPlayed.text = playlistCodeList[playlist!]
+        cell.playlistPhoto.image = playlistImageList[playlist!]
+        print(playlistImageList)
         cell.playButton.addTarget(self, action: #selector(playCode), for: .touchUpInside)
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor.white
