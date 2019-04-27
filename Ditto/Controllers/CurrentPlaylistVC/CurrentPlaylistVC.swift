@@ -104,6 +104,18 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                     }
                 } else {
                     print("waiting for song to be played")
+                    if self.timer != nil {
+                        self.timer.invalidate()
+                    }
+                    self.pause = true
+                    self.player?.setIsPlaying(false, callback: { (error) in
+                        if error != nil {
+                            print("error pausing song")
+                            return
+                        } else {
+                            print("paused song")
+                        }
+                    })
                 }
             })
         }

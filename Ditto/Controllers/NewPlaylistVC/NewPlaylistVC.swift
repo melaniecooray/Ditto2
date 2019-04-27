@@ -54,7 +54,8 @@ class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
         playlistNode.child(code).setValue(["name": newPlaylistTextField.text!, "code": code, "members": UserDefaults.standard.value(forKey: "name")])
         UserDefaults.standard.set(code, forKey: "code")
         UserDefaults.standard.set("new", forKey: "playlistStatus")
-        
+        self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
+        /*
         let imageRef = Storage.storage().reference().child("images").child(code)
         let data = chosenImage!.pngData()!
         imageRef.putData(data, metadata: nil) { (metadata, error) in
@@ -68,6 +69,7 @@ class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
                 self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
             }
         }
+ */
     }
     
     func makeCode() -> String {
