@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate {
     
@@ -141,7 +142,14 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
     func audioStreamingDidLogout(_ audioStreaming: SPTAudioStreamingController!) {
         print("after logout")
         //try! self.player?.stop()
-        self.performSegue(withIdentifier: "toLogin", sender: self)
+        Auth.auth().addStateDidChangeListener { auth, user in
+            if let user = user {
+                print("logged in")
+                self.performSegue(withIdentifier: "connectedLogin", sender: self)
+            } else {
+                self.performSegue(withIdentifier: "toLogin", sender: self)
+            }
+        }
     }
     
     

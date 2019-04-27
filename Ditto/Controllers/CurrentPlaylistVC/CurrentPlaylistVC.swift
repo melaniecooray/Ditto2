@@ -260,15 +260,19 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
         if self.time > self.currentLength {
             self.time = 0
             self.currentIndex += 1
-            player?.skipNext({ (error) in
-                if error != nil {
-                    print("error going to next song")
-                    return
-                } else {
-                    print("went to the next song")
-                    self.findSong()
-                }
-            })
+            if self.currentIndex >= songs.count {
+                
+            } else {
+                player?.skipNext({ (error) in
+                    if error != nil {
+                        print("error going to next song")
+                        return
+                    } else {
+                        print("went to the next song")
+                        self.findSong()
+                    }
+                })
+            }
         }
         let db = Database.database().reference()
         let playlistNode = db.child("playlists").child(playlist.code!)
