@@ -20,6 +20,7 @@ extension EditPlaylistViewController {
     }
     
     func setUpAddButton() {
+        print("setting up add button")
         addButton = UIButton(frame: CGRect(x: view.frame.width - view.frame.width / 7, y: view.frame.minY + view.frame.height / 28, width: view.frame.width / 12, height: view.frame.width / 12))
         let image = UIImage(named: "editplus")
         addButton.setImage(image, for: .normal)

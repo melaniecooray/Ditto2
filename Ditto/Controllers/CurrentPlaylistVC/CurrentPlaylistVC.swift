@@ -59,6 +59,8 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     
     var mstime = 0.0
     
+    var ownerLabel : UILabel!
+    
     typealias JSONStandard = [String : AnyObject]
     
     override func viewDidLoad() {
@@ -80,14 +82,19 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     
     override func viewDidAppear(_ animated: Bool) {
         first = true
+        var firstPaused = false
+        var started = false
         if self.owner {
             findSong()
             playSong()
-        } else if isPlayingSong == false{
+        } else {
             let db = Database.database().reference()
             let playlistNode = db.child("playlists")
             playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observe(.value, with: { (snapshot) in
                 let dict = snapshot.value as! [String : Any]
+                self.currentIndex = dict["song"] as! Int
+                print(self.currentIndex)
+                print(self.songs[self.currentIndex])
                 if let currTime = dict["time"] as? Int {
                     print("current time in firebase is")
                     print(self.time)
@@ -96,14 +103,45 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                 let isPlayingValue = dict["isPlaying"] as! Bool
                 if (isPlayingValue) {
                     //print("isPlaying is true")
+                    self.ownerLabel.removeFromSuperview()
                     self.isPlayingSong = true
                     if (!self.startedPlaying) {
                         self.startedPlaying = true
-                        self.findSong()
-                        self.playSong()
+                        if started {
+                            self.player?.setIsPlaying(true, callback: { (error) in
+                                if error != nil {
+                                    print("error pausing song")
+                                    return
+                                } else {
+                                    print("paused song")
+                                    self.findSong()
+                                    self.playSong()
+                                }
+                            })
+                        } else {
+                            self.findSong()
+                            self.playSong()
+                        }
                     }
+                    firstPaused = true
                 } else {
                     print("waiting for song to be played")
+                    self.view.addSubview(self.ownerLabel)
+                    if self.timer != nil {
+                        self.timer.invalidate()
+                    }
+                    self.pause = true
+                    self.startedPlaying = false
+                    if firstPaused {
+                        self.player?.setIsPlaying(false, callback: { (error) in
+                            if error != nil {
+                                print("error pausing song")
+                                return
+                            } else {
+                                print("paused song")
+                            }
+                        })
+                    }
                 }
             })
         }
@@ -129,6 +167,8 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             let songs = dict["songs"] as! [String]
             self.songList = songs
             self.currentSong = songs[self.currentIndex]
+            print("current song:")
+            print(self.currentSong)
             if let time = dict["time"] as? Int {
                 self.time = time
                 let doubleTime = Double(time)
@@ -147,7 +187,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                 self.artistName.text = self.songs[self.currentIndex].artist
                 self.songName.text = self.songs[self.currentIndex].name
                 self.currentLength = self.songs[self.currentIndex].length
-                self.player?.playSpotifyURI(self.currentSong, startingWith: 0, startingWithPosition: self.mstime, callback: { (error) in
+                self.player?.playSpotifyURI(self.currentSong!, startingWith: 0, startingWithPosition: self.mstime, callback: { (error) in
                     if error != nil {
                         print("*** failed to play: \(String(describing: error))")
                         return
@@ -222,7 +262,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
         print("successfully logged in")
         self.player = audioStreaming
-        audioStreaming.playSpotifyURI(self.currentSong, startingWith: 0, startingWithPosition: TimeInterval(self.time), callback: { (error) in
+        audioStreaming.playSpotifyURI(self.currentSong!, startingWith: 0, startingWithPosition: TimeInterval(self.time), callback: { (error) in
             if error != nil {
                 print("*** failed to play: \(String(describing: error))")
                 return
@@ -262,6 +302,8 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     }
     
     @objc func runTimedCode() {
+        //print(self.currentIndex)
+        //print(self.songs[self.currentIndex])
         self.currentLength = self.songs[self.currentIndex].length
         self.time += 1
         let db = Database.database().reference()

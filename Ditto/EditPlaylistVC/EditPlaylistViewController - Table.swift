@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import Firebase
 
-extension EditPlaylistViewController: UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+extension EditPlaylistViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isSearching {
             return filteredArray.count
@@ -24,6 +24,7 @@ extension EditPlaylistViewController: UITableViewDelegate, UITableViewDataSource
         var song: String?
         if isSearching {
             song = filteredArray[indexPath.row]
+            print("istyping")
         } else {
             song = songTitleList[indexPath.row]
         }
@@ -47,20 +48,7 @@ extension EditPlaylistViewController: UITableViewDelegate, UITableViewDataSource
         return cell
     }
     
-    
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if mainSearchBar.text == nil || mainSearchBar.text == "" {
-            isSearching = false
-            view.endEditing(true)
-            tableView.reloadData()
-        } else {
-            isSearching = true
-            filteredArray = songTitleList.filter({$0.range(of: mainSearchBar.text!, options: .caseInsensitive) != nil})
-            tableView.reloadData()
-        }
-    }
-    
+
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in

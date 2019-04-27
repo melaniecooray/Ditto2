@@ -24,6 +24,7 @@ extension CurrentPlaylistViewController {
         setUpSong()
         setUpNavBar()
         //setUpControl()
+        setupOwnerLabel()
         if Auth.auth().currentUser?.uid == playlist.owner {
             view.addSubview(playbutton)
             view.addSubview(rightButton)
@@ -112,6 +113,7 @@ extension CurrentPlaylistViewController {
         let resultVC = EditPlaylistViewController()
 //        resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
         resultVC.songs = songs
+        resultVC.player = player
         navController.pushViewController(resultVC, animated: true)
     }
     
@@ -227,6 +229,15 @@ extension CurrentPlaylistViewController {
         
     }
     
+    func setupOwnerLabel() {
+        ownerLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 50))
+        ownerLabel.center = CGPoint(x: view.frame.width/2, y: artistName.frame.maxY * 1.15)
+        ownerLabel.font = UIFont(name: "Roboto-Regular", size: 20)
+        ownerLabel.textAlignment = .center
+        ownerLabel.textColor = .black
+        ownerLabel.text = "Owner hasn't pressed play"
+    }
+    
     @objc func pausePressed() {
         if pause  {
             playbutton.setImage(UIImage(named: "playlistpausebutton"), for: .normal)
@@ -265,6 +276,9 @@ extension CurrentPlaylistViewController {
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
         playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["time" : 0])
+        if self.currentIndex < 0 {
+            self.currentIndex = 0
+        }
         player?.skipPrevious({ (error) in
             if error != nil {
                 print("error going to previous song!")
@@ -284,7 +298,8 @@ extension CurrentPlaylistViewController {
         let playlistNode = db.child("playlists")
         playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["time" : 0])
         if self.currentIndex >= self.songs.count {
-        } else {
+            self.currentIndex = 0
+        }
             player?.skipNext({ (error) in
                 if error != nil {
                     print("error going to next song")
@@ -294,6 +309,5 @@ extension CurrentPlaylistViewController {
                     self.findSong()
                 }
             })
-        }
     }
 }

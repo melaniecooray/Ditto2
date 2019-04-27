@@ -9,7 +9,7 @@
 import UIKit
 import FirebaseDatabase
 
-class EditPlaylistViewController: UIViewController {
+class EditPlaylistViewController: UIViewController, UISearchBarDelegate {
     
     var backgroundImage: UIImageView!
     var tableView: UITableView!
@@ -45,6 +45,8 @@ class EditPlaylistViewController: UIViewController {
     
     var addButton: UIButton!
     
+    var player : SPTAudioStreamingController?
+    
     
     
     override func viewDidLoad() {
@@ -57,24 +59,26 @@ class EditPlaylistViewController: UIViewController {
         //setUpAddButton()
         
         
-        mainSearchBar.delegate = self
-        mainSearchBar.returnKeyType = UIReturnKeyType.done
+        self.mainSearchBar.delegate = self
+        self.mainSearchBar.returnKeyType = UIReturnKeyType.done
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.tintColor = .black
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonClicked))
     }
     
     @objc func addButtonClicked() {
         //performSegue(withIdentifier: "toNewPlaylist", sender: self)
+        print("going to add song")
         self.tabBarController?.selectedIndex = 1
         let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
         let resultVC = CreateNewPlaylistTableViewController()
         //        resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
         //        resultVC.playlist = Playlist(id: playlistID!, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs])
-        resultVC.previousSongs = songs
+        //resultVC.previousSongs = songs
         UserDefaults.standard.set("update", forKey: "playlistStatus")
         navController.pushViewController(resultVC, animated: true)
     }
@@ -99,8 +103,27 @@ class EditPlaylistViewController: UIViewController {
             self.setUpSearchBar()
             self.setUpTable()
             self.setUpLabel()
-            self.setUpAddButton()
+            //self.setUpAddButton()
             }
         )}
+    
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        return true
     }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if mainSearchBar.text == nil || mainSearchBar.text == "" {
+            print("searching")
+            isSearching = false
+            view.endEditing(true)
+            tableView.reloadData()
+        } else {
+            isSearching = true
+            filteredArray = songTitleList.filter({$0.range(of: mainSearchBar.text!, options: .caseInsensitive) != nil})
+            tableView.reloadData()
+        }
+    }
+    
+}
+
 
