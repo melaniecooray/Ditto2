@@ -140,8 +140,13 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource, U
             })
         }
         dispatchGroup.notify(queue: DispatchQueue.main, execute: {
+            for song in songs {
+                print("song title")
+                print(song.name)
+            }
             print(songs)
             self.playlist = Playlist(id: id, playlist: ["code": code, "members": previousMembers, "name": name, "songs": songs, "owner": owner])
+            UserDefaults.standard.set(code, forKey: "code")
             self.tabBarController?.selectedIndex = 1
             let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
             let resultVC = CurrentPlaylistViewController()

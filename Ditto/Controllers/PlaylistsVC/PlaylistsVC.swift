@@ -44,10 +44,11 @@ class PlaylistsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setUpBackground()
         setUpTable()
         getUserInformation()
         setUpSearchBar()
-        setUpBackground()
+        //setUpBackground()
         setUpLabel()
         setUpAddButton()
         addTapDismiss()

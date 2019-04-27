@@ -158,6 +158,11 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
         if timer != nil {
             self.timer.invalidate()
         }
+        if owner {
+            let db = Database.database().reference()
+            let playlistNode = db.child("playlists")
+            playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["isPlaying" : false])
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -193,6 +198,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             } else {
                 print(self.currentIndex)
                 print(self.songs[self.currentIndex].name)
+                print(self.currentSong)
                 
                 self.player?.playSpotifyURI(self.currentSong!, startingWith: 0, startingWithPosition: self.mstime,callback: { (error) in
                     if error != nil {
