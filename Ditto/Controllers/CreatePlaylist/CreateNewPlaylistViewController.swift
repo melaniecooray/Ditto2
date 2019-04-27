@@ -43,6 +43,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
     var playlists : [String] = []
     var songuris : [String] = []
     var names : [String] = []
+    var lengths : [Int] = []
     var new = true
     
     var searchURL = String()
@@ -162,6 +163,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         print(selectedSongs)
         for song in selectedSongs {
             songuris.append(song.id)
+            lengths.append(song.length)
         }
         
         let db = Database.database().reference()
@@ -192,7 +194,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                     self.userID = user_id as? String
                     print(UserDefaults.standard.value(forKey: "id")!)
                     if self.new {
-                        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": self.songuris, "members" : [UserDefaults.standard.value(forKey: "id")], "owner" : UserDefaults.standard.value(forKey: "id")])
+                        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": self.songuris, "members" : [UserDefaults.standard.value(forKey: "id")], "owner" : UserDefaults.standard.value(forKey: "id"), "lengths" : self.lengths])
                         self.playlists.append(UserDefaults.standard.value(forKey: "code") as! String)
                         self.names.append(self.name)
                         userNode.child(UserDefaults.standard.value(forKey: "id") as! String).updateChildValues(["owned playlist codes" : self.playlists, "owned playlist names" : self.names])

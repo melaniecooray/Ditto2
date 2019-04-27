@@ -20,6 +20,7 @@ class PlaylistsViewController: UIViewController {
     
     var playlistTitleList : [String] = []
     var playlistCodeList : [String : String] = [:]
+    var playlistImageList : [String : UIImage] = [:]
     var playlistLastPlayed : [String] = ["last played: 6h", "last played: 17h", "last played: 17h", "last played: 2d", "last played: 8d", "last played: 9d"]
     var filteredArray : [String] = []
     
@@ -38,12 +39,12 @@ class PlaylistsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setUpTable()
+        getUserInformation()
         setUpSearchBar()
         setUpBackground()
-        setUpTable()
         setUpLabel()
         setUpAddButton()
-        getUserInformation()
         addTapDismiss()
         
         mainSearchBar.delegate = self
@@ -110,6 +111,7 @@ class PlaylistsViewController: UIViewController {
                     self.recentlyPlayedLabel.text = "No joined playlists"
                 } else {
                     self.tableView.reloadData()
+                    self.getPlaylists()
                 }
                 //self.tableView.reloadData()
                 //self.nameLabel.text = retrievedName

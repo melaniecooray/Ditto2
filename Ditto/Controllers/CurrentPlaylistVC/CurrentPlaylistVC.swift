@@ -68,6 +68,13 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             owner = false
             isPlayingSong = false
         }
+        let db = Database.database().reference()
+        let playlistNode = db.child("playlists")
+        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observeSingleEvent(of: .value, with: { (snapshot) in
+            let dict = snapshot.value as! [String : Any]
+            var lengths = dict["lengths"] as! [Int]
+            self.currentLength = lengths[self.currentIndex]
+        })
         initUI()
     }
     
@@ -257,48 +264,32 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     @objc func runTimedCode() {
         self.currentLength = self.songs[self.currentIndex].length
         self.time += 1
-        if self.time > self.currentLength {
-            self.time = 0
-            self.currentIndex += 1
-            if self.currentIndex >= songs.count {
-                
-            } else {
-                player?.skipNext({ (error) in
-                    if error != nil {
-                        print("error going to next song")
-                        return
-                    } else {
-                        print("went to the next song")
-                        self.findSong()
-                    }
-                })
-            }
-        }
         let db = Database.database().reference()
-        let playlistNode = db.child("playlists").child(playlist.code!)
-        //isPlaying()
-        if owner {
-            playlistNode.updateChildValues(["song" : self.currentIndex, "time": self.time, "isPlaying" : true])
-        }
-    }
-    
-    func isPlaying() {
-        AF.request("https://api.spotify.com/v1/me/player", headers: self.parameters).responseData {
-            response in
-            do {
-                var readableJSON = try JSONSerialization.jsonObject(with: response.data!, options: .mutableContainers) as! JSONStandard
-                print(readableJSON)
-                if let result = readableJSON["is_playing"] {
-                    if (result as! Bool) == false {
-                        print("found false")
-                        self.currentIndex += 1
-                        self.findSong()
-                    }
+        let playlistNode = db.child("playlists")
+        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observeSingleEvent(of: .value, with: { (snapshot) in
+            let dict = snapshot.value as! [String : Any]
+            var lengths = dict["lengths"] as! [Int]
+            self.currentLength = lengths[self.currentIndex]
+            if self.time > self.currentLength {
+                self.time = 0
+                self.currentIndex += 1
+                if self.currentIndex >= self.songs.count {
+                    
+                } else {
+                    self.player?.skipNext({ (error) in
+                        if error != nil {
+                            print("error going to next song")
+                            return
+                        } else {
+                            print("went to the next song")
+                            self.findSong()
+                        }
+                    })
                 }
-            }catch{
-                print(error)
             }
-            
+        })
+        if self.owner {
+            playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["song" : self.currentIndex, "time": self.time, "isPlaying" : true])
         }
     }
     

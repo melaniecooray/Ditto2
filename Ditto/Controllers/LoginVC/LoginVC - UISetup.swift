@@ -34,6 +34,7 @@ extension LoginViewController {
         code.layer.borderColor = UIColor(hexString: "#BF95DC").cgColor
         code.layer.cornerRadius = 7.0
         code.keyboardType = UIKeyboardType.numberPad
+        code.delegate = self
         /*
         code = SkyFloatingLabelTextField(frame: CGRect(x: 50, y: 50, width: view.frame.width - 200, height: 70))
         code.placeholder = "Enter Code for Quick Listen"
@@ -45,6 +46,7 @@ extension LoginViewController {
         joinButton.setTitle("Join", for: .normal)
         joinButton.layer.cornerRadius = 10
         joinButton.backgroundColor = UIColor(hexString: "#BF95DC")
+        joinButton.addTarget(self, action: #selector(checkCode), for: .touchUpInside)
         scrollView.addSubview(joinButton)
     }
     

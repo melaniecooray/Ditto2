@@ -22,6 +22,8 @@
 		423C25E622594EE700703008 /* PreviewPlaylistVC - UISetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C25E522594EE700703008 /* PreviewPlaylistVC - UISetup.swift */; };
 		423C25E822595E5100703008 /* NavBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423C25E722595E5100703008 /* NavBarController.swift */; };
 		427E78192271736000628448 /* PreviewPlaylistVC - Firebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427E78182271736000628448 /* PreviewPlaylistVC - Firebase.swift */; };
+		427E781B2272B58D00628448 /* PlaylistsVC - Firebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427E781A2272B58D00628448 /* PlaylistsVC - Firebase.swift */; };
+		427E781D22741D7300628448 /* ProfileVC - Playlists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427E781C22741D7300628448 /* ProfileVC - Playlists.swift */; };
 		42858E752265B08200F0344A /* CurrentOptionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42858E742265B08200F0344A /* CurrentOptionsVC.swift */; };
 		42858E772265B09E00F0344A /* CurrentOptionsVC - UISetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42858E762265B09E00F0344A /* CurrentOptionsVC - UISetup.swift */; };
 		42858E792269960400F0344A /* CreatePlaylistVC - Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42858E782269960400F0344A /* CreatePlaylistVC - Table.swift */; };
@@ -106,6 +108,8 @@
 		423C25E522594EE700703008 /* PreviewPlaylistVC - UISetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PreviewPlaylistVC - UISetup.swift"; sourceTree = "<group>"; };
 		423C25E722595E5100703008 /* NavBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBarController.swift; sourceTree = "<group>"; };
 		427E78182271736000628448 /* PreviewPlaylistVC - Firebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PreviewPlaylistVC - Firebase.swift"; sourceTree = "<group>"; };
+		427E781A2272B58D00628448 /* PlaylistsVC - Firebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistsVC - Firebase.swift"; sourceTree = "<group>"; };
+		427E781C22741D7300628448 /* ProfileVC - Playlists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileVC - Playlists.swift"; sourceTree = "<group>"; };
 		42858E742265B08200F0344A /* CurrentOptionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentOptionsVC.swift; sourceTree = "<group>"; };
 		42858E762265B09E00F0344A /* CurrentOptionsVC - UISetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrentOptionsVC - UISetup.swift"; sourceTree = "<group>"; };
 		42858E782269960400F0344A /* CreatePlaylistVC - Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CreatePlaylistVC - Table.swift"; sourceTree = "<group>"; };
@@ -408,6 +412,7 @@
 				7B77C0632261644100674712 /* PlaylistsVC.swift */,
 				EF9B482422592786008EAA21 /* PlaylistsVC - UISetup.swift */,
 				EF9B4826225938AF008EAA21 /* PlaylistsVC - Table.swift */,
+				427E781A2272B58D00628448 /* PlaylistsVC - Firebase.swift */,
 			);
 			path = PlaylistsVC;
 			sourceTree = "<group>";
@@ -425,6 +430,7 @@
 			isa = PBXGroup;
 			children = (
 				7B5AFEF3223DE4EE00B6168B /* ProfileVC.swift */,
+				427E781C22741D7300628448 /* ProfileVC - Playlists.swift */,
 				EF0543C4226B9CDD0034B9C0 /* ProfileVC - Image.swift */,
 				7B77C0462259607000674712 /* ProfileVC - UISetup.swift */,
 				7B77C04822596F1900674712 /* ProfileVC - Table.swift */,
@@ -692,6 +698,7 @@
 				7B556F4A224E97F80003FA96 /* SignUpVC - UISetup.swift in Sources */,
 				EFF7237D225DAE1600115052 /* SpotifyConnectViewController.swift in Sources */,
 				7B77C04922596F1900674712 /* ProfileVC - Table.swift in Sources */,
+				427E781D22741D7300628448 /* ProfileVC - Playlists.swift in Sources */,
 				42F76C652261B6FC00DD83C5 /* ToDate.swift in Sources */,
 				EFD5CB67226BAF950018982E /* EditPlaylistViewController - UI.swift in Sources */,
 				7B77C0662261645A00674712 /* PreviewPlaylistVC.swift in Sources */,
@@ -710,6 +717,7 @@
 				7B77C0622261582800674712 /* AudioViewController.swift in Sources */,
 				42F76C5B226166FD00DD83C5 /* BlurImage.swift in Sources */,
 				42858E792269960400F0344A /* CreatePlaylistVC - Table.swift in Sources */,
+				427E781B2272B58D00628448 /* PlaylistsVC - Firebase.swift in Sources */,
 				42858E772265B09E00F0344A /* CurrentOptionsVC - UISetup.swift in Sources */,
 				423C25D42259234300703008 /* ConnectVC - UISetup.swift in Sources */,
 				7B77C06A2261650900674712 /* CurrentPlaylistVC - UISetup.swift in Sources */,

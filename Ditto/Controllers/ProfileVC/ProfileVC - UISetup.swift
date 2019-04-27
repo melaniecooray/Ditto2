@@ -97,7 +97,6 @@ extension ProfileViewController {
         imagePicker.addTarget(self, action: #selector(openImageOptions), for: .touchUpInside)
         
         //default
-        imagePicker.setImage(UIImage(named: "profilepicdefault-1"), for: .normal)
         let imagesRef = Storage.storage().reference().child("images")
         let image = imagesRef.child(currentID)
         
@@ -105,11 +104,12 @@ extension ProfileViewController {
         image.getData(maxSize: 30 * 1024 * 1024) { data, error in
             if let error = error {
                 self.imagePicker.setImage(UIImage(named: "profilepicdefault-1"), for: .normal)
+                self.imagePicker.imageView?.setRounded()
             } else {
                 self.imagePicker.setImage(UIImage(data: data!), for: .normal)
+                self.imagePicker.imageView?.setRounded()
             }
         }
-        imagePicker.imageView?.setRounded()
         
         view.addSubview(imagePicker)
         

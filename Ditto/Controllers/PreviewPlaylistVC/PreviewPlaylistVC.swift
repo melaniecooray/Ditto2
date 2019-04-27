@@ -26,6 +26,8 @@ class PreviewPlaylistViewController: UIViewController, UIScrollViewDelegate {
     
     var memberPics: [UIImage] = []
     
+    var guest = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
