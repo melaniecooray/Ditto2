@@ -103,7 +103,9 @@ extension CurrentPlaylistViewController {
         self.isPlayingSong = false
         first = true
         self.player?.logout()
-        self.timer.invalidate()
+        if self.timer != nil {
+            self.timer.invalidate()
+        }
         self.tabBarController?.selectedIndex = 1
         let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
         navController.setNavigationBarHidden(false, animated: .init())
@@ -127,7 +129,7 @@ extension CurrentPlaylistViewController {
         playlistName.textColor = .black
         playlistName.textAlignment = .center
         playlistName.adjustsFontSizeToFitWidth = true
-        view.addSubview(playlistName)
+        //view.addSubview(playlistName)
     }
     
     func setUpSongImage() {
@@ -271,14 +273,17 @@ extension CurrentPlaylistViewController {
     
     @objc func goForward() {
         self.currentIndex += 1
-        player?.skipNext({ (error) in
-            if error != nil {
-                print("error going to next song")
-                return
-            } else {
-                print("went to the next song")
-                self.findSong()
-            }
+        if self.currentIndex >= self.songs.count {
+        } else {
+            player?.skipNext({ (error) in
+                if error != nil {
+                    print("error going to next song")
+                    return
+                } else {
+                    print("went to the next song")
+                    self.findSong()
+                }
             })
+        }
     }
 }

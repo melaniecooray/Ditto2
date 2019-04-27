@@ -63,6 +63,7 @@
                         <segue destination="UIE-NL-Uri" kind="show" identifier="toTabBar" id="c0J-Xr-F2s"/>
                         <segue destination="VmA-bx-LBv" kind="show" identifier="toLogin" id="ebl-aY-Xac"/>
                         <segue destination="Smb-Ml-mKq" kind="show" identifier="toConnectSpotify" id="le0-Gx-fKk"/>
+                        <segue destination="UIE-NL-Uri" kind="show" identifier="connectedLogin" id="bXb-Os-G2J"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wlz-j7-YuL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -287,8 +288,7 @@
         <image name="profile" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="1TG-Gx-A8d"/>
-        <segue reference="kMD-M7-tv2"/>
-        <segue reference="2aW-xw-dQ1"/>
+        <segue reference="bXb-Os-G2J"/>
+        <segue reference="ebl-aY-Xac"/>
     </inferredMetricsTieBreakers>
 </document>

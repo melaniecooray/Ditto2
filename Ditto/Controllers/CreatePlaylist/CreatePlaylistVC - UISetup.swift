@@ -78,6 +78,15 @@ extension CreateNewPlaylistTableViewController {
         view.addSubview(searchBar)
     }
     
+    func setupLoadingLabel() {
+        loadingLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        loadingLabel.center = CGPoint(x: view.frame.width/2, y: view.frame.width/2)
+        loadingLabel.font = UIFont(name: "Roboto-Bold", size: 25)
+        loadingLabel.text = "Loading..."
+        view.addSubview(loadingLabel)
+        view.bringSubviewToFront(loadingLabel)
+    }
+    
     
     
 }
