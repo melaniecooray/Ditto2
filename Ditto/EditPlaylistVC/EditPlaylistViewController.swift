@@ -109,14 +109,14 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate {
         return true
     }
     
+
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if mainSearchBar.text == nil || mainSearchBar.text == "" {
-            print("searching")
-            isSearching = false
+            isSearching = true
             view.endEditing(true)
             tableView.reloadData()
         } else {
-            isSearching = true
+            isSearching = false
             filteredArray = songTitleList.filter({$0.range(of: mainSearchBar.text!, options: .caseInsensitive) != nil})
             tableView.reloadData()
         }

@@ -88,6 +88,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             let playlistNode = db.child("playlists")
             playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observe(.value, with: { (snapshot) in
                 let dict = snapshot.value as! [String : Any]
+                self.currentIndex = dict["song"] as! Int
                 if let currTime = dict["time"] as? Int {
                     print("current time in firebase is")
                     print(self.time)
@@ -95,7 +96,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                 }
                 let isPlayingValue = dict["isPlaying"] as! Bool
                 if (isPlayingValue) {
-                    //print("isPlaying is true")
+                    print("isPlaying is true")
                     self.isPlayingSong = true
                     if (!self.startedPlaying) {
                         self.startedPlaying = true
