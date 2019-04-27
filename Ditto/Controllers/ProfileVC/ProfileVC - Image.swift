@@ -59,7 +59,8 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         imageView.removeFromSuperview()
         
         let imageRef = Storage.storage().reference().child("images").child(currentID)
-        let data = chosenImage!.pngData()!
+        //let data = chosenImage!.pngData()!
+        let data = chosenImage!.jpegData(compressionQuality: 0)!
         imageRef.putData(data, metadata: nil) { (metadata, error) in
             if metadata == nil {
                 return

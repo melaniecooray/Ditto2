@@ -51,6 +51,7 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpBackground()
         getPlaylistSongs()
         setUpBackground()
         addTapDismiss()
@@ -68,7 +69,7 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = false
-        self.navigationController?.navigationBar.tintColor = .black
+        //self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonClicked))
     }
     
@@ -112,6 +113,7 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
             self.setUpSearchBar()
             self.setUpTable()
             self.setUpLabel()
+            self.mainSearchBar.delegate = self
             //self.setUpAddButton()
             }
         )}

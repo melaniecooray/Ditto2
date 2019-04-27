@@ -115,6 +115,7 @@ extension CurrentPlaylistViewController {
         resultVC.songs = songs
         resultVC.player = player
         resultVC.pause = pause
+        resultVC.playlist = playlist
         navController.pushViewController(resultVC, animated: true)
     }
     

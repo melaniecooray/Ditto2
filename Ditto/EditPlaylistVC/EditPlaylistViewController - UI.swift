@@ -32,7 +32,7 @@ extension EditPlaylistViewController {
         recentlyPlayedLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height / 10))
         recentlyPlayedLabel.center = CGPoint(x: view.frame.width/1.18, y: tableView.frame.minY * 0.90 )
         recentlyPlayedLabel.font = UIFont(name: "Roboto-Bold", size: 20)
-        recentlyPlayedLabel.text = "Playlist Name"
+        recentlyPlayedLabel.text = playlist.name!
         view.addSubview(recentlyPlayedLabel)
     }
     
@@ -46,8 +46,8 @@ extension EditPlaylistViewController {
         tableView.separatorInset = UIEdgeInsets.zero
         //tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         tableView.rowHeight = view.frame.height/8
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: view.frame.height/8, right: 0)
-        tableView.separatorColor = UIColor.black
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: view.frame.height/7, right: 0)
+        tableView.separatorColor = UIColor(hexString: "7383C5")
         //tableView.separatorStyle
         view.addSubview(tableView)
     }

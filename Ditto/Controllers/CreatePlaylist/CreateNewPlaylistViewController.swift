@@ -57,6 +57,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         
         self.navigationController?.isNavigationBarHidden = false
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(pickedSongs))
+        self.navigationController?.navigationBar.tintColor = .white
         if (UserDefaults.standard.value(forKey: "playlistStatus") as! String == "update") {
             new = false
         }

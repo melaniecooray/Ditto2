@@ -10,6 +10,7 @@ import UIKit
 import SkyFloatingLabelTextField
 import Firebase
 import FirebaseAuth
+import FirebaseStorage
 import Alamofire
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
@@ -38,6 +39,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         Auth.auth().addStateDidChangeListener { auth, user in
             if let user = user {
                 print("logged in")

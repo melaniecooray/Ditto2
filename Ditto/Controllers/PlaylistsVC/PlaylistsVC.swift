@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseAuth
 import FirebaseDatabase
+import FirebaseStorage
 import Alamofire
 
 class PlaylistsViewController: UIViewController {
@@ -44,13 +45,39 @@ class PlaylistsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpTable()
-        getUserInformation()
-        setUpSearchBar()
-        setUpBackground()
-        setUpLabel()
-        setUpAddButton()
-        addTapDismiss()
+        //clear the storage yikes
+        
+        // Create a reference to the file to delete
+        let imagesRef = Storage.storage().reference().child("images")
+        
+        // Delete the file
+        // Sadly it doesn't work bc storage is ass
+        imagesRef.delete { error in
+            if let error = error {
+                // Uh-oh, an error occurred!
+                print("uh oh")
+                print(error)
+            } else {
+                // File deleted successfully
+                print("cleared")
+            }
+            self.setUpTable()
+            self.getUserInformation()
+            self.setUpSearchBar()
+            self.setUpBackground()
+            self.setUpLabel()
+            self.setUpAddButton()
+            self.addTapDismiss()
+        }
+        
+//        setUpTable()
+//        getUserInformation()
+//        setUpSearchBar()
+//        setUpBackground()
+//        setUpLabel()
+//        setUpAddButton()
+//        addTapDismiss()
+        
         
         mainSearchBar.delegate = self
         mainSearchBar.returnKeyType = UIReturnKeyType.done
