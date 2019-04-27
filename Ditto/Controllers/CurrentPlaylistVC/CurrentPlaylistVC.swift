@@ -102,7 +102,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                     if (!self.startedPlaying) {
                         self.startedPlaying = true
                         self.findSong()
-                        self.playSong()
+                        //self.playSong()
                     }
                 } else {
                     print("waiting for song to be played")
@@ -110,6 +110,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                         self.timer.invalidate()
                     }
                     self.pause = true
+                    self.startedPlaying =  false
                     self.player?.setIsPlaying(false, callback: { (error) in
                         if error != nil {
                             print("error pausing song")
