@@ -24,6 +24,7 @@ extension EditPlaylistViewController: UITableViewDelegate, UITableViewDataSource
         var song: String?
         if isSearching {
             song = filteredArray[indexPath.row]
+            print("istyping")
         } else {
             song = songTitleList[indexPath.row]
         }

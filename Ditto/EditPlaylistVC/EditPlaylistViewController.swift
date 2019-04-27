@@ -57,8 +57,8 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate {
         //setUpAddButton()
         
         
-        mainSearchBar.delegate = self
-        mainSearchBar.returnKeyType = UIReturnKeyType.done
+        self.mainSearchBar.delegate = self
+        self.mainSearchBar.returnKeyType = UIReturnKeyType.done
         
     }
     
@@ -109,10 +109,9 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate {
         return true
     }
     
-    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print("searching")
         if mainSearchBar.text == nil || mainSearchBar.text == "" {
+            print("searching")
             isSearching = false
             view.endEditing(true)
             tableView.reloadData()
