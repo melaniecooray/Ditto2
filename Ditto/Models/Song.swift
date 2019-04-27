@@ -18,7 +18,7 @@ class Song {
     init(id: String, song: [String: Any]) {
         self.id = id
         self.name = song["name"] as? String
-        self.artist = song["name"] as? String
+        self.artist = song["artist"] as? String
         self.image = song["image"] as? UIImage
         self.length = song["length"] as? Int
     }

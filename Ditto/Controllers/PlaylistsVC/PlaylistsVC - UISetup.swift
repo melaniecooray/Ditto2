@@ -54,6 +54,7 @@ extension PlaylistsViewController {
     func setUpSearchBar() {
         mainSearchBar = UISearchBar(frame: CGRect(x: view.frame.width / 4, y: view.frame.height/8.5, width: view.frame.width, height: view.frame.width/6))
 //        pokemonTable.contentInset = UIEdgeInsetsMake(view.frame.height/30, 0, self.tabBarController!.tabBar.frame.height - view.frame.height/50, 0)
+        
         mainSearchBar.placeholder = "search for a playlist..."
         mainSearchBar.backgroundColor = UIColor.white
         

@@ -108,6 +108,7 @@ extension CurrentPlaylistViewController {
         }
         self.tabBarController?.selectedIndex = 1
         let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
+        navController.setNavigationBarHidden(false, animated: .init())
         let resultVC = EditPlaylistViewController()
 //        resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
         resultVC.songs = songs

@@ -64,6 +64,7 @@ class EditPlaylistViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.navigationBar.tintColor = .black
     }
     
     @objc func addButtonClicked() {
