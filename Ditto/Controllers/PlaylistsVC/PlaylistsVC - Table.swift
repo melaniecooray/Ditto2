@@ -58,6 +58,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource, U
             isSearching = false
             view.endEditing(true)
             tableView.reloadData()
+            print("searchworkedhere")
         } else {
             isSearching = true
             filteredArray = playlistTitleList.filter({$0.range(of: mainSearchBar.text!, options: .caseInsensitive) != nil})

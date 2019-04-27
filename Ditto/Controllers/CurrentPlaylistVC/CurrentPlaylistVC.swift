@@ -80,7 +80,8 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     
     override func viewDidAppear(_ animated: Bool) {
         first = true
-        var firstPaused = true
+        var firstPaused = 0
+        var paused = true
         if self.owner {
             findSong()
             playSong()
@@ -101,7 +102,20 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                     self.isPlayingSong = true
                     if (!self.startedPlaying) {
                         self.startedPlaying = true
-                        self.findSong()
+                        if firstPaused != 0 {
+                            self.player?.setIsPlaying(true, callback:{ (error) in
+                                if error != nil {
+                                    print("error playing song")
+                                    return
+                                } else {
+                                    print("playing song")
+                                    self.findSong()
+                                }
+                            })
+                        } else {
+                            paused = false
+                            self.findSong()
+                        }
                         //self.playSong()
                     }
                 } else {
@@ -110,7 +124,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                         self.timer.invalidate()
                     }
                     self.pause = true
-                    self.startedPlaying =  false
+                    self.startedPlaying = false
                     self.player?.setIsPlaying(false, callback: { (error) in
                         if error != nil {
                             print("error pausing song")
@@ -119,6 +133,9 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                             print("paused song")
                         }
                     })
+                    if !paused {
+                        firstPaused = 1
+                    }
                 }
             })
         }

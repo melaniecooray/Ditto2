@@ -57,15 +57,20 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate {
         //setUpAddButton()
         
         
-        self.mainSearchBar.delegate = self
-        self.mainSearchBar.returnKeyType = UIReturnKeyType.done
+        mainSearchBar.delegate = self
+        //self.mainSearchBar.returnKeyType = UIReturnKeyType.done
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.mainSearchBar.delegate = self
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonClicked))
+    }
+    
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        return true
     }
     
     @objc func addButtonClicked() {
@@ -105,12 +110,8 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate {
             }
         )}
     
-    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        return true
-    }
-    
-
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print("Search clicked")
         if mainSearchBar.text == nil || mainSearchBar.text == "" {
             isSearching = false
             view.endEditing(true)
@@ -119,8 +120,44 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate {
             isSearching = true
             filteredArray = songTitleList.filter({$0.range(of: mainSearchBar.text!, options: .caseInsensitive) != nil})
             tableView.reloadData()
+            print("seachworkedhere2")
+            
         }
     }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        print("searching")
+        print(mainSearchBar.text)
+        if mainSearchBar.text == nil || mainSearchBar.text == "" {
+            isSearching = false
+            view.endEditing(true)
+            tableView.reloadData()
+        } else {
+            isSearching = true
+            filteredArray = songTitleList.filter({$0.range(of: mainSearchBar.text!, options: .caseInsensitive) != nil})
+            tableView.reloadData()
+            print("seachworkedhere2")
+            
+        }
+    }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print("searching")
+        print(mainSearchBar.text)
+        print(searchText)
+        if mainSearchBar.text == nil || mainSearchBar.text == "" {
+            isSearching = false
+            view.endEditing(true)
+            tableView.reloadData()
+        } else {
+            isSearching = true
+            filteredArray = songTitleList.filter({$0.range(of: mainSearchBar.text!, options: .caseInsensitive) != nil})
+            tableView.reloadData()
+            print("seachworkedhere2")
+
+        }
+    }
+    
+    
     
 }
 
