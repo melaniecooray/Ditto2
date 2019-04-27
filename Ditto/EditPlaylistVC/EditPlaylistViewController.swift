@@ -45,6 +45,8 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate {
     
     var addButton: UIButton!
     
+    var player : SPTAudioStreamingController?
+    
     
     
     override func viewDidLoad() {

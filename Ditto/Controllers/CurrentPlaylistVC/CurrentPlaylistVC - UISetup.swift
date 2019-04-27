@@ -24,6 +24,7 @@ extension CurrentPlaylistViewController {
         setUpSong()
         setUpNavBar()
         //setUpControl()
+        setupOwnerLabel()
         if Auth.auth().currentUser?.uid == playlist.owner {
             view.addSubview(playbutton)
             view.addSubview(rightButton)
@@ -112,6 +113,7 @@ extension CurrentPlaylistViewController {
         let resultVC = EditPlaylistViewController()
 //        resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
         resultVC.songs = songs
+        resultVC.player = player
         navController.pushViewController(resultVC, animated: true)
     }
     
@@ -225,6 +227,15 @@ extension CurrentPlaylistViewController {
         //view.addSubview(leftButton)
         
         
+    }
+    
+    func setupOwnerLabel() {
+        ownerLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 50))
+        ownerLabel.center = CGPoint(x: view.frame.width/2, y: artistName.frame.maxY * 1.15)
+        ownerLabel.font = UIFont(name: "Roboto-Regular", size: 20)
+        ownerLabel.textAlignment = .center
+        ownerLabel.textColor = .black
+        ownerLabel.text = "Owner hasn't pressed play"
     }
     
     @objc func pausePressed() {
