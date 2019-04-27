@@ -10,6 +10,7 @@ import UIKit
 import FirebaseDatabase
 import FirebaseAuth
 import Firebase
+import Alamofire
 
 class ProfileViewController: UIViewController {
     
@@ -42,6 +43,11 @@ class ProfileViewController: UIViewController {
     var mnames : [String] = []
     var ocodes : [String] = []
     var mcodes : [String] = []
+    
+    var playlist : Playlist!
+    let url = "https://api.spotify.com/v1/tracks/"
+    let parameters: HTTPHeaders = ["Accept":"application/json", "Authorization":"Bearer \(UserDefaults.standard.value(forKey: "accessToken")!)"]
+    typealias JSONStandard = [String : AnyObject]
 
     override func viewDidLoad() {
         super.viewDidLoad()
