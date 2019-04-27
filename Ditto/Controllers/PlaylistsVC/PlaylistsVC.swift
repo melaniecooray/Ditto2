@@ -116,6 +116,7 @@ class PlaylistsViewController: UIViewController {
                 if self.playlistCodeList.isEmpty {
                     self.recentlyPlayedLabel.text = "No joined playlists"
                 } else {
+                    self.playlistTitleList = self.playlistTitleList.sorted { $0.localizedCaseInsensitiveCompare($1) == ComparisonResult.orderedAscending }
                     self.tableView.reloadData()
                     self.getPlaylists()
                 }
