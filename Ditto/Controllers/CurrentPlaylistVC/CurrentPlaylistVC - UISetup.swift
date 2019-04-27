@@ -260,6 +260,11 @@ extension CurrentPlaylistViewController {
     
     @objc func goBack() {
         self.currentIndex -= 1
+        self.mstime = 0.0
+        self.time = 0
+        let db = Database.database().reference()
+        let playlistNode = db.child("playlists")
+        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["time" : 0])
         player?.skipPrevious({ (error) in
             if error != nil {
                 print("error going to previous song!")
@@ -273,6 +278,11 @@ extension CurrentPlaylistViewController {
     
     @objc func goForward() {
         self.currentIndex += 1
+        self.mstime = 0.0
+        self.time = 0
+        let db = Database.database().reference()
+        let playlistNode = db.child("playlists")
+        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["time" : 0])
         if self.currentIndex >= self.songs.count {
         } else {
             player?.skipNext({ (error) in
