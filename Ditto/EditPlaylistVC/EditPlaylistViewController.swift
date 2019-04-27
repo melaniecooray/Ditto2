@@ -74,7 +74,7 @@ class EditPlaylistViewController: UIViewController {
         let resultVC = CreateNewPlaylistTableViewController()
         //        resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
         //        resultVC.playlist = Playlist(id: playlistID!, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs])
-        resultVC.previousSongs = songs
+        //resultVC.previousSongs = songs
         UserDefaults.standard.set("update", forKey: "playlistStatus")
         navController.pushViewController(resultVC, animated: true)
     }

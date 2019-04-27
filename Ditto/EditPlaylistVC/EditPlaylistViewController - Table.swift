@@ -61,6 +61,7 @@ extension EditPlaylistViewController: UITableViewDelegate, UITableViewDataSource
         }
     }
     
+    
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
