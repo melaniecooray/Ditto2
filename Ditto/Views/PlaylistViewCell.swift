@@ -48,7 +48,7 @@ class PlaylistViewCell: UITableViewCell {
         playButton = UIButton(frame: CGRect(x: size.width - size.width/4, y: size.height * 0.60, width: size.width/6.5, height: size.width/13.5))
         let image = UIImage(named: "playbutton")
         playButton.setImage(image, for: .normal)
-        //contentView.addSubview(playButton)
+        contentView.addSubview(playButton)
         
     }
     

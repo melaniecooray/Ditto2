@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Firebase
+import Alamofire
 
 extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -44,7 +45,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource, U
         cell.playlistLastPlayed.text = playlistCodeList[playlist!]
         cell.playlistPhoto.image = playlistImageList[playlist!]
         print(playlistImageList)
-        cell.playButton.addTarget(self, action: #selector(playCode), for: .touchUpInside)
+        cell.playButton.addTarget(self, action: #selector(playCode(sender:)), for: .touchUpInside)
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor.white
         cell.selectedBackgroundView = backgroundView
@@ -65,25 +66,89 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource, U
         }
     }
     
-    @objc func playCode() {
+    @objc func playCode(sender: UITableViewCell) {
+        guard let cell = sender.superview?.superview as? PlaylistViewCell else {
+            return // or fatalError() or whatever
+        }
+        
+        let indexPath = tableView.indexPath(for: cell)?.row
         self.tabBarController?.selectedIndex = 1
         let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
         let resultVC = CurrentPlaylistViewController()
-        resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
-        
+        resultVC.code = playlistCodeList[playlistTitleList[indexPath!]]!
+        print(playlistCodeList[playlistTitleList[indexPath!]])
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
         
-        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observeSingleEvent(of: .value, with: { (snapshot) in
+        playlistNode.child(playlistCodeList[playlistTitleList[indexPath!]]!).observeSingleEvent(of: .value, with: { (snapshot) in
             let dict = snapshot.value as! [String : Any]
-            let playlistID = dict["uri"] as! String
-            let name = dict["name"] as! String
-            let selectedSongs : [Song] = []
-            let owner = dict["owner"] as! String
-            resultVC.playlist = Playlist(id: playlistID, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs, "owner" : owner])
-            resultVC.songs = selectedSongs
+            self.makePlaylist(dict: dict, previousMembers: dict["members"] as! [String], code: self.playlistCodeList[self.playlistTitleList[indexPath!]]!)
+        })
+    }
+    
+    func makePlaylist(dict: [String: Any], previousMembers: [String], code: String) {
+        let owner = dict["owner"] as! String
+        let name = dict["name"] as! String
+        let id = dict["uri"] as! String
+        let songuris = dict["songs"] as! [String]
+        var songs: [Song] = []
+        for songuri in songuris {
+            songs.append(Song(id: songuri))
+        }
+        print("songs:")
+        print(songs)
+        
+        let dispatchGroup = DispatchGroup()
+        for (index, songuri) in songuris.enumerated() {
+            dispatchGroup.enter()
+            let indexString = songuri.index(songuri.startIndex, offsetBy: 14)
+            let trackID = String(songuri[indexString...])
+            AF.request(url + trackID, headers: parameters).responseJSON(completionHandler: {
+                response in
+                do {
+                    var track = try JSONSerialization.jsonObject(with: response.data!, options: .mutableContainers) as! JSONStandard
+                    print(songuri)
+                    print(trackID)
+                    print(track)
+                    var artistString = ""
+                    if let artists = track["artists"] as? [JSONStandard] {
+                        
+                        for artist in artists {
+                            let artistName = artist["name"] as! String
+                            artistString += artistName + ", "
+                        }
+                        
+                        artistString = String(artistString.dropLast(2))
+                    }
+                    songs[index].artist = artistString
+                    songs[index].name = track["name"] as! String
+                    
+                    if let album = track["album"] as? JSONStandard {
+                        if let images = album["images"] as? [JSONStandard] {
+                            let imageData = images[0]
+                            let mainImageURL = URL(string: imageData["url"] as! String)
+                            let mainImageData = NSData(contentsOf: mainImageURL!)
+                            let mainImage = UIImage(data: mainImageData as! Data)
+                            songs[index].image = mainImage
+                            
+                            dispatchGroup.leave()
+                        }
+                    }
+                } catch {
+                    print(error)
+                }
+            })
+        }
+        dispatchGroup.notify(queue: DispatchQueue.main, execute: {
+            print(songs)
+            self.playlist = Playlist(id: id, playlist: ["code": code, "members": previousMembers, "name": name, "songs": songs, "owner": owner])
+            self.tabBarController?.selectedIndex = 1
+            let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
+            let resultVC = CurrentPlaylistViewController()
+            resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
+            resultVC.playlist = self.playlist
+            resultVC.songs = songs
             navController.pushViewController(resultVC, animated: true)
-            
         })
     }
     
