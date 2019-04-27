@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import Firebase
 
-extension EditPlaylistViewController: UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+extension EditPlaylistViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isSearching {
             return filteredArray.count
@@ -45,20 +45,6 @@ extension EditPlaylistViewController: UITableViewDelegate, UITableViewDataSource
         backgroundView.backgroundColor = UIColor.white
         cell.selectedBackgroundView = backgroundView
         return cell
-    }
-    
-    
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if mainSearchBar.text == nil || mainSearchBar.text == "" {
-            isSearching = false
-            view.endEditing(true)
-            tableView.reloadData()
-        } else {
-            isSearching = true
-            filteredArray = songTitleList.filter({$0.range(of: mainSearchBar.text!, options: .caseInsensitive) != nil})
-            tableView.reloadData()
-        }
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
