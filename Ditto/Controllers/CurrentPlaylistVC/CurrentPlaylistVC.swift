@@ -80,14 +80,16 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     
     override func viewDidAppear(_ animated: Bool) {
         first = true
+        var firstPaused = true
         if self.owner {
             findSong()
             playSong()
-        } else if isPlayingSong == false{
+        } else {
             let db = Database.database().reference()
             let playlistNode = db.child("playlists")
             playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observe(.value, with: { (snapshot) in
                 let dict = snapshot.value as! [String : Any]
+                self.currentIndex = dict["song"] as! Int
                 if let currTime = dict["time"] as? Int {
                     print("current time in firebase is")
                     print(self.time)
@@ -104,18 +106,21 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                     }
                 } else {
                     print("waiting for song to be played")
-                    if self.timer != nil {
-                        self.timer.invalidate()
-                    }
-                    self.pause = true
-                    self.player?.setIsPlaying(false, callback: { (error) in
-                        if error != nil {
-                            print("error pausing song")
-                            return
-                        } else {
-                            print("paused song")
+                    if firstPaused {
+                        firstPaused = false
+                        if self.timer != nil {
+                            self.timer.invalidate()
                         }
-                    })
+                        self.pause = true
+                        self.player?.setIsPlaying(false, callback: { (error) in
+                            if error != nil {
+                                print("error pausing song")
+                                return
+                            } else {
+                                print("paused song")
+                            }
+                        })
+                    }
                 }
             })
         }
