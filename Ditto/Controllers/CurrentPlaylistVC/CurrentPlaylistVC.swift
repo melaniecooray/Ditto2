@@ -175,7 +175,11 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
         playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observeSingleEvent(of: .value, with: { (snapshot) in
             let dict = snapshot.value as! [String : Any]
             let songs = dict["songs"] as! [String]
-            self.currentIndex = dict["song"] as! Int
+            if let currIndex = dict["song"] as? Int {
+                self.currentIndex = currIndex
+            } else {
+                self.currentIndex = 0
+            }
             print(self.currentIndex)
             self.songList = songs
             self.currentSong = songs[self.currentIndex]

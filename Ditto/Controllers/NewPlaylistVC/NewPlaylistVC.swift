@@ -72,7 +72,7 @@ class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
             }
         }
  */
-        self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
+        //self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
  
 
     }
