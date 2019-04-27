@@ -54,6 +54,7 @@ extension PlaylistsViewController {
     func setUpSearchBar() {
         mainSearchBar = UISearchBar(frame: CGRect(x: view.frame.width / 4, y: view.frame.height/8.5, width: view.frame.width, height: view.frame.width/6))
 //        pokemonTable.contentInset = UIEdgeInsetsMake(view.frame.height/30, 0, self.tabBarController!.tabBar.frame.height - view.frame.height/50, 0)
+        
         mainSearchBar.placeholder = "search for a playlist..."
         mainSearchBar.backgroundColor = UIColor.white
         
@@ -71,6 +72,14 @@ extension PlaylistsViewController {
         textFieldInsideSearchBar?.textColor = UIColor.black
         
         view.addSubview(mainSearchBar)
+    }
+    
+    func setupEmptyLabel() {
+        emptyLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        emptyLabel.center = CGPoint(x: view.frame.width/2, y: view.frame.height/2)
+        emptyLabel.text = "No joined playlists"
+        emptyLabel.font = UIFont(name: "Roboto-Bold", size: 20)
+        view.addSubview(emptyLabel)
     }
     
     

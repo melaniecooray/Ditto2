@@ -26,6 +26,8 @@ class PreviewPlaylistViewController: UIViewController, UIScrollViewDelegate {
     
     var memberPics: [UIImage] = []
     
+    var guest = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,7 +40,7 @@ class PreviewPlaylistViewController: UIViewController, UIScrollViewDelegate {
     @objc func toPlaylist(_ sender: UIButton) {
         let db = Database.database().reference()
         let playlistNode = db.child("playlists").child(code)
-        playlistNode.updateChildValues(["playing" : true, "song" : 0, "time": 0])
+        //playlistNode.updateChildValues(["playing" : true, "song" : 0, "time": 0])
         performSegue(withIdentifier: "toPlaylist", sender: self)
         //let currentVC = CurrentPlaylistViewController()
         //currentVC.code = code
