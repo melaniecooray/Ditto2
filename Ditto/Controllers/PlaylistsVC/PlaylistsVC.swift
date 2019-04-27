@@ -63,8 +63,6 @@ class PlaylistsViewController: UIViewController {
 //            }
 //        }
         
-        self.navigationController?.navigationBar.tintColor = .black
-        
         setUpBackground()
         setUpTable()
         getUserInformation()
