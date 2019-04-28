@@ -49,6 +49,9 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
     var player : SPTAudioStreamingController?
     var pause : Bool!
     
+    var first = true
+    var owner = true
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,12 +111,15 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
     func getPlaylistSongs() {
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
-        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observeSingleEvent(of: .value, with: { (snapshot) in
+        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observe(.value, with: { (snapshot) in
             
             let dict = snapshot.value as! [String : Any]
             let songs = dict["songs"] as! [String]
             self.songList = songs
             self.lengths = dict["lengths"] as! [Int]
+            
+            self.songTitleList = []
+            self.songArtistList = []
             
             for song in self.songs {
                 self.songTitleList.append(song.name)
@@ -123,10 +129,15 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
 //            self.currentSong = songs[self.currentIndex]
             //print(self.songTitleList)
             //print(self.songArtistList)
-            self.setUpSearchBar()
-            self.setUpTable()
-            self.setUpLabel()
-            self.mainSearchBar.delegate = self
+            if self.first {
+                self.first = false
+                self.setUpSearchBar()
+                self.setUpTable()
+                self.setUpLabel()
+                self.mainSearchBar.delegate = self
+            } else {
+                self.tableView.reloadData()
+            }
             //self.setUpAddButton()
             }
         )}
@@ -180,6 +191,7 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         (viewController as? CurrentPlaylistViewController)?.pause = self.pause
+        (viewController as? CurrentPlaylistViewController)?.owner = self.owner
     }
     
 }

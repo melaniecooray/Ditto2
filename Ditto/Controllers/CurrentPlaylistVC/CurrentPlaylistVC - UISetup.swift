@@ -143,6 +143,7 @@ extension CurrentPlaylistViewController {
         resultVC.player = player
         resultVC.pause = pause
         resultVC.playlist = playlist
+        resultVC.owner = owner
         navController.pushViewController(resultVC, animated: true)
     }
     
@@ -277,15 +278,17 @@ extension CurrentPlaylistViewController {
         if pause  {
             playbutton.setImage(UIImage(named: "playlistpausebutton"), for: .normal)
             pause = false
-            player?.setIsPlaying(true, callback:{ (error) in
-                if error != nil {
-                    print("error playing song")
-                    return
-                } else {
-                    print("playing song")
-                    self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.runTimedCode), userInfo: nil, repeats: true)
-                }
-            })
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.player?.setIsPlaying(true, callback:{ (error) in
+                    if error != nil {
+                        print("error playing song")
+                        return
+                    } else {
+                        print("playing song")
+                        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.runTimedCode), userInfo: nil, repeats: true)
+                    }
+                })
+            }
         } else {
             playbutton.setImage(UIImage(named: "playlistcodebutton"), for: .normal)
             pause = true
