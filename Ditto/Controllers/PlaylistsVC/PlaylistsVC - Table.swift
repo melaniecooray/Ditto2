@@ -68,6 +68,8 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource, U
     }
     
     @objc func playCode(sender: UITableViewCell) {
+        mainSearchBar.resignFirstResponder()
+        loadingIcon.startAnimating()
         guard let cell = sender.superview?.superview as? PlaylistViewCell else {
             return // or fatalError() or whatever
         }
@@ -154,6 +156,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource, U
             resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
             resultVC.playlist = self.playlist
             resultVC.songs = songs
+            navController.popToRootViewController(animated: false)
             navController.pushViewController(resultVC, animated: true)
         })
     }

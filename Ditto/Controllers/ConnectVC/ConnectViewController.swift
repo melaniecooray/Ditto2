@@ -145,6 +145,7 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
         Auth.auth().addStateDidChangeListener { auth, user in
             if let user = user {
                 print("logged in")
+                UserDefaults.standard.set(Auth.auth().currentUser?.uid, forKey: "id")
                 self.performSegue(withIdentifier: "connectedLogin", sender: self)
             } else {
                 self.performSegue(withIdentifier: "toLogin", sender: self)

@@ -36,6 +36,7 @@ class PlaylistsViewController: UIViewController {
     
     var addButton: UIButton!
     var emptyLabel : UILabel!
+    var loadingIcon : UIActivityIndicatorView!
     
     var playlist : Playlist!
     let url = "https://api.spotify.com/v1/tracks/"
@@ -65,7 +66,7 @@ class PlaylistsViewController: UIViewController {
         
         setUpBackground()
         setUpTable()
-        getUserInformation()
+        //getUserInformation()
         setUpSearchBar()
         //setUpBackground()
         setUpLabel()
@@ -81,10 +82,16 @@ class PlaylistsViewController: UIViewController {
         getUserInformation()
         self.tableView.reloadData()
         addTapDismiss()
+        loadingIcon.stopAnimating()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
+        loadingIcon = UIActivityIndicatorView(style: .whiteLarge)
+        loadingIcon.frame = self.view.frame
+        loadingIcon.center = self.view.center
+        view.addSubview(loadingIcon)
+        loadingIcon.stopAnimating()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -98,8 +105,8 @@ class PlaylistsViewController: UIViewController {
     func getUserInformation() {
         UserDefaults.standard.set(Auth.auth().currentUser?.uid, forKey: "id")
         let currentID = UserDefaults.standard.value(forKey: "id")!
-        print(currentID)
-        print("just tried to print current id")
+        //print(currentID)
+        //print("just tried to print current id")
         let db = Database.database().reference()
         let userNode = db.child("users")
         
@@ -111,7 +118,7 @@ class PlaylistsViewController: UIViewController {
                 if let names = value?["owned playlist names"] as? [String] {
                     self.playlistTitleList = names
                 }
-                print(value?["member playlist names"] as? [String])
+                //print(value?["member playlist names"] as? [String])
                 if let mnames = value?["member playlist names"] as? [String] {
                     //print(value?["member playlist names"] as? [String])
                     self.playlistTitleList.append(contentsOf: mnames)
@@ -129,22 +136,23 @@ class PlaylistsViewController: UIViewController {
                         index += 1
                     }
                 }
-                print(self.playlistCodeList)
-                print("fullnameretrieved")
-                print(retrievedName)
+                //print(self.playlistCodeList)
+                //print("fullnameretrieved")
+                //print(retrievedName)
                 if self.playlistCodeList.isEmpty {
                     self.recentlyPlayedLabel.text = "No joined playlists"
                 } else {
                     self.playlistTitleList = self.playlistTitleList.sorted { $0.localizedCaseInsensitiveCompare($1) == ComparisonResult.orderedAscending }
+                    //print(self.playlistTitleList)
                     self.tableView.reloadData()
                     self.getPlaylists()
                 }
                 //self.tableView.reloadData()
                 //self.nameLabel.text = retrievedName
             } else {
-                print(currentID)
-                print(snapshot)
-                print("why is going here")
+                //print(currentID)
+                //print(snapshot)
+                //print("why is going here")
             }
         })
     }

@@ -81,7 +81,7 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        print("entered")
+        //print("entered")
         self.navigationController?.popToRootViewController(animated: false)
     }
     
@@ -94,7 +94,7 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
     
     @objc func addButtonClicked() {
         //performSegue(withIdentifier: "toNewPlaylist", sender: self)
-        print("going to add song")
+        //print("going to add song")
         self.tabBarController?.selectedIndex = 1
         let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
         let resultVC = CreateNewPlaylistTableViewController()
@@ -121,8 +121,8 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
                 }
             
 //            self.currentSong = songs[self.currentIndex]
-            print(self.songTitleList)
-            print(self.songArtistList)
+            //print(self.songTitleList)
+            //print(self.songArtistList)
             self.setUpSearchBar()
             self.setUpTable()
             self.setUpLabel()

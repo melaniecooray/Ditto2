@@ -164,7 +164,7 @@ extension SignUpViewController {
         }
         
         if let pass = passwordTextField.text {
-            if pass.count > 6 {
+            if pass.count >= 6 {
                 userPassword = pass
             } else {
                 self.signUpButton.isUserInteractionEnabled = true

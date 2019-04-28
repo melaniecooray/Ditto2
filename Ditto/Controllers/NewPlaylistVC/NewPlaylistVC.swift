@@ -26,7 +26,6 @@ class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
         backgroundImage.image = UIImage(named: "createplaylistback")
         backgroundImage.contentMode = UIView.ContentMode.scaleAspectFill
@@ -45,9 +44,14 @@ class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
         // Do any additional f setup after loading the view.
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        createButton.isEnabled = true
+    }
+    
     
     
     @objc func createButtonClicked() {
+        createButton.isEnabled = false
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
         code = makeCode()

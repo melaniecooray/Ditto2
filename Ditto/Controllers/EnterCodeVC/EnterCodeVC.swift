@@ -21,6 +21,7 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
     
     var code = ""
     var playlist : Playlist!
+    var loadingIcon : UIActivityIndicatorView!
     
     var getUserURL = "https://api.spotify.com/v1/me"
     let parameters: HTTPHeaders = ["Accept":"application/json", "Authorization":"Bearer \(UserDefaults.standard.value(forKey: "accessToken")!)"]
@@ -38,6 +39,7 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         self.codeInput.delegate = self
+        searchButton.isEnabled = true
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -58,6 +60,7 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func filter(_ sender: UIButton) {
+        searchButton.isEnabled = false
         //actually filter here?
         if code == "" {
             showError(title: "Invalid", message: "Please enter in a playlist code.")
