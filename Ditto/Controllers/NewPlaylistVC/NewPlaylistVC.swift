@@ -59,9 +59,9 @@ class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
         UserDefaults.standard.set(code, forKey: "code")
         UserDefaults.standard.set("new", forKey: "playlistStatus")
 
-        self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
+        //self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
         
-        /*
+        
         let imageRef = Storage.storage().reference().child("images").child(code)
         //let data = chosenImage!.pngData()!
         //lowest quality compression for jpeg
@@ -77,7 +77,7 @@ class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
                 self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
             }
         }
- */
+ 
         //self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
  
 

@@ -58,6 +58,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         
         self.navigationController?.isNavigationBarHidden = false
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(pickedSongs))
+        self.navigationItem.rightBarButtonItem?.isEnabled = true
         self.navigationController?.navigationBar.tintColor = .white
         self.navigationItem.rightBarButtonItem?.isEnabled = true
         if (UserDefaults.standard.value(forKey: "playlistStatus") as! String == "update") {
@@ -72,12 +73,24 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         //callAlamo(url: searchURL, headers: parameters)
     }
     
+
     override func viewDidAppear(_ animated: Bool) {
         loadingIcon = UIActivityIndicatorView(style: .whiteLarge)
         loadingIcon.frame = self.view.frame
         loadingIcon.center = self.view.center
         view.addSubview(loadingIcon)
     }
+
+
+    override func viewWillDisappear(_ animated: Bool) {
+        if self.navigationController?.topViewController == self {
+            if !new {
+                //print("pop this bich")
+                self.navigationController?.popToRootViewController(animated: false)
+            }
+        }
+    }
+
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         return true
@@ -86,20 +99,20 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         loadingIcon.startAnimating()
-        print(loadingIcon.isAnimating)
-        print("clicked")
+        //print(loadingIcon.isAnimating)
+        //print("clicked")
         let keywords = searchBar.text
         let finalKeywords = keywords?.replacingOccurrences(of: " ", with: "+")
         searchURL  = "https://api.spotify.com/v1/search?q=\(finalKeywords!)&type=track"
         posts.removeAll()
         uris.removeAll()
-        print("printing temp")
-        print(temp)
+        //print("printing temp")
+        //print(temp)
         for song in temp {
             selectedSongs.append(song)
         }
         //selectedSongs.append(contentsOf: temp)
-        print(selectedSongs)
+        //print(selectedSongs)
         temp.removeAll()
         
         callAlamo(url: searchURL, headers: parameters)
@@ -107,7 +120,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
     }
     
     func callAlamo(url : String, headers: HTTPHeaders){
-        print("calling")
+        //print("calling")
         AF.request(url, headers: parameters).responseJSON(completionHandler: {
             response in
             
@@ -176,7 +189,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         for song in temp {
             selectedSongs.append(song)
         }
-        print(selectedSongs)
+        //print(selectedSongs)
         for song in selectedSongs {
             songuris.append(song.id)
             lengths.append(song.length)
@@ -202,13 +215,13 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         AF.request(getUserURL, headers: parameters).responseJSON(completionHandler: {
             response in
             do {
-                print("Success!!!!")
+                //print("Success!!!!")
                 var readableJSON = try JSONSerialization.jsonObject(with: response.data!, options: .mutableContainers) as! JSONStandard
                 if let user_id = readableJSON["id"] {
-                    print(user_id)
+                    //print(user_id)
                     UserDefaults.standard.set(user_id, forKey: "user_id")
                     self.userID = user_id as? String
-                    print(UserDefaults.standard.value(forKey: "id")!)
+                    //print(UserDefaults.standard.value(forKey: "id")!)
                     if self.new {
                         playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": self.songuris, "members" : [UserDefaults.standard.value(forKey: "id")], "owner" : UserDefaults.standard.value(forKey: "id"), "lengths" : self.lengths])
                         self.playlists.append(UserDefaults.standard.value(forKey: "code") as! String)
@@ -216,7 +229,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                         userNode.child(UserDefaults.standard.value(forKey: "id") as! String).updateChildValues(["owned playlist codes" : self.playlists, "owned playlist names" : self.names])
                     
                         let createPlaylistURL = "https://api.spotify.com/v1/users/\(user_id)/playlists"
-                        print(self.userID)
+                        //print(self.userID)
                         AF.request(createPlaylistURL, method: .post, parameters: ["name" : self.name, "description" : "", "public" : true],encoding: JSONEncoding.default, headers: self.parameters).responseData {
                             response in
                             do {
@@ -238,7 +251,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                                     response in
                                     switch response.result {
                                     case .success:
-                                        print("added songs")
+                                        //print("added songs")
                                         //print(response)
                                         self.success()
                                     case .failure(let error):
@@ -257,7 +270,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                             var toAdd : [String] = []
                             var addLengths : [Int] = []
                             if let currentSongs = dict["songs"] as? [String] {
-                                print(currentSongs)
+                                //print(currentSongs)
                                 toAdd = currentSongs
                             }
                             if let currentLengths = dict["lengths"] as? [Int] {
@@ -265,7 +278,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                             }
                             toAdd.append(contentsOf: self.songuris)
                             addLengths.append(contentsOf: self.lengths)
-                            print(toAdd)
+                            //print(toAdd)
                             playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": toAdd, "lengths" : addLengths])
                             self.playlistID = dict["uri"] as! String
                             self.name = dict["name"] as! String
@@ -297,6 +310,8 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
             playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": self.songuris])
         }
         //performSegue(withIdentifier: "createdPlaylist", sender: self)
+        //hopefully will go to root
+        //self.navigationController?.popToRootViewController(animated: false)
         self.tabBarController?.selectedIndex = 1
         let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
         let resultVC = CurrentPlaylistViewController()
@@ -304,8 +319,8 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         resultVC.playlist = Playlist(id: playlistID!, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs, "owner" : UserDefaults.standard.value(forKey: "id")!])
         var toSend = previousSongs
         toSend.append(contentsOf: selectedSongs)
-        print("songs that are being passed")
-        print(toSend)
+        //print("songs that are being passed")
+        //print(toSend)
         resultVC.songs = toSend
         loadingIcon.stopAnimating()
         navController.popToRootViewController(animated: false)

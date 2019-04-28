@@ -9,7 +9,7 @@
 import UIKit
 import FirebaseDatabase
 
-class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavigationControllerDelegate {
+class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavigationControllerDelegate, UITabBarControllerDelegate {
     
     var backgroundImage: UIImageView!
     var tableView: UITableView!
@@ -64,6 +64,7 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
         self.navigationController?.delegate = self
         
         self.mainSearchBar.delegate = self
+        self.tabBarController?.delegate = self
         self.mainSearchBar.returnKeyType = UIReturnKeyType.done
         
     }
@@ -72,6 +73,11 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonClicked))
+    }
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        //print("entered")
+        self.navigationController?.popToRootViewController(animated: false)
     }
     
     func addTapDismiss() {
@@ -83,7 +89,7 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
     
     @objc func addButtonClicked() {
         //performSegue(withIdentifier: "toNewPlaylist", sender: self)
-        print("going to add song")
+        //print("going to add song")
         self.tabBarController?.selectedIndex = 1
         let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
         let resultVC = CreateNewPlaylistTableViewController()
@@ -110,8 +116,8 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
                 }
             
 //            self.currentSong = songs[self.currentIndex]
-            print(self.songTitleList)
-            print(self.songArtistList)
+            //print(self.songTitleList)
+            //print(self.songArtistList)
             self.setUpSearchBar()
             self.setUpTable()
             self.setUpLabel()
@@ -126,7 +132,7 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if mainSearchBar.text == nil || mainSearchBar.text == "" {
-            print("searching")
+            //print("searching")
             isSearching = false
             view.endEditing(true)
             tableView.reloadData()

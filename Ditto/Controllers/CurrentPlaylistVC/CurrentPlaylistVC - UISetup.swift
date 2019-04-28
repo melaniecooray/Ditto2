@@ -17,7 +17,8 @@ extension CurrentPlaylistViewController {
     func initUI() {
         setUpBackground()
         setUpBanner()
-        setUpCode()
+        //setUpCode()
+        setUpCode2()
         setUpButton()
         setUpSongImage()
         setUpPlaylistName()
@@ -34,10 +35,10 @@ extension CurrentPlaylistViewController {
     
     func setUpBackground() {
         view.backgroundColor = .white
-        backImage = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height * 0.65))
+        backImage = UIImageView(frame: CGRect(x: 0, y: view.frame.height/8, width: view.frame.width, height: view.frame.height * 0.65 - view.frame.height/8))
         //backImage.image = songs[currentIndex].image
         backImage.contentMode = .scaleAspectFill
-        backImage.alpha = 0.4
+        backImage.alpha = 0.5
         //backImage.addBlurEffect()
         view.addSubview(backImage)
     }
@@ -90,15 +91,26 @@ extension CurrentPlaylistViewController {
         view.addSubview(borderView)
     }
     
+    func setUpCode2() {
+        codeLabel = UILabel(frame: CGRect(x: view.frame.width/12, y: view.frame.height * 0.04, width: view.frame.width * 0.6, height: view.frame.height/18))
+        codeLabel.font = UIFont(name: "Roboto-Bold", size: 25)
+        codeLabel.text = "code: " + Utils.space(text: playlist.code)
+        codeLabel.textColor = UIColor(hexString: "#7383C5")
+        codeLabel.layer.borderColor = UIColor.clear.cgColor
+        codeLabel.textAlignment = .center
+        view.addSubview(codeLabel)
+    }
+    
     func setUpButton() {
         barsButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width * 0.25, height: codeLabel.frame.height))
-        barsButton.center = CGPoint(x: (view.frame.width + numberLabel.frame.maxX)/2 - view.frame.width/50, y: codeLabel.frame.midY)
+        //barsButton.center = CGPoint(x: (view.frame.width + codeLabel.frame.maxX)/2 - view.frame.width/30, y: codeLabel.frame.midY)
+        barsButton.center = CGPoint(x: (view.frame.width + codeLabel.frame.maxX)/2 + view.frame.width/30, y: codeLabel.frame.midY)
         barsButton.setImage(UIImage(named: "bars"), for: .normal)
         barsButton.imageView?.contentMode = .scaleAspectFit
         barsButton.addTarget(self, action: #selector(editPressed), for: .touchUpInside)
         view.addSubview(barsButton)
         exitButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width * 0.10, height: codeLabel.frame.height))
-        exitButton.center = CGPoint(x: (view.frame.width - numberLabel.frame.maxX)/2 - view.frame.width/40, y: codeLabel.frame.midY)
+        exitButton.center = CGPoint(x: (view.frame.width - codeLabel.frame.maxX)/2 - view.frame.width/40, y: codeLabel.frame.midY)
         exitButton.setImage(UIImage(named: "x"), for: .normal)
         exitButton.imageView?.contentMode = .scaleAspectFit
         exitButton.addTarget(self, action: #selector(exit), for: .touchUpInside)
@@ -153,7 +165,8 @@ extension CurrentPlaylistViewController {
     
     func setUpSongImage() {
         songImage = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width * 0.6, height: view.frame.width * 0.6))
-        songImage.center = CGPoint(x: backImage.frame.midX, y: backImage.frame.midY + view.frame.height/20)
+        //songImage.center = CGPoint(x: backImage.frame.midX, y: backImage.frame.midY + view.frame.height/20)
+        songImage.center = CGPoint(x: backImage.frame.midX, y: backImage.frame.midY - view.frame.height/50)
         //songImage.image = songs[currentIndex].image
         songImage.contentMode = .scaleAspectFit
         songImage.layer.shadowColor = UIColor.black.cgColor
@@ -165,7 +178,7 @@ extension CurrentPlaylistViewController {
     
     func setUpSong() {
         nowPlayingLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width * 2/3, height: view.frame.height/25))
-        nowPlayingLabel.center = CGPoint(x: view.frame.width/2, y: songImage.frame.maxY + view.frame.height/9.5)
+        nowPlayingLabel.center = CGPoint(x: view.frame.width/2, y: songImage.frame.maxY + view.frame.height/9.1)
         nowPlayingLabel.textAlignment = .center
         nowPlayingLabel.textColor = .white
         nowPlayingLabel.text = playlist.name
@@ -251,8 +264,8 @@ extension CurrentPlaylistViewController {
     }
     
     func setupOwnerLabel() {
-        ownerLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 50))
-        ownerLabel.center = CGPoint(x: view.frame.width/2, y: artistName.frame.maxY * 1.15)
+        ownerLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height/20))
+        ownerLabel.center = CGPoint(x: view.frame.width/2, y: artistName.frame.maxY * 1.12)
         ownerLabel.font = UIFont(name: "Roboto-Regular", size: 20)
         ownerLabel.textAlignment = .center
         ownerLabel.textColor = .black

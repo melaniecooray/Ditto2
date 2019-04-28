@@ -44,7 +44,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     let parameters: HTTPHeaders = ["Accept":"application/json", "Authorization":"Bearer \(UserDefaults.standard.value(forKey: "accessToken")!)"]
     
     var timer : Timer!
-    var time = 35
+    var time = 0
     var player : SPTAudioStreamingController?
     
     var currentSong : String!
@@ -99,8 +99,8 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observe(.value, with: { (snapshot) in
                 let dict = snapshot.value as! [String : Any]
                 self.currentIndex = dict["song"] as! Int
-                print(self.currentIndex)
-                print(self.songs[self.currentIndex])
+                //print(self.currentIndex)
+                //print(self.songs[self.currentIndex])
                 if let currTime = dict["time"] as? Int {
                     print("current time in firebase is")
                     print(self.time)
@@ -181,13 +181,15 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             } else {
                 self.currentIndex = 0
             }
-            print(self.currentIndex)
+            //print(self.currentIndex)
             self.songList = songs
             self.currentSong = songs[self.currentIndex]
-            print("current song:")
-            print(self.currentSong)
+            //print("current song:")
+            //print(self.currentSong)
             if let time = dict["time"] as? Int {
                 self.time = time
+                print("time is:")
+                print(self.time)
                 let doubleTime = Double(time)
                 self.mstime = doubleTime * 1000
             }
@@ -201,9 +203,9 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             if self.first {
                 self.playSong()
             } else {
-                print(self.currentIndex)
-                print(self.songs[self.currentIndex].name)
-                print(self.currentSong)
+                //print(self.currentIndex)
+                //print(self.songs[self.currentIndex].name)
+                //print(self.currentSong)
                 
                 self.player?.playSpotifyURI(self.currentSong!, startingWith: 0, startingWithPosition: self.mstime,callback: { (error) in
                     if error != nil {
@@ -236,8 +238,8 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     }
     
     func playSong() {
-        print("printing playlist id")
-        print(playlist.id!)
+        //print("printing playlist id")
+        //print(playlist.id!)
         /*
         AF.request("https://api.spotify.com/v1/me/player/play", method: .put, parameters: ["context_uri" : playlist.id!, "offset" : ["position" : 0], "position_ms" : 0],encoding: JSONEncoding.default, headers: self.parameters).responseData {
             response in
@@ -267,10 +269,10 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                 // If there is use it to login to the audio streaming controller where we can play music.
                 
                 if self.player == nil {
-                    print("player is nil")
+                    //print("player is nil")
                     self.player = SPTAudioStreamingController.sharedInstance()
                     if !(self.player?.loggedIn)! {
-                        print("player is not logged in")
+                        //print("player is not logged in")
                         self.player?.delegate = self
                         self.player?.playbackDelegate = self
                         self.player?.login(withAccessToken: UserDefaults.standard.value(forKey: "accessToken") as! String)
@@ -296,7 +298,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     }
     
     func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
-        print("successfully logged in")
+        //print("successfully logged in")
         self.player = audioStreaming
         audioStreaming.playSpotifyURI(self.currentSong!, startingWith: 0, startingWithPosition: TimeInterval(self.time), callback: { (error) in
             if error != nil {
@@ -345,7 +347,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                         print("*** failed to queue: \(String(describing: error))")
                         return
                     }else{
-                        print("Added to Queue!!")
+                        //print("Added to Queue!!")
                     }
                 })
             }
@@ -360,7 +362,12 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     @objc func runTimedCode() {
         //print(self.currentIndex)
         //print(self.songs[self.currentIndex])
+        //just a check
+        if self.currentIndex >= self.songs.count {
+            self.currentIndex = 0
+        }
         self.currentLength = self.songs[self.currentIndex].length
+        print(self.currentLength)
         self.time += 1
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
@@ -372,7 +379,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                 self.time = 0
                 self.currentIndex += 1
                 if self.currentIndex >= self.songs.count {
-                    
+                    self.currentIndex = 0
                 } else {
                     self.player?.skipNext({ (error) in
                         if error != nil {
