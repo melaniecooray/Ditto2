@@ -104,6 +104,7 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
         //        resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
         //        resultVC.playlist = Playlist(id: playlistID!, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs])
         resultVC.previousSongs = songs
+        resultVC.owner = self.owner
         UserDefaults.standard.set("update", forKey: "playlistStatus")
         navController.pushViewController(resultVC, animated: true)
     }
@@ -124,7 +125,14 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
             for song in self.songs {
                 self.songTitleList.append(song.name)
                 self.songArtistList.append(song.artist)
-                }
+            }
+            
+            if let list = dict["artists"] as? [String] {
+                self.songArtistList = list
+            }
+            if let list2 = dict["names"] as? [String] {
+                self.songTitleList = list2
+            }
             
 //            self.currentSong = songs[self.currentIndex]
             //print(self.songTitleList)
