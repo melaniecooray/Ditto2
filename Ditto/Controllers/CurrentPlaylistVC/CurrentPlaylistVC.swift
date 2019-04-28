@@ -92,7 +92,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
         var started = false
         if self.owner {
             findSong()
-            //playSong()
+            playSong()
         } else {
             let db = Database.database().reference()
             let playlistNode = db.child("playlists")
@@ -138,16 +138,14 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                     }
                     self.pause = true
                     self.startedPlaying = false
-                    if firstPaused {
-                        self.player?.setIsPlaying(false, callback: { (error) in
-                            if error != nil {
-                                print("error pausing song")
-                                return
-                            } else {
-                                print("paused song")
-                            }
-                        })
-                    }
+                    self.player?.setIsPlaying(false, callback: { (error) in
+                        if error != nil {
+                            print("error pausing song")
+                            return
+                        } else {
+                            print("paused song")
+                        }
+                    })
                 }
             })
         }

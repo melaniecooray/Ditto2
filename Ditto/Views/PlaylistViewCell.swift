@@ -27,7 +27,7 @@ class PlaylistViewCell: UITableViewCell {
         playlistPhoto = UIImageView(frame: CGRect(x: 0, y: 0, width: size.width/2, height: size.height/2))
         playlistPhoto.center = CGPoint(x: size.width/6, y: size.height/2)
         playlistPhoto.contentMode = .scaleAspectFit
-        playlistPhoto.image = UIImage(named: "blacksquare")
+        playlistPhoto.image = UIImage(named: "genericplaylistpicture")
         contentView.addSubview(playlistPhoto)
         
         playlistName = UILabel(frame: CGRect(x: playlistPhoto.frame.maxX * 3/4.5, y: playlistPhoto.frame.minY * 0.70, width: size.width, height: size.height/2))

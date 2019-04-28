@@ -65,21 +65,23 @@ class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
         let imageRef = Storage.storage().reference().child("images").child(code)
         //let data = chosenImage!.pngData()!
         //lowest quality compression for jpeg
-        let data = chosenImage!.jpegData(compressionQuality: 0)!
-        imageRef.putData(data, metadata: nil) { (metadata, error) in
-            if metadata == nil {
-                return
-            }
-            imageRef.downloadURL { (url, error) in
-                if url == nil {
+        if chosenImage == nil {
+             self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
+        } else {
+            let data = chosenImage!.jpegData(compressionQuality: 0)!
+            imageRef.putData(data, metadata: nil) { (metadata, error) in
+                if metadata == nil {
                     return
                 }
-                self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
+                imageRef.downloadURL { (url, error) in
+                    if url == nil {
+                        return
+                    }
+                    self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
+                }
             }
+            
         }
- 
-        //self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
- 
 
     }
     

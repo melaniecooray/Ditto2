@@ -22,8 +22,8 @@ extension PlaylistsViewController {
             print("getting data")
             image.getData(maxSize: 30 * 1024 * 1024) { data, error in
                 if let error = error {
-                    self.playlistImageList[title] = UIImage(named: "blacksquare")
-                    //print(error)
+                    self.playlistImageList[title] = UIImage(named: "genericplaylistpicture")
+                    print(error)
                     print("addblack")
                 } else {
                     self.playlistImageList[title] = UIImage(data: data!)!

@@ -30,7 +30,8 @@ extension EditPlaylistViewController {
     
     func setUpLabel() {
         recentlyPlayedLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height / 10))
-        recentlyPlayedLabel.center = CGPoint(x: view.frame.width/1.18, y: tableView.frame.minY * 0.90 )
+        recentlyPlayedLabel.center = CGPoint(x: view.frame.width/2, y: tableView.frame.minY * 0.90 )
+        recentlyPlayedLabel.textAlignment = .center
         recentlyPlayedLabel.font = UIFont(name: "Roboto-Bold", size: 20)
         recentlyPlayedLabel.text = playlist.name!
         view.addSubview(recentlyPlayedLabel)
@@ -54,17 +55,24 @@ extension EditPlaylistViewController {
     
     func setUpSearchBar() {
         mainSearchBar = UISearchBar(frame: CGRect(x: view.frame.width / 7, y: view.frame.height/10, width: view.frame.width, height: view.frame.width/6))
+        //        pokemonTable.contentInset = UIEdgeInsetsMake(view.frame.height/30, 0, self.tabBarController!.tabBar.frame.height - view.frame.height/50, 0)
+        
         mainSearchBar.placeholder = "search for songs in playlist..."
+        mainSearchBar.backgroundColor = UIColor.white
         mainSearchBar.backgroundColor = UIColor.clear
         mainSearchBar.tintColor = UIColor.clear
         mainSearchBar.barTintColor = UIColor.clear
         mainSearchBar.backgroundImage = UIImage()
         mainSearchBar.scopeBarBackgroundImage = UIImage()
         mainSearchBar.isTranslucent = true
-        
+        //mainSearchBar.layer.borderColor = UIImage()
+        //        mainSearchBar.layer.borderWidth = 1
+        //
+        //        mainSearchBar.layer.borderColor = UIColor.clear
+        mainSearchBar.isTranslucent = true
+        //mainSearchBar = UISearchBar.Style(minimal)
         let textFieldInsideSearchBar = mainSearchBar.value(forKey: "searchField") as? UITextField
         textFieldInsideSearchBar?.textColor = UIColor.black
-        textFieldInsideSearchBar?.backgroundColor = UIColor.clear
         
         view.addSubview(mainSearchBar)
     }
