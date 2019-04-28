@@ -45,7 +45,10 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
     var songuris : [String] = []
     var names : [String] = []
     var lengths : [Int] = []
+    var nameList : [String] = []
+    var artistList : [String] = []
     var new = true
+    var owner = true
     
     var searchURL = String()
     //var createPlaylistURL = "https://api.spotify.com/v1/playlists"
@@ -193,6 +196,8 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         for song in selectedSongs {
             songuris.append(song.id)
             lengths.append(song.length)
+            nameList.append(song.name)
+            artistList.append(song.artist)
         }
         
         let db = Database.database().reference()
@@ -223,7 +228,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                     self.userID = user_id as? String
                     //print(UserDefaults.standard.value(forKey: "id")!)
                     if self.new {
-                        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": self.songuris, "members" : [UserDefaults.standard.value(forKey: "id")], "owner" : UserDefaults.standard.value(forKey: "id"), "lengths" : self.lengths])
+                        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": self.songuris, "members" : [UserDefaults.standard.value(forKey: "id")], "owner" : UserDefaults.standard.value(forKey: "id"), "lengths" : self.lengths, "names" : self.nameList, "artists" : self.artistList])
                         self.playlists.append(UserDefaults.standard.value(forKey: "code") as! String)
                         self.names.append(self.name)
                         userNode.child(UserDefaults.standard.value(forKey: "id") as! String).updateChildValues(["owned playlist codes" : self.playlists, "owned playlist names" : self.names])
@@ -269,6 +274,8 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                             let dict = snapshot.value as! [String : Any]
                             var toAdd : [String] = []
                             var addLengths : [Int] = []
+                            var addNames : [String] = []
+                            var addArtists : [String] = []
                             if let currentSongs = dict["songs"] as? [String] {
                                 //print(currentSongs)
                                 toAdd = currentSongs
@@ -276,10 +283,18 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                             if let currentLengths = dict["lengths"] as? [Int] {
                                 addLengths = currentLengths
                             }
+                            if let currentNames = dict["names"] as? [String] {
+                                addNames = currentNames
+                            }
+                            if let currentArtists = dict["artists"] as? [String] {
+                                addArtists = currentArtists
+                            }
                             toAdd.append(contentsOf: self.songuris)
                             addLengths.append(contentsOf: self.lengths)
+                            addNames.append(contentsOf: self.nameList)
+                            addArtists.append(contentsOf: self.artistList)
                             //print(toAdd)
-                            playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": toAdd, "lengths" : addLengths])
+                            playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": toAdd, "lengths" : addLengths, "names" : addNames, "artists" : addArtists])
                             self.playlistID = dict["uri"] as! String
                             self.name = dict["name"] as! String
                             self.success()
@@ -317,6 +332,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         let resultVC = CurrentPlaylistViewController()
         resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
         resultVC.playlist = Playlist(id: playlistID!, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs, "owner" : UserDefaults.standard.value(forKey: "id")!])
+        resultVC.owner = self.owner
         var toSend = previousSongs
         toSend.append(contentsOf: selectedSongs)
         //print("songs that are being passed")
