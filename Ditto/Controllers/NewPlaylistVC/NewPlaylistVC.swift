@@ -56,7 +56,7 @@ class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
         UserDefaults.standard.set("new", forKey: "playlistStatus")
 
         self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
-        /*
+        
         let imageRef = Storage.storage().reference().child("images").child(code)
         let data = chosenImage!.pngData()!
         imageRef.putData(data, metadata: nil) { (metadata, error) in
@@ -70,7 +70,8 @@ class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
                 self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
             }
         }
- */
+ 
+
     }
     
     func makeCode() -> String {

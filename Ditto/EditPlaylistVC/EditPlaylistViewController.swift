@@ -9,7 +9,7 @@
 import UIKit
 import FirebaseDatabase
 
-class EditPlaylistViewController: UIViewController, UISearchBarDelegate {
+class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavigationControllerDelegate {
     
     var backgroundImage: UIImageView!
     var tableView: UITableView!
@@ -45,17 +45,21 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate {
     
     var addButton: UIButton!
     
+    var player : SPTAudioStreamingController?
+    var pause : Bool!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         getPlaylistSongs()
         setUpBackground()
+        addTapDismiss()
         //setUpSearchBar()
         //setUpTable()
         //setUpLabel()
         //setUpAddButton()
         
+        self.navigationController?.delegate = self
         
         mainSearchBar.delegate = self
         //self.mainSearchBar.returnKeyType = UIReturnKeyType.done
@@ -69,8 +73,16 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonClicked))
     }
     
+<<<<<<< HEAD
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         return true
+=======
+    func addTapDismiss() {
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
+    }
+    @objc func dismissKeyboard() {
+        mainSearchBar.resignFirstResponder()
+>>>>>>> 3e2fd40bd76684602db6567c94c4ed4dd9297772
     }
     
     @objc func addButtonClicked() {
@@ -157,7 +169,13 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate {
         }
     }
     
+<<<<<<< HEAD
     
+=======
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        (viewController as? CurrentPlaylistViewController)?.pause = self.pause
+    }
+>>>>>>> 3e2fd40bd76684602db6567c94c4ed4dd9297772
     
 }
 

@@ -31,12 +31,12 @@ extension PlaylistsViewController {
         recentlyPlayedLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height / 10))
         recentlyPlayedLabel.center = CGPoint(x: view.frame.width/1.18, y: tableView.frame.minY * 0.90 )
         recentlyPlayedLabel.font = UIFont(name: "Roboto-Bold", size: 20)
-        recentlyPlayedLabel.text = "recently played"
+        recentlyPlayedLabel.text = "all playlists"
         view.addSubview(recentlyPlayedLabel)
     }
     
     func setUpTable() {
-        tableView = UITableView(frame: CGRect(x: 0, y: view.frame.height/4, width: view.frame.width, height: view.frame.height - view.frame.height/10))
+        tableView = UITableView(frame: CGRect(x: 0, y: view.frame.height/4, width: view.frame.width, height: view.frame.height - view.frame.height/5))
         tableView.register(PlaylistViewCell.self, forCellReuseIdentifier: "tableCell")
         tableView.delegate = self
         tableView.dataSource = self

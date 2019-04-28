@@ -24,6 +24,7 @@ extension CurrentPlaylistViewController {
         setUpSong()
         setUpNavBar()
         //setUpControl()
+        setupOwnerLabel()
         if Auth.auth().currentUser?.uid == playlist.owner {
             view.addSubview(playbutton)
             view.addSubview(rightButton)
@@ -34,7 +35,7 @@ extension CurrentPlaylistViewController {
     func setUpBackground() {
         view.backgroundColor = .white
         backImage = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height * 0.65))
-        backImage.image = songs[currentIndex].image
+        //backImage.image = songs[currentIndex].image
         backImage.contentMode = .scaleAspectFill
         backImage.alpha = 0.4
         //backImage.addBlurEffect()
@@ -112,6 +113,8 @@ extension CurrentPlaylistViewController {
         let resultVC = EditPlaylistViewController()
 //        resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
         resultVC.songs = songs
+        resultVC.player = player
+        resultVC.pause = pause
         navController.pushViewController(resultVC, animated: true)
     }
     
@@ -135,7 +138,7 @@ extension CurrentPlaylistViewController {
     func setUpSongImage() {
         songImage = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width * 0.6, height: view.frame.width * 0.6))
         songImage.center = CGPoint(x: backImage.frame.midX, y: backImage.frame.midY + view.frame.height/20)
-        songImage.image = songs[currentIndex].image
+        //songImage.image = songs[currentIndex].image
         songImage.contentMode = .scaleAspectFit
         songImage.layer.shadowColor = UIColor.black.cgColor
         songImage.layer.shadowOpacity = 0.5
@@ -159,7 +162,7 @@ extension CurrentPlaylistViewController {
         songName = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width * 2/3, height: view.frame.height/25))
         songName.center = CGPoint(x: view.frame.width/2, y: bannerImage.frame.maxY * 0.9)
         //playlistName.text = "\"vibe station\""
-        songName.text = songs[currentIndex].name
+        //songName.text = songs[currentIndex].name
         songName.font = UIFont(name: "Roboto-Regular", size: 18)
         songName.textColor = .white
         songName.textAlignment = .center
@@ -183,7 +186,7 @@ extension CurrentPlaylistViewController {
         
         artistName = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width * 2/3, height: view.frame.height/25))
         artistName.center = CGPoint(x: view.frame.width/2, y: songName.frame.maxY + view.frame.width * 0.01)
-        artistName.text = songs[currentIndex].artist
+        //artistName.text = songs[currentIndex].artist
         artistName.textColor = .white
         artistName.center = CGPoint(x: bannerImage.frame.maxX/2, y: bannerImage.frame.maxY * 0.95)
         artistName.textAlignment = .center
@@ -205,7 +208,11 @@ extension CurrentPlaylistViewController {
     func setUpNavBar() {
         playbutton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width/4, height: view.frame.height/7))
         playbutton.center = CGPoint(x: view.frame.width/2, y: view.frame.width * 1.49)
-        playbutton.setImage(UIImage(named: "playlistpausebutton"), for: .normal)
+        if pause {
+            playbutton.setImage(UIImage(named: "playlistcodebutton"), for: .normal)
+        } else {
+            playbutton.setImage(UIImage(named: "playlistpausebutton"), for: .normal)
+        }
         playbutton.contentMode = .scaleAspectFill
         playbutton.addTarget(self, action: #selector(pausePressed), for: .touchUpInside)
         //view.addSubview(playbutton)
@@ -225,6 +232,15 @@ extension CurrentPlaylistViewController {
         //view.addSubview(leftButton)
         
         
+    }
+    
+    func setupOwnerLabel() {
+        ownerLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 50))
+        ownerLabel.center = CGPoint(x: view.frame.width/2, y: artistName.frame.maxY * 1.15)
+        ownerLabel.font = UIFont(name: "Roboto-Regular", size: 20)
+        ownerLabel.textAlignment = .center
+        ownerLabel.textColor = .black
+        ownerLabel.text = "Owner hasn't pressed play"
     }
     
     @objc func pausePressed() {
