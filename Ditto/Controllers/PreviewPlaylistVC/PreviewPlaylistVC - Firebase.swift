@@ -15,13 +15,13 @@ extension PreviewPlaylistViewController {
         let membersRef = Database.database().reference().child("playlists").child(code)
         let imagesRef = Storage.storage().reference().child("images")
         
-        print("time to observe")
+        //print("time to observe")
         
         membersRef.observeSingleEvent(of: .value, with: { (snapshot) in
             let dispatchGroup = DispatchGroup()
             let playlistInfo = snapshot.value as? [String: Any] ?? [:]
             let memberIDs = playlistInfo["members"] as? [String] ?? []
-            print(memberIDs)
+            //print(memberIDs)
             for id in memberIDs {
                 dispatchGroup.enter()
                 let image = imagesRef.child(id)

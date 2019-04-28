@@ -44,7 +44,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource, U
         cell.playlistLastPlayed.textColor = UIColor(hexString: "7383C5")
         cell.playlistLastPlayed.text = playlistCodeList[playlist!]
         cell.playlistPhoto.image = playlistImageList[playlist!]
-        print(playlistImageList)
+        //print(playlistImageList)
         cell.playButton.addTarget(self, action: #selector(playCode(sender:)), for: .touchUpInside)
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor.white
@@ -94,6 +94,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource, U
         let name = dict["name"] as! String
         let id = dict["uri"] as! String
         let songuris = dict["songs"] as! [String]
+        let lengths = dict["lengths"] as! [Int]
         var songs: [Song] = []
         for songuri in songuris {
             songs.append(Song(id: songuri))
@@ -125,6 +126,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource, U
                     }
                     songs[index].artist = artistString
                     songs[index].name = track["name"] as! String
+                    songs[index].length = lengths[index]
                     
                     if let album = track["album"] as? JSONStandard {
                         if let images = album["images"] as? [JSONStandard] {
