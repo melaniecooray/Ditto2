@@ -164,6 +164,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             let db = Database.database().reference()
             let playlistNode = db.child("playlists")
             playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["isPlaying" : false])
+            print("is playing should befalse")
         }
     }
     

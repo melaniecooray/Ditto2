@@ -31,11 +31,11 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
         makeButtons()
         setupUI()
         
-        connectButton = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
+        connectButton = UIButton(frame: CGRect(x: 0, y: 0, width: 220, height: 50))
         connectButton.center = CGPoint(x: view.frame.width/2, y: view.frame.height*2.10/3)
-        connectButton.setTitle("Connect To Spotify", for: .normal)
+        connectButton.setTitle("Connect To Spotify Premium", for: .normal)
         connectButton.addTarget(self, action: #selector(connectButtonPressed), for: .touchUpInside)
-        connectButton.titleLabel?.font = UIFont(name: "Roboto-Regular", size: 18)
+        connectButton.titleLabel?.font = UIFont(name: "Roboto-Regular", size: 15)
         connectButton.backgroundColor = UIColor(hexString: "#1bb954")
         //connectButton.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.systemFontSize, weight: .heavy)
         connectButton.layer.cornerRadius = 10

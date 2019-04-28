@@ -58,4 +58,5 @@ extension NewPlaylistViewController: UIImagePickerControllerDelegate, UINavigati
         imageView.removeFromSuperview()
         self.dismiss(animated: true, completion: nil)
     }
+    
 }

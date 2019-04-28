@@ -63,6 +63,12 @@ extension NewPlaylistViewController {
         imageView.contentMode = .scaleAspectFit
         view.addSubview(imageView)
     }
-
+    
+    func showError(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(defaultAction)
+        self.present(alert, animated: true, completion: nil)
+    }
     
 }

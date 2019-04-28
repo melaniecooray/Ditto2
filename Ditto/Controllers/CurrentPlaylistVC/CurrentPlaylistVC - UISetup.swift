@@ -104,13 +104,13 @@ extension CurrentPlaylistViewController {
     func setUpButton() {
         barsButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width * 0.11, height: view.frame.width * 0.11))
         //barsButton.center = CGPoint(x: (view.frame.width + codeLabel.frame.maxX)/2 - view.frame.width/30, y: codeLabel.frame.midY)
-        barsButton.center = CGPoint(x: view.frame.width * 0.87 , y: codeLabel.frame.midY)
+        barsButton.center = CGPoint(x: view.frame.width * 0.9 , y: codeLabel.frame.midY)
         barsButton.setImage(UIImage(named: "bars"), for: .normal)
         barsButton.imageView?.contentMode = .scaleAspectFit
         barsButton.addTarget(self, action: #selector(editPressed), for: .touchUpInside)
         view.addSubview(barsButton)
         exitButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width * 0.06, height: view.frame.width * 0.06))
-        exitButton.center = CGPoint(x: view.frame.width / 18, y: codeLabel.frame.midY)
+        exitButton.center = CGPoint(x: view.frame.width / 14, y: codeLabel.frame.midY)
         exitButton.setImage(UIImage(named: "x"), for: .normal)
         exitButton.imageView?.contentMode = .scaleAspectFit
         exitButton.addTarget(self, action: #selector(exit), for: .touchUpInside)

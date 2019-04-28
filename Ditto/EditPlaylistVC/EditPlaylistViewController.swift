@@ -108,7 +108,7 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
     func getPlaylistSongs() {
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
-        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observeSingleEvent(of: .value, with: { (snapshot) in
+        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observe(.value, with: { (snapshot) in
             
             let dict = snapshot.value as! [String : Any]
             let songs = dict["songs"] as! [String]

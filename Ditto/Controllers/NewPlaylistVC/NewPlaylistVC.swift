@@ -51,38 +51,41 @@ class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
     
     
     @objc func createButtonClicked() {
-        createButton.isEnabled = false
-        let db = Database.database().reference()
-        let playlistNode = db.child("playlists")
-        code = makeCode()
-        playlistNode.child(code).setValue(["name": newPlaylistTextField.text!, "code": code, "members": UserDefaults.standard.value(forKey: "name")])
-        UserDefaults.standard.set(code, forKey: "code")
-        UserDefaults.standard.set("new", forKey: "playlistStatus")
-
-        //self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
-        
-        
-        let imageRef = Storage.storage().reference().child("images").child(code)
-        //let data = chosenImage!.pngData()!
-        //lowest quality compression for jpeg
-        if chosenImage == nil {
-             self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
+        if newPlaylistTextField.text == nil || newPlaylistTextField.text == "" {
+            showError(title: "Error", message: "Playlist must have a name.")
         } else {
-            let data = chosenImage!.jpegData(compressionQuality: 0)!
-            imageRef.putData(data, metadata: nil) { (metadata, error) in
-                if metadata == nil {
-                    return
-                }
-                imageRef.downloadURL { (url, error) in
-                    if url == nil {
+            createButton.isEnabled = false
+            let db = Database.database().reference()
+            let playlistNode = db.child("playlists")
+            code = makeCode()
+            playlistNode.child(code).setValue(["name": newPlaylistTextField.text!, "code": code, "members": UserDefaults.standard.value(forKey: "name")])
+            UserDefaults.standard.set(code, forKey: "code")
+            UserDefaults.standard.set("new", forKey: "playlistStatus")
+            
+            //self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
+            
+            
+            let imageRef = Storage.storage().reference().child("images").child(code)
+            //let data = chosenImage!.pngData()!
+            //lowest quality compression for jpeg
+            if chosenImage == nil {
+                self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
+            } else {
+                let data = chosenImage!.jpegData(compressionQuality: 0)!
+                imageRef.putData(data, metadata: nil) { (metadata, error) in
+                    if metadata == nil {
                         return
                     }
-                    self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
+                    imageRef.downloadURL { (url, error) in
+                        if url == nil {
+                            return
+                        }
+                        self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
+                    }
                 }
+                
             }
-            
         }
-
     }
     
     func makeCode() -> String {
