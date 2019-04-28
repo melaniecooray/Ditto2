@@ -359,6 +359,10 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     @objc func runTimedCode() {
         //print(self.currentIndex)
         //print(self.songs[self.currentIndex])
+        //just a check
+        if self.currentIndex >= self.songs.count {
+            self.currentIndex = 0
+        }
         self.currentLength = self.songs[self.currentIndex].length
         self.time += 1
         let db = Database.database().reference()
@@ -371,7 +375,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                 self.time = 0
                 self.currentIndex += 1
                 if self.currentIndex >= self.songs.count {
-                    
+                    self.currentIndex = 0
                 } else {
                     self.player?.skipNext({ (error) in
                         if error != nil {
