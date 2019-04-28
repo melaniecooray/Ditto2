@@ -158,6 +158,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource, U
             resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
             resultVC.playlist = self.playlist
             resultVC.songs = songs
+            self.loadingIcon.stopAnimating()
             navController.popToRootViewController(animated: false)
             navController.pushViewController(resultVC, animated: true)
         })

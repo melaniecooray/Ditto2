@@ -82,7 +82,7 @@ class PlaylistsViewController: UIViewController {
         getUserInformation()
         self.tableView.reloadData()
         addTapDismiss()
-        loadingIcon.stopAnimating()
+        //loadingIcon.stopAnimating()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,7 +91,8 @@ class PlaylistsViewController: UIViewController {
         loadingIcon.frame = self.view.frame
         loadingIcon.center = self.view.center
         view.addSubview(loadingIcon)
-        loadingIcon.stopAnimating()
+        //loadingIcon.stopAnimating()
+        addButton.isEnabled = true
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
