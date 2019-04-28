@@ -309,10 +309,10 @@ extension CurrentPlaylistViewController {
         self.time = 0
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
-        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["time" : 0])
         if self.currentIndex < 0 {
             self.currentIndex = 0
         }
+        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["time" : 0, "song" : self.currentIndex])
         player?.skipPrevious({ (error) in
             if error != nil {
                 print("error going to previous song!")
@@ -330,10 +330,10 @@ extension CurrentPlaylistViewController {
         self.time = 0
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
-        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["time" : 0])
         if self.currentIndex >= self.songs.count {
             self.currentIndex = 0
         }
+        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["time" : 0, "song" : self.currentIndex])
             player?.skipNext({ (error) in
                 if error != nil {
                     print("error going to next song")

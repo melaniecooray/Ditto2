@@ -357,6 +357,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didReceiveError error: Error!) {
         print("ERROR:")
         print(error.localizedDescription)
+        findSong()
     }
     
     @objc func runTimedCode() {
@@ -367,7 +368,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             self.currentIndex = 0
         }
         self.currentLength = self.songs[self.currentIndex].length
-        print(self.currentLength)
+        //print(self.currentLength)
         self.time += 1
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")
@@ -378,6 +379,9 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             if self.time > self.currentLength {
                 self.time = 0
                 self.currentIndex += 1
+                if self.owner {
+                    playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["song" : self.currentIndex, "time": self.time])
+                }
                 if self.currentIndex >= self.songs.count {
                     self.currentIndex = 0
                 } else {
