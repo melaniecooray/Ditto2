@@ -156,6 +156,11 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
         if timer != nil {
             self.timer.invalidate()
         }
+        if owner {
+            let db = Database.database().reference()
+            let playlistNode = db.child("playlists")
+            playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["isPlaying" : false])
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -168,7 +173,11 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
         playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observeSingleEvent(of: .value, with: { (snapshot) in
             let dict = snapshot.value as! [String : Any]
             let songs = dict["songs"] as! [String]
-            self.currentIndex = dict["song"] as! Int
+            if let currIndex = dict["song"] as? Int {
+                self.currentIndex = currIndex
+            } else {
+                self.currentIndex = 0
+            }
             print(self.currentIndex)
             self.songList = songs
             self.currentSong = songs[self.currentIndex]
@@ -191,6 +200,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             } else {
                 print(self.currentIndex)
                 print(self.songs[self.currentIndex].name)
+                print(self.currentSong)
                 
                 self.player?.playSpotifyURI(self.currentSong!, startingWith: 0, startingWithPosition: self.mstime,callback: { (error) in
                     if error != nil {
@@ -347,6 +357,10 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     @objc func runTimedCode() {
         //print(self.currentIndex)
         //print(self.songs[self.currentIndex])
+        //just a check
+        if self.currentIndex >= self.songs.count {
+            self.currentIndex = 0
+        }
         self.currentLength = self.songs[self.currentIndex].length
         self.time += 1
         let db = Database.database().reference()
@@ -359,7 +373,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                 self.time = 0
                 self.currentIndex += 1
                 if self.currentIndex >= self.songs.count {
-                    
+                    self.currentIndex = 0
                 } else {
                     self.player?.skipNext({ (error) in
                         if error != nil {

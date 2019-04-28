@@ -56,18 +56,32 @@ extension PlaylistsViewController {
 //        pokemonTable.contentInset = UIEdgeInsetsMake(view.frame.height/30, 0, self.tabBarController!.tabBar.frame.height - view.frame.height/50, 0)
         
         mainSearchBar.placeholder = "search for a playlist..."
-        mainSearchBar.backgroundColor = UIColor.white
-        
-        mainSearchBar.tintColor = UIColor.white
-        mainSearchBar.barTintColor = UIColor.white
-        mainSearchBar.backgroundImage = UIImage()
-        mainSearchBar.layer.borderColor = UIColor.white.cgColor
-        //mainSearchBar.layer.borderColor = UIImage()
-//        mainSearchBar.layer.borderWidth = 1
-//        
-//        mainSearchBar.layer.borderColor = UIColor.clear
-        mainSearchBar.isTranslucent = true
+//        mainSearchBar.backgroundColor = UIColor.white
+//
+//        mainSearchBar.tintColor = UIColor.white
+//        mainSearchBar.barTintColor = UIColor.white
+//        mainSearchBar.backgroundImage = UIImage()
+//        mainSearchBar.layer.borderColor = UIColor.white.cgColor
+//        //mainSearchBar.layer.borderColor = UIImage()
+////        mainSearchBar.layer.borderWidth = 1
+////
+////        mainSearchBar.layer.borderColor = UIColor.clear
+//        mainSearchBar.isTranslucent = true
         //mainSearchBar = UISearchBar.Style(minimal)
+        mainSearchBar.backgroundColor = UIColor.clear
+        mainSearchBar.tintColor = UIColor.clear
+        mainSearchBar.barTintColor = UIColor.clear
+        mainSearchBar.backgroundImage = UIImage()
+        mainSearchBar.scopeBarBackgroundImage = UIImage()
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = .clear
+        //searchBar.showsCancelButton = true
+        mainSearchBar.isTranslucent = true
+        
+        let attributes = [
+            NSAttributedString.Key.foregroundColor : UIColor.black,
+            NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17)
+        ]
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes(attributes, for: .normal)
         let textFieldInsideSearchBar = mainSearchBar.value(forKey: "searchField") as? UITextField
         textFieldInsideSearchBar?.textColor = UIColor.black
         

@@ -57,6 +57,8 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         
         self.navigationController?.isNavigationBarHidden = false
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(pickedSongs))
+        self.navigationItem.rightBarButtonItem?.isEnabled = true
+        self.navigationController?.navigationBar.tintColor = .white
         if (UserDefaults.standard.value(forKey: "playlistStatus") as! String == "update") {
             new = false
         }
@@ -67,6 +69,15 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         // Do any additional setup after loading the view, typically from a nib.
         
         //callAlamo(url: searchURL, headers: parameters)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if self.navigationController?.topViewController == self {
+            if !new {
+                print("pop this bich")
+                self.navigationController?.popToRootViewController(animated: false)
+            }
+        }
     }
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
@@ -157,6 +168,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
     }
     
     @objc func pickedSongs() {
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
         for song in temp {
             selectedSongs.append(song)
         }
@@ -239,13 +251,18 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                         playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observeSingleEvent(of: .value, with: { (snapshot) in
                             let dict = snapshot.value as! [String : Any]
                             var toAdd : [String] = []
+                            var addLengths : [Int] = []
                             if let currentSongs = dict["songs"] as? [String] {
                                 print(currentSongs)
                                 toAdd = currentSongs
                             }
-                           toAdd.append(contentsOf: self.songuris)
+                            if let currentLengths = dict["lengths"] as? [Int] {
+                                addLengths = currentLengths
+                            }
+                            toAdd.append(contentsOf: self.songuris)
+                            addLengths.append(contentsOf: self.lengths)
                             print(toAdd)
-                            playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": toAdd])
+                            playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": toAdd, "lengths" : addLengths])
                             self.playlistID = dict["uri"] as! String
                             self.name = dict["name"] as! String
                             self.success()
@@ -276,6 +293,8 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
             playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": self.songuris])
         }
         //performSegue(withIdentifier: "createdPlaylist", sender: self)
+        //hopefully will go to root
+        //self.navigationController?.popToRootViewController(animated: false)
         self.tabBarController?.selectedIndex = 1
         let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
         let resultVC = CurrentPlaylistViewController()
@@ -283,6 +302,8 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         resultVC.playlist = Playlist(id: playlistID!, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs, "owner" : UserDefaults.standard.value(forKey: "id")!])
         var toSend = previousSongs
         toSend.append(contentsOf: selectedSongs)
+        print("songs that are being passed")
+        print(toSend)
         resultVC.songs = toSend
         navController.pushViewController(resultVC, animated: true)
     }

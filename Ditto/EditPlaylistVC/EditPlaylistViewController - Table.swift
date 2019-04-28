@@ -59,9 +59,15 @@ extension EditPlaylistViewController: UITableViewDelegate, UITableViewDataSource
                 
                 self.filteredArray.remove(at: indexPath.row)
 
+                var index = 0
+                while self.songTitleList[index] != text {
+                    index += 1
+                }
                 
-                self.songTitleList = self.songTitleList.filter {$0 != text}
-                self.songArtistList = self.songArtistList.filter {$0 != artist}
+                self.songTitleList.remove(at: index)
+                self.songArtistList.remove(at: index)
+                self.lengths.remove(at: index)
+                self.songs.remove(at: index)
                 var ind = 0
                 for song in self.songs {
                     if song.name == text {
@@ -76,10 +82,20 @@ extension EditPlaylistViewController: UITableViewDelegate, UITableViewDataSource
                 print(self.filteredArray)
                 print("deleted filtered")
                 print(self.songTitleList)
+                
+                let db = Database.database().reference()
+                let playlistNode = db.child("playlists")
+                var songuris : [String] = []
+                for song in self.songs {
+                    songuris.append(song.id)
+                }
+                playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs" : songuris, "lengths" : self.lengths])
+                
             } else {
                 tableView.reloadData()
                 self.songTitleList.remove(at: indexPath.row)
                 self.songArtistList.remove(at: indexPath.row)
+                self.lengths.remove(at: indexPath.row)
                 self.songs.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 print(self.songTitleList)
@@ -90,7 +106,7 @@ extension EditPlaylistViewController: UITableViewDelegate, UITableViewDataSource
                 for song in self.songs {
                     songuris.append(song.id)
                 }
-                playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs" : songuris])
+                playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs" : songuris, "lengths" : self.lengths])
             }
         }
         

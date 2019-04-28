@@ -9,7 +9,7 @@
 import UIKit
 import FirebaseDatabase
 
-class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavigationControllerDelegate {
+class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavigationControllerDelegate, UITabBarControllerDelegate {
     
     var backgroundImage: UIImageView!
     var tableView: UITableView!
@@ -34,6 +34,7 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
     var songArtistList : [String]! = []
 //        = ["Artist Name1", "Artist Name2", "Artist Name3", "Artist Name4", "Artist Name5", "Artist Name6"]
     var filteredArray : [String] = []
+    var lengths : [Int] = []
     
     lazy var mainSearchBar: UISearchBar = {
         let bar = UISearchBar()
@@ -51,6 +52,7 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpBackground()
         getPlaylistSongs()
         setUpBackground()
         addTapDismiss()
@@ -61,8 +63,9 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
         
         self.navigationController?.delegate = self
         
-        mainSearchBar.delegate = self
-        //self.mainSearchBar.returnKeyType = UIReturnKeyType.done
+        self.mainSearchBar.delegate = self
+        self.tabBarController?.delegate = self
+        self.mainSearchBar.returnKeyType = UIReturnKeyType.done
         
     }
     
@@ -73,16 +76,20 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonClicked))
     }
     
-<<<<<<< HEAD
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         return true
-=======
+    }
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        print("entered")
+        self.navigationController?.popToRootViewController(animated: false)
+    }
+    
     func addTapDismiss() {
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
     }
     @objc func dismissKeyboard() {
         mainSearchBar.resignFirstResponder()
->>>>>>> 3e2fd40bd76684602db6567c94c4ed4dd9297772
     }
     
     @objc func addButtonClicked() {
@@ -93,7 +100,7 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
         let resultVC = CreateNewPlaylistTableViewController()
         //        resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
         //        resultVC.playlist = Playlist(id: playlistID!, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs])
-        //resultVC.previousSongs = songs
+        resultVC.previousSongs = songs
         UserDefaults.standard.set("update", forKey: "playlistStatus")
         navController.pushViewController(resultVC, animated: true)
     }
@@ -106,6 +113,7 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
             let dict = snapshot.value as! [String : Any]
             let songs = dict["songs"] as! [String]
             self.songList = songs
+            self.lengths = dict["lengths"] as! [Int]
             
             for song in self.songs {
                 self.songTitleList.append(song.name)
@@ -118,6 +126,7 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
             self.setUpSearchBar()
             self.setUpTable()
             self.setUpLabel()
+            self.mainSearchBar.delegate = self
             //self.setUpAddButton()
             }
         )}
@@ -169,13 +178,9 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
         }
     }
     
-<<<<<<< HEAD
-    
-=======
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         (viewController as? CurrentPlaylistViewController)?.pause = self.pause
     }
->>>>>>> 3e2fd40bd76684602db6567c94c4ed4dd9297772
     
 }
 
