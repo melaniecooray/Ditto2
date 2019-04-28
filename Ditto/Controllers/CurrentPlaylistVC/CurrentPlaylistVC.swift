@@ -111,6 +111,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                     //print("isPlaying is true")
                     self.ownerLabel.removeFromSuperview()
                     self.isPlayingSong = true
+                    self.pause = false
                     if (!self.startedPlaying) {
                         self.startedPlaying = true
                         if started {
@@ -182,6 +183,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             //print(self.currentIndex)
             self.songList = songs
             self.currentSong = songs[self.currentIndex]
+            print(self.currentSong)
             //print("current song:")
             //print(self.currentSong)
             if let time = dict["time"] as? Int {
@@ -372,6 +374,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
         let playlistNode = db.child("playlists")
         playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observeSingleEvent(of: .value, with: { (snapshot) in
             let dict = snapshot.value as! [String : Any]
+
             var lengths = dict["lengths"] as! [Int]
             self.currentLength = lengths[self.currentIndex]
             if self.time > self.currentLength {

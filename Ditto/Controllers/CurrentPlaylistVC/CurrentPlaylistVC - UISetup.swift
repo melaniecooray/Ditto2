@@ -110,7 +110,7 @@ extension CurrentPlaylistViewController {
         barsButton.addTarget(self, action: #selector(editPressed), for: .touchUpInside)
         view.addSubview(barsButton)
         exitButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width * 0.06, height: view.frame.width * 0.06))
-        exitButton.center = CGPoint(x: view.frame.width / 20, y: codeLabel.frame.midY)
+        exitButton.center = CGPoint(x: view.frame.width / 18, y: codeLabel.frame.midY)
         exitButton.setImage(UIImage(named: "x"), for: .normal)
         exitButton.imageView?.contentMode = .scaleAspectFit
         exitButton.addTarget(self, action: #selector(exit), for: .touchUpInside)
@@ -220,6 +220,7 @@ extension CurrentPlaylistViewController {
         artistName.center = CGPoint(x: bannerImage.frame.maxX/2, y: bannerImage.frame.maxY * 0.95)
         artistName.textAlignment = .center
         artistName.adjustsFontSizeToFitWidth = true
+        artistName.font = UIFont(name: "Roboto-Regular", size: 15)
         view.addSubview(artistName)
     }
     
@@ -266,9 +267,9 @@ extension CurrentPlaylistViewController {
     func setupOwnerLabel() {
         ownerLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height/20))
         ownerLabel.center = CGPoint(x: view.frame.width/2, y: artistName.frame.maxY * 1.12)
-        ownerLabel.font = UIFont(name: "Roboto-Regular", size: 20)
+        ownerLabel.font = UIFont(name: "Roboto-Bold", size: 20)
         ownerLabel.textAlignment = .center
-        ownerLabel.textColor = .black
+        ownerLabel.textColor = UIColor(hexString: "#7383C5")
         ownerLabel.text = "Owner hasn't pressed play"
     }
     
