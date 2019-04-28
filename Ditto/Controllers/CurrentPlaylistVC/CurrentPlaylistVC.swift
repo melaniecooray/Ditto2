@@ -50,6 +50,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     var currentSong : String!
     var currentIndex = 0
     var first = true
+    var notFirst = false
     var owner = true
     var isPlayingSong = true
     var startedPlaying = false
@@ -102,8 +103,8 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                 //print(self.currentIndex)
                 //print(self.songs[self.currentIndex])
                 if let currTime = dict["time"] as? Int {
-                    print("current time in firebase is")
-                    print(self.time)
+                    //print("current time in firebase is")
+                    //print(self.time)
                     self.time = currTime
                 }
                 let isPlayingValue = dict["isPlaying"] as! Bool
@@ -111,20 +112,22 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                     //print("isPlaying is true")
                     self.ownerLabel.removeFromSuperview()
                     self.isPlayingSong = true
+                    self.pause = false
                     if (!self.startedPlaying) {
                         self.startedPlaying = true
                         if started {
                             self.player?.setIsPlaying(true, callback: { (error) in
                                 if error != nil {
-                                    print("error pausing song")
+                                    print("error playing song")
                                     return
                                 } else {
-                                    print("paused song")
+                                    print("playing song")
                                     self.findSong()
                                     //self.playSong()
                                 }
                             })
                         } else {
+                            started = true
                             self.findSong()
                             //self.playSong()
                         }
@@ -178,6 +181,14 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                 self.currentIndex = currIndex
             } else {
                 self.currentIndex = 0
+            }
+            if !self.owner {
+                if self.notFirst {
+                    self.currentIndex += 1
+                    if self.currentIndex >= songs.count {
+                        self.currentIndex = 0
+                    }
+                }
             }
             //print(self.currentIndex)
             self.songList = songs
@@ -375,6 +386,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             var lengths = dict["lengths"] as! [Int]
             self.currentLength = lengths[self.currentIndex]
             if self.time > self.currentLength {
+                self.notFirst = true
                 self.time = 0
                 self.currentIndex += 1
                 if self.owner {
@@ -382,17 +394,19 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                 }
                 if self.currentIndex >= self.songs.count {
                     self.currentIndex = 0
-                } else {
-                    self.player?.skipNext({ (error) in
-                        if error != nil {
-                            print("error going to next song")
-                            return
-                        } else {
-                            print("went to the next song")
-                            self.findSong()
-                        }
-                    })
                 }
+                if self.owner {
+                    playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["song" : self.currentIndex, "time": self.time])
+                }
+                self.player?.skipNext({ (error) in
+                    if error != nil {
+                        print("error going to next song")
+                        return
+                    } else {
+                        print("went to the next song")
+                        self.findSong()
+                    }
+                })
             }
         })
         if self.owner {
