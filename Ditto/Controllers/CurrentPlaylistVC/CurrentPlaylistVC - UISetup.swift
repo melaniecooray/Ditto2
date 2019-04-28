@@ -92,7 +92,7 @@ extension CurrentPlaylistViewController {
     }
     
     func setUpCode2() {
-        codeLabel = UILabel(frame: CGRect(x: view.frame.width/12, y: view.frame.height * 0.04, width: view.frame.width * 0.6, height: view.frame.height/18))
+        codeLabel = UILabel(frame: CGRect(x: view.frame.width/11, y: view.frame.height * 0.04, width: view.frame.width * 0.75, height: view.frame.height/18))
         codeLabel.font = UIFont(name: "Roboto-Bold", size: 25)
         codeLabel.text = "code: " + Utils.space(text: playlist.code)
         codeLabel.textColor = UIColor(hexString: "#7383C5")
@@ -102,15 +102,15 @@ extension CurrentPlaylistViewController {
     }
     
     func setUpButton() {
-        barsButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width * 0.25, height: codeLabel.frame.height))
+        barsButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width * 0.11, height: view.frame.width * 0.11))
         //barsButton.center = CGPoint(x: (view.frame.width + codeLabel.frame.maxX)/2 - view.frame.width/30, y: codeLabel.frame.midY)
-        barsButton.center = CGPoint(x: (view.frame.width + codeLabel.frame.maxX)/2 + view.frame.width/30, y: codeLabel.frame.midY)
+        barsButton.center = CGPoint(x: view.frame.width * 0.87 , y: codeLabel.frame.midY)
         barsButton.setImage(UIImage(named: "bars"), for: .normal)
         barsButton.imageView?.contentMode = .scaleAspectFit
         barsButton.addTarget(self, action: #selector(editPressed), for: .touchUpInside)
         view.addSubview(barsButton)
-        exitButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width * 0.10, height: codeLabel.frame.height))
-        exitButton.center = CGPoint(x: (view.frame.width - codeLabel.frame.maxX)/2 - view.frame.width/40, y: codeLabel.frame.midY)
+        exitButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width * 0.06, height: view.frame.width * 0.06))
+        exitButton.center = CGPoint(x: view.frame.width / 20, y: codeLabel.frame.midY)
         exitButton.setImage(UIImage(named: "x"), for: .normal)
         exitButton.imageView?.contentMode = .scaleAspectFit
         exitButton.addTarget(self, action: #selector(exit), for: .touchUpInside)
