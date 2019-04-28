@@ -30,6 +30,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
     var backgroundImage: UIImageView!
     var tableView: UITableView!
     var loadingLabel : UILabel!
+    var loadingIcon : UIActivityIndicatorView!
     
     var name : String!
     var userID: String!
@@ -58,6 +59,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         self.navigationController?.isNavigationBarHidden = false
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(pickedSongs))
         self.navigationController?.navigationBar.tintColor = .white
+        self.navigationItem.rightBarButtonItem?.isEnabled = true
         if (UserDefaults.standard.value(forKey: "playlistStatus") as! String == "update") {
             new = false
         }
@@ -70,11 +72,21 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         //callAlamo(url: searchURL, headers: parameters)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        loadingIcon = UIActivityIndicatorView(style: .whiteLarge)
+        loadingIcon.frame = self.view.frame
+        loadingIcon.center = self.view.center
+        view.addSubview(loadingIcon)
+    }
+    
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         return true
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        loadingIcon.startAnimating()
+        print(loadingIcon.isAnimating)
         print("clicked")
         let keywords = searchBar.text
         let finalKeywords = keywords?.replacingOccurrences(of: " ", with: "+")
@@ -145,6 +157,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                                 //print("adding to table")
                                 self.loadingLabel.removeFromSuperview()
                                 self.tableView.reloadData()
+                                loadingIcon.stopAnimating()
                                 resetAccessoryType()
                             }
                         }
@@ -158,6 +171,8 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
     }
     
     @objc func pickedSongs() {
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
+        loadingIcon.startAnimating()
         for song in temp {
             selectedSongs.append(song)
         }
@@ -292,6 +307,8 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         print("songs that are being passed")
         print(toSend)
         resultVC.songs = toSend
+        loadingIcon.stopAnimating()
+        navController.popToRootViewController(animated: false)
         navController.pushViewController(resultVC, animated: true)
     }
     

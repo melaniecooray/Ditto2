@@ -22,6 +22,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     var nameLabel: UILabel!
     var codeLabel: UILabel!
     var barsButton: UIButton!
+    var exitButton: UIButton!
     var playbutton: UIButton!
     var rightButton: UIButton!
     var leftButton: UIButton!

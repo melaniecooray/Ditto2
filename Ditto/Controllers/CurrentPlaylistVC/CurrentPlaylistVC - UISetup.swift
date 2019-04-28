@@ -59,7 +59,7 @@ extension CurrentPlaylistViewController {
 //        codeLabel.textAlignment = .center
 //        view.addSubview(codeLabel)
         
-        codeLabel = UILabel(frame: CGRect(x: view.frame.width/8, y: view.frame.height * 0.08, width: view.frame.width/3, height: view.frame.height/18))
+        codeLabel = UILabel(frame: CGRect(x: view.frame.width/6, y: view.frame.height * 0.08, width: view.frame.width/3, height: view.frame.height/18))
         codeLabel.font = UIFont(name: "Roboto-Regular", size: 25)
         codeLabel.text = "C O D E: "
         codeLabel.textColor = UIColor(hexString: "#7383C5")
@@ -97,7 +97,22 @@ extension CurrentPlaylistViewController {
         barsButton.imageView?.contentMode = .scaleAspectFit
         barsButton.addTarget(self, action: #selector(editPressed), for: .touchUpInside)
         view.addSubview(barsButton)
-        
+        exitButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width * 0.10, height: codeLabel.frame.height))
+        exitButton.center = CGPoint(x: (view.frame.width - numberLabel.frame.maxX)/2 - view.frame.width/40, y: codeLabel.frame.midY)
+        exitButton.setImage(UIImage(named: "x"), for: .normal)
+        exitButton.imageView?.contentMode = .scaleAspectFit
+        exitButton.addTarget(self, action: #selector(exit), for: .touchUpInside)
+        view.addSubview(exitButton)
+    }
+    
+    @objc func exit() {
+        self.navigationController?.popToRootViewController(animated: true)
+        self.isPlayingSong = false
+        first = true
+        self.player?.logout()
+        if self.timer != nil {
+            self.timer.invalidate()
+        }
     }
     
     @objc func editPressed() {

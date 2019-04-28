@@ -36,6 +36,7 @@ class PlaylistsViewController: UIViewController {
     
     var addButton: UIButton!
     var emptyLabel : UILabel!
+    var loadingIcon : UIActivityIndicatorView!
     
     var playlist : Playlist!
     let url = "https://api.spotify.com/v1/tracks/"
@@ -65,7 +66,7 @@ class PlaylistsViewController: UIViewController {
         
         setUpBackground()
         setUpTable()
-        getUserInformation()
+        //getUserInformation()
         setUpSearchBar()
         //setUpBackground()
         setUpLabel()
@@ -85,6 +86,11 @@ class PlaylistsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
+        loadingIcon = UIActivityIndicatorView(style: .whiteLarge)
+        loadingIcon.frame = self.view.frame
+        loadingIcon.center = self.view.center
+        view.addSubview(loadingIcon)
+        loadingIcon.stopAnimating()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -136,6 +142,7 @@ class PlaylistsViewController: UIViewController {
                     self.recentlyPlayedLabel.text = "No joined playlists"
                 } else {
                     self.playlistTitleList = self.playlistTitleList.sorted { $0.localizedCaseInsensitiveCompare($1) == ComparisonResult.orderedAscending }
+                    print(self.playlistTitleList)
                     self.tableView.reloadData()
                     self.getPlaylists()
                 }

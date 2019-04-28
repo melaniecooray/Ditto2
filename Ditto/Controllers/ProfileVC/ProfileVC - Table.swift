@@ -37,6 +37,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         cell.playlistLastPlayed.font = UIFont(name: "Roboto-Regular", size: 12)
         cell.playlistLastPlayed.textColor = UIColor(hexString: "7383C5")
         cell.playButton.addTarget(self, action: #selector(playCode(sender:)), for: .touchUpInside)
+        cell.playButton.isEnabled = true
         return cell
     }
     
@@ -44,6 +45,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = sender.superview?.superview as? PlaylistViewCell else {
             return // or fatalError() or whatever
         }
+        cell.playButton.isEnabled = false
         
         let indexPath = tableView.indexPath(for: cell)?.row
         self.tabBarController?.selectedIndex = 1
