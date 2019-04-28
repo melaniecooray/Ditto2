@@ -28,7 +28,7 @@ extension EnterCodeViewController {
     func setUpInteractive() {
         codeInput = UITextField(frame: CGRect(x: 0, y: 0, width: view.frame.width * 3/5, height: view.frame.height/11))
         codeInput.center = CGPoint(x: view.frame.width * 0.42, y: view.frame.height * 1/2)
-        codeInput.font = UIFont(name: "Roboto-Bold", size: 28)
+        codeInput.font = UIFont(name: "Roboto-Regular", size: 28)
         codeInput.textAlignment = .center
         codeInput.textColor = UIColor(hexString: "#BF95DC")
         codeInput.layer.borderWidth = 2.0

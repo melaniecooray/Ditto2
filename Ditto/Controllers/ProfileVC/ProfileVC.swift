@@ -68,7 +68,7 @@ class ProfileViewController: UIViewController {
         let db = Database.database().reference()
         let userNode = db.child("users")
         
-        userNode.child(currentID).observeSingleEvent(of: .value, with: { (snapshot) in
+        userNode.child(currentID).observe(.value, with: { (snapshot) in
             if snapshot.exists() {
                 
                 let value = snapshot.value as? NSDictionary
