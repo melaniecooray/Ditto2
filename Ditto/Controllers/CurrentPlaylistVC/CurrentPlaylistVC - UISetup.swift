@@ -17,14 +17,12 @@ extension CurrentPlaylistViewController {
     func initUI() {
         setUpBackground()
         setUpBanner()
-        //setUpCode()
         setUpCode2()
         setUpButton()
         setUpSongImage()
         setUpPlaylistName()
         setUpSong()
         setUpNavBar()
-        //setUpControl()
         setupOwnerLabel()
         if Auth.auth().currentUser?.uid == playlist.owner {
             view.addSubview(playbutton)
@@ -36,10 +34,8 @@ extension CurrentPlaylistViewController {
     func setUpBackground() {
         view.backgroundColor = .white
         backImage = UIImageView(frame: CGRect(x: 0, y: view.frame.height/8, width: view.frame.width, height: view.frame.height * 0.65 - view.frame.height/8))
-        //backImage.image = songs[currentIndex].image
         backImage.contentMode = .scaleAspectFill
         backImage.alpha = 0.5
-        //backImage.addBlurEffect()
         view.addSubview(backImage)
     }
     
@@ -51,14 +47,6 @@ extension CurrentPlaylistViewController {
     }
     
     func setUpCode() {
-//        codeLabel = UILabel(frame: CGRect(x: 50, y: 50, width: view.frame.width - 100, height: 50))
-//        codeLabel.text = "CODE: 67J91U"
-//        codeLabel.font = UIFont(name: "Roboto-Bold", size: 30)
-//        codeLabel.textColor = UIColor(hexString: "7383C5")
-//        codeLabel.layer.borderColor = UIColor.black.cgColor
-//        codeLabel.layer.borderWidth = CGFloat(2.0)
-//        codeLabel.textAlignment = .center
-//        view.addSubview(codeLabel)
         
         codeLabel = UILabel(frame: CGRect(x: view.frame.width/6, y: view.frame.height * 0.08, width: view.frame.width/3, height: view.frame.height/18))
         codeLabel.font = UIFont(name: "Roboto-Regular", size: 25)
@@ -139,7 +127,7 @@ extension CurrentPlaylistViewController {
             self.timer.invalidate()
         }
         let resultVC = EditPlaylistViewController()
-        //        resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
+        
         resultVC.songs = songs
         resultVC.player = player
         resultVC.pause = pause
@@ -158,25 +146,22 @@ extension CurrentPlaylistViewController {
     func setUpPlaylistName() {
         playlistName = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width * 2/3, height: view.frame.height/25))
         playlistName.center = CGPoint(x: view.frame.width/2, y: songImage.frame.minY - view.frame.height/26)
-        //playlistName.text = playlist.name
+        
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont(name: "Roboto-Bold", size: 18)
             //.backgroundColor: UIColor.white what if background is black :(
         ]
         let attribute = NSAttributedString(string: playlist.name, attributes: attributes)
         playlistName.attributedText = attribute
-        //playlistName.font = UIFont(name: "Roboto-Bold", size: 18)
         playlistName.textColor = .black
         playlistName.textAlignment = .center
         playlistName.adjustsFontSizeToFitWidth = true
-        //view.addSubview(playlistName)
+
     }
     
     func setUpSongImage() {
         songImage = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width * 0.6, height: view.frame.width * 0.6))
-        //songImage.center = CGPoint(x: backImage.frame.midX, y: backImage.frame.midY + view.frame.height/20)
         songImage.center = CGPoint(x: backImage.frame.midX, y: backImage.frame.midY - view.frame.height/50)
-        //songImage.image = songs[currentIndex].image
         songImage.contentMode = .scaleAspectFit
         songImage.layer.shadowColor = UIColor.black.cgColor
         songImage.layer.shadowOpacity = 0.5
@@ -194,37 +179,16 @@ extension CurrentPlaylistViewController {
         nowPlayingLabel.font = UIFont(name: "Roboto-Bold", size: 16)
         view.addSubview(nowPlayingLabel)
         
-        
-        
-        //added
         songName = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width * 2/3, height: view.frame.height/25))
         songName.center = CGPoint(x: view.frame.width/2, y: bannerImage.frame.maxY * 0.9)
-        //playlistName.text = "\"vibe station\""
-        //songName.text = songs[currentIndex].name
         songName.font = UIFont(name: "Roboto-Regular", size: 18)
         songName.textColor = .white
         songName.textAlignment = .center
         songName.adjustsFontSizeToFitWidth = true
         view.addSubview(songName)
         
-        //added
-//        songName = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width * 2/3, height: view.frame.height/25))
-//        songName.center = CGPoint(x: view.frame.width/2, y: songImage.frame.maxY + view.frame.height/10)
-//        let attributes: [NSAttributedString.Key: Any] = [
-//            .font: UIFont(name: "Roboto-Regular", size: 16)
-//            //.backgroundColor: UIColor.white what if background is black :(
-//        ]
-//        let attribute = NSAttributedString(string: playlist.name, attributes: attributes)
-//        songName.attributedText = attribute
-//        songName.textColor = .white
-//        songName.center = CGPoint(x: bannerImage.frame.maxX/2, y: bannerImage.frame.maxY/4)
-//        songName.textAlignment = .center
-//        songName.adjustsFontSizeToFitWidth = true
-//        view.addSubview(songName)
-        
         artistName = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width * 2/3, height: view.frame.height/25))
         artistName.center = CGPoint(x: view.frame.width/2, y: songName.frame.maxY + view.frame.width * 0.01)
-        //artistName.text = songs[currentIndex].artist
         artistName.textColor = .white
         artistName.center = CGPoint(x: bannerImage.frame.maxX/2, y: bannerImage.frame.maxY * 0.95)
         artistName.textAlignment = .center

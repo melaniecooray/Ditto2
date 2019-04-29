@@ -33,8 +33,6 @@ extension PreviewPlaylistViewController: UICollectionViewDataSource, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //selected = pokemonArray[indexPath.item]
-        //performSegue(withIdentifier: "select", sender: self)
         collectionView.deselectItem(at: indexPath, animated: true)
     }
     

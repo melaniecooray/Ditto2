@@ -299,21 +299,6 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     }
     
     func playSong() {
-        //print("printing playlist id")
-        //print(playlist.id!)
-        /*
-        AF.request("https://api.spotify.com/v1/me/player/play", method: .put, parameters: ["context_uri" : playlist.id!, "offset" : ["position" : 0], "position_ms" : 0],encoding: JSONEncoding.default, headers: self.parameters).responseData {
-            response in
-            switch response.result {
-            case.success:
-                print("success! playing playlist")
-            case.failure(let error):
-                print(error)
-                
-            }
-            
-        }
- */
         
 
         SPTAuth.defaultInstance().handleAuthCallback(withTriggeredAuthURL: URL(string: UserDefaults.standard.value(forKey: "url") as! String)) { (error, session) in
@@ -344,18 +329,6 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             }
         }
         
-        
-        /*
-        SPTAudioStreamingController.sharedInstance().playSpotifyURI(playlist.id!, startingWith: 0, startingWithPosition: 0, callback: { (error) in
-            if error != nil {
-                print("*** failed to play: \(String(describing: error))")
-                return
-            }else{
-                print("Playing!!")
-                self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.runTimedCode), userInfo: nil, repeats: true)
-            }
-        })
- */
     }
     
     func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
@@ -423,14 +396,10 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     }
     
     @objc func runTimedCode() {
-        //print(self.currentIndex)
-        //print(self.songs[self.currentIndex])
-        //just a check
         if self.currentIndex >= self.songs.count {
             self.currentIndex = 0
         }
         self.currentLength = self.songs[self.currentIndex].length
-        //print(self.currentLength)
         self.time += 1
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")

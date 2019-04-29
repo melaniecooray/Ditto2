@@ -37,10 +37,7 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
         connectButton.addTarget(self, action: #selector(connectButtonPressed), for: .touchUpInside)
         connectButton.titleLabel?.font = UIFont(name: "Roboto-Regular", size: 15)
         connectButton.backgroundColor = UIColor(hexString: "#1bb954")
-        //connectButton.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.systemFontSize, weight: .heavy)
         connectButton.layer.cornerRadius = 10
-//        connectButton.layer.borderColor = UIColor(hexString: "#ffffff").cgColor
-//        connectButton.layer.borderWidth = 2
         view.addSubview(connectButton)
     }
     

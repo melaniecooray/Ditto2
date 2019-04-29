@@ -24,7 +24,6 @@ extension EditPlaylistViewController: UITableViewDelegate, UITableViewDataSource
         var song: String?
         if isSearching {
             song = filteredArray[indexPath.row]
-            //print("istyping")
         } else {
             song = songTitleList[indexPath.row]
         }
@@ -78,10 +77,6 @@ extension EditPlaylistViewController: UITableViewDelegate, UITableViewDataSource
                 }
                 
                 tableView.deleteRows(at: [indexPath], with: .fade)
-                //print(text)
-                //print(self.filteredArray)
-                //print("deleted filtered")
-                //print(self.songTitleList)
                 
                 let db = Database.database().reference()
                 let playlistNode = db.child("playlists")
@@ -98,7 +93,7 @@ extension EditPlaylistViewController: UITableViewDelegate, UITableViewDataSource
                 self.lengths.remove(at: indexPath.row)
                 self.songs.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
-                //print(self.songTitleList)
+                
                 
                 let db = Database.database().reference()
                 let playlistNode = db.child("playlists")

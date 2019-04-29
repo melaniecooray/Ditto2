@@ -39,7 +39,6 @@ extension CreateNewPlaylistTableViewController: UITableViewDelegate, UITableView
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
             print("adding to temp")
             temp.append(Song(id: uris[indexPath[1]], song: ["name": posts[indexPath[1]].name, "image": posts[indexPath[1]].mainImage, "artist": posts[indexPath[1]].artist, "length": posts[indexPath[1]].length]))
-            //temp.append(uris[indexPath[1]])
             posts[indexPath[1]].checked = true
         } else {
             tableView.cellForRow(at: indexPath)?.accessoryType = .none

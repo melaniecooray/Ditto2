@@ -35,11 +35,7 @@ extension LoginViewController {
         code.layer.cornerRadius = 7.0
         code.keyboardType = UIKeyboardType.numberPad
         code.delegate = self
-        /*
-        code = SkyFloatingLabelTextField(frame: CGRect(x: 50, y: 50, width: view.frame.width - 200, height: 70))
-        code.placeholder = "Enter Code for Quick Listen"
-        code.title = "Code"
- */
+
         scrollView.addSubview(code)
         joinButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width/5, height: view.frame.width/11))
         joinButton.center = CGPoint(x: (code.frame.maxX + view.frame.width)/2, y: code.frame.midY)
