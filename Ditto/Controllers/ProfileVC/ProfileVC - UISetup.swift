@@ -38,7 +38,7 @@ extension ProfileViewController {
     
     func setupProfilePic() {
         profilePic = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width/2 - 50, height: view.frame.width/2 - 50))
-        profilePic.center = CGPoint(x: view.frame.width/2, y: 170)
+        profilePic.center = CGPoint(x: view.frame.width/2, y: view.frame.height/4)
         profilePic.layer.borderWidth = 1
         profilePic.layer.masksToBounds = false
         profilePic.layer.borderColor = UIColor.black.cgColor
@@ -62,7 +62,7 @@ extension ProfileViewController {
         let items = ["Owner", "Member"]
         customSC = UISegmentedControl(items: items)
         customSC.frame = CGRect(x: 0, y: 0, width: 200, height: 25)
-        customSC.center = CGPoint(x: view.frame.width/2, y: nameLabel.frame.maxY + 10)
+        customSC.center = CGPoint(x: view.frame.width/2, y: nameLabel.frame.maxY)
         customSC.selectedSegmentIndex = 0
         customSC.layer.cornerRadius = 5;
         customSC.tintColor = UIColor(hexString: "7383C5")
@@ -71,17 +71,16 @@ extension ProfileViewController {
     }
     
     func setupTable() {
-        tableView = UITableView(frame: CGRect(x: 0, y: customSC.frame.maxY, width: view.frame.width, height: view.frame.maxY - customSC.frame.maxY))
+        tableView = UITableView(frame: CGRect(x: 0, y: customSC.frame.maxY + view.frame.height/40, width: view.frame.width, height: view.frame.maxY - customSC.frame.maxY))
         tableView.register(PlaylistViewCell.self, forCellReuseIdentifier: "PlaylistCell")
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.separatorStyle = .none
         tableView.backgroundColor = UIColor.clear
         tableView.layoutMargins = UIEdgeInsets.zero
         tableView.separatorInset = UIEdgeInsets.zero
         tableView.rowHeight = view.frame.height/8
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: view.frame.height/8, right: 0)
-        tableView.separatorColor = UIColor.gray
+        tableView.separatorColor = UIColor.white
         view.addSubview(tableView)
     }
     

@@ -165,21 +165,6 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
         }
     }
     
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        print("searching")
-        print(mainSearchBar.text)
-        if mainSearchBar.text == nil || mainSearchBar.text == "" {
-            isSearching = false
-            view.endEditing(true)
-            tableView.reloadData()
-        } else {
-            isSearching = true
-            filteredArray = songTitleList.filter({$0.range(of: mainSearchBar.text!, options: .caseInsensitive) != nil})
-            tableView.reloadData()
-            print("seachworkedhere2")
-            
-        }
-    }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print("searching")
         print(mainSearchBar.text)
