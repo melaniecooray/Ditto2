@@ -60,10 +60,6 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
         getPlaylistSongs()
         setUpBackground()
         addTapDismiss()
-        //setUpSearchBar()
-        //setUpTable()
-        //setUpLabel()
-        //setUpAddButton()
         
         self.navigationController?.delegate = self
         
@@ -192,5 +188,6 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
     }
     
 }
+
 
 

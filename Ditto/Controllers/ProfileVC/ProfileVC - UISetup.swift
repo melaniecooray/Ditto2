@@ -88,7 +88,7 @@ extension ProfileViewController {
     func setUpImagePicker() {
         
         imagePicker = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width/2 - 50, height: view.frame.width/2 - 50))
-        imagePicker.center = CGPoint(x: view.frame.width/2, y: 170)
+        imagePicker.center = CGPoint(x: view.frame.width/2, y: view.frame.height/4)
         imagePicker.imageView?.contentMode = .scaleAspectFill
         imagePicker.imageView?.setRounded()
         imagePicker.layer.cornerRadius = imagePicker.frame.height/2

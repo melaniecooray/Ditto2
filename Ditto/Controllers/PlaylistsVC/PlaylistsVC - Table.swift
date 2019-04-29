@@ -37,14 +37,12 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource, U
         cell.initCellFrom(size: size)
         cell.playlistName.text = playlist
         cell.layoutMargins = UIEdgeInsets.zero
-        //cell.playlistLastPlayed.text = playlistLastPlayed[indexPath.row]
         cell.playlistName.adjustsFontSizeToFitWidth = true
         cell.playlistName.font = UIFont(name: "Roboto-Bold", size: 15)
         cell.playlistLastPlayed.font = UIFont(name: "Roboto-Regular", size: 12)
         cell.playlistLastPlayed.textColor = UIColor(hexString: "7383C5")
         cell.playlistLastPlayed.text = playlistCodeList[playlist!]
         cell.playlistPhoto.image = playlistImageList[playlist!]
-        //print(playlistImageList)
         cell.playButton.addTarget(self, action: #selector(playCode(sender:)), for: .touchUpInside)
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor.white

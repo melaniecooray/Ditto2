@@ -21,13 +21,6 @@ extension PreviewPlaylistViewController {
     }
     
     func setUpLabels() {
-//        codeLabel = UILabel(frame: CGRect(x: view.frame.width/9, y: view.frame.height * 0.28, width: view.frame.width/3, height: view.frame.height/15))
-//        codeLabel.font = UIFont(name: "Roboto-Regular", size: 30)
-//        codeLabel.text = " C O D E: "
-//        codeLabel.textColor = UIColor(hexString: "#7383C5")
-//        codeLabel.backgroundColor = .white
-//        codeLabel.textAlignment = .center
-//        view.addSubview(codeLabel)
         
         numberPicture = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width * 7/8, height: view.frame.height/10))
         numberPicture.center = CGPoint(x: view.frame.width/2, y: view.frame.height * 0.18)
@@ -52,7 +45,7 @@ extension PreviewPlaylistViewController {
         nameLabel.textAlignment = .center
         view.addSubview(nameLabel)
         
-        liveLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width/3, height: view.frame.height/20))
+        liveLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width/2, height: view.frame.height/20))
         liveLabel.center = CGPoint(x: view.frame.width/2, y: nameLabel.frame.maxY + view.frame.height/12)
         liveLabel.font = UIFont(name: "Roboto-Light", size: 18)
         liveLabel.textColor = UIColor(hexString: "#7383C5")

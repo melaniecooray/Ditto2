@@ -21,11 +21,7 @@ extension NewPlaylistViewController {
         newPlaylistTextField.font = UIFont(name: "Roboto-Light", size: 28)
         newPlaylistTextField.textAlignment = .center
         newPlaylistTextField.textColor = UIColor(hexString: "7383C5")
-        //newPlaylistTextField.layer.borderWidth = 1.0
-        //newPlaylistTextField.layer.borderColor = UIColor(hexString: "#ffffff").cgColor
         newPlaylistTextField.borderStyle = UITextField.BorderStyle.none
-        //newPlaylistTextField.layer.cornerRadius = 7.0
-        //codeInput.keyboardType = UIKeyboardType.numberPad
         newPlaylistTextField.attributedPlaceholder = NSAttributedString(string: "playlist name",
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor(hexString: "7383C5")])
         newPlaylistTextField.delegate = self
@@ -60,7 +56,6 @@ extension NewPlaylistViewController {
         view.addSubview(imagePicker)
         
         imageView = UIImageView(frame: CGRect(x: view.frame.width * 0.52, y: imagePicker.frame.maxY - view.frame.height/20, width: view.frame.width/8, height: view.frame.width/8))
-        //imageView.image = UIImage(named: "click")
         imageView.contentMode = .scaleAspectFit
         view.addSubview(imageView)
     }

@@ -46,28 +46,8 @@ class PlaylistsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //clear the storage yikes
-        
-        // Create a reference to the file to delete
-//        let imagesRef = Storage.storage().reference().child("images")
-//
-//        // Delete the file
-//        // Sadly it doesn't work bc storage is ass
-//        imagesRef.delete { error in
-//            if let error = error {
-//                // Uh-oh, an error occurred!
-//                print("uh oh")
-//                print(error)
-//            } else {
-//                // File deleted successfully
-//                print("cleared")
-//            }
-//        }
-        
         setUpBackground()
         setUpTable()
-        //getUserInformation()
-        //setUpBackground()
         setUpLabel()
         setUpAddButton()
         addTapDismiss()
@@ -81,7 +61,6 @@ class PlaylistsViewController: UIViewController {
         getUserInformation()
         self.tableView.reloadData()
         addTapDismiss()
-        //loadingIcon.stopAnimating()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -90,7 +69,6 @@ class PlaylistsViewController: UIViewController {
         loadingIcon.frame = self.view.frame
         loadingIcon.center = self.view.center
         view.addSubview(loadingIcon)
-        //loadingIcon.stopAnimating()
         addButton.isEnabled = true
     }
     
@@ -105,8 +83,6 @@ class PlaylistsViewController: UIViewController {
     func getUserInformation() {
         UserDefaults.standard.set(Auth.auth().currentUser?.uid, forKey: "id")
         let currentID = UserDefaults.standard.value(forKey: "id")!
-        //print(currentID)
-        //print("just tried to print current id")
         let db = Database.database().reference()
         let userNode = db.child("users")
         
@@ -136,23 +112,14 @@ class PlaylistsViewController: UIViewController {
                         index += 1
                     }
                 }
-                //print(self.playlistCodeList)
-                //print("fullnameretrieved")
-                //print(retrievedName)
                 if self.playlistCodeList.isEmpty {
                     self.recentlyPlayedLabel.text = "No joined playlists"
                 } else {
                     self.playlistTitleList = self.playlistTitleList.sorted { $0.localizedCaseInsensitiveCompare($1) == ComparisonResult.orderedAscending }
-                    //print(self.playlistTitleList)
                     self.tableView.reloadData()
                     self.getPlaylists()
                 }
-                //self.tableView.reloadData()
-                //self.nameLabel.text = retrievedName
             } else {
-                //print(currentID)
-                //print(snapshot)
-                //print("why is going here")
             }
         })
     }

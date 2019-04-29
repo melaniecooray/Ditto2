@@ -53,7 +53,6 @@ extension NewPlaylistViewController: UIImagePickerControllerDelegate, UINavigati
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        //chosenImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         chosenImage = info[UIImagePickerController.InfoKey.editedImage] as! UIImage
         imagePicker.setImage(chosenImage, for: .normal)
         imageView.removeFromSuperview()

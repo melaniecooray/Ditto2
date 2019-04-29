@@ -46,18 +46,15 @@ extension PlaylistsViewController {
         tableView.backgroundColor = UIColor.clear
         tableView.layoutMargins = UIEdgeInsets.zero
         tableView.separatorInset = UIEdgeInsets.zero
-        //tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         tableView.rowHeight = view.frame.height/8
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: view.frame.height/8, right: 0)
         tableView.separatorColor = UIColor.white
         tableView.allowsSelection = false
-        //tableView.separatorStyle
         view.addSubview(tableView)
     }
     
     func setUpSearchBar() {
         mainSearchBar = UISearchBar(frame: CGRect(x: view.frame.width * 0.15, y: view.frame.height/8.5, width: view.frame.width * 3.5/5, height: view.frame.width/6))
-//        pokemonTable.contentInset = UIEdgeInsetsMake(view.frame.height/30, 0, self.tabBarController!.tabBar.frame.height - view.frame.height/50, 0)
         
         mainSearchBar.placeholder = "   search for a playlist..."
         mainSearchBar.backgroundColor = UIColor.clear
@@ -66,7 +63,6 @@ extension PlaylistsViewController {
         mainSearchBar.backgroundImage = UIImage()
         mainSearchBar.scopeBarBackgroundImage = UIImage()
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = .clear
-        //searchBar.showsCancelButton = true
         mainSearchBar.isTranslucent = true
         
         let attributes = [
