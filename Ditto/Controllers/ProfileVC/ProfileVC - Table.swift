@@ -49,6 +49,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         cell.playButton.isEnabled = false
         
         let indexPath = tableView.indexPath(for: cell)?.row
+        print(indexPath)
         self.tabBarController?.selectedIndex = 1
         let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
         let resultVC = CurrentPlaylistViewController()

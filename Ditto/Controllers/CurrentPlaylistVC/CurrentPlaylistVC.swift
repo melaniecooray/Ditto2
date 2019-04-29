@@ -244,7 +244,6 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             //print(self.currentIndex)
             self.songList = songs
             self.currentSong = songs[self.currentIndex]
-            print(self.currentSong)
             //print("current song:")
             //print(self.currentSong)
             if let time = dict["time"] as? Int {

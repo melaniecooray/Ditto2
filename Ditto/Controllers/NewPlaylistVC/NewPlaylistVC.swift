@@ -48,7 +48,10 @@ class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
         createButton.isEnabled = true
     }
     
-    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     
     @objc func createButtonClicked() {
         if newPlaylistTextField.text == nil || newPlaylistTextField.text == "" {
