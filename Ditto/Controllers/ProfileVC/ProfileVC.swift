@@ -43,6 +43,8 @@ class ProfileViewController: UIViewController {
     var mnames : [String] = []
     var ocodes : [String] = []
     var mcodes : [String] = []
+    var oimages : [UIImage] = []
+    var mimages : [UIImage] = []
     var playlistImageList : [UIImage] = []
     
     var playlist : Playlist!
@@ -53,7 +55,6 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getUserInformation()
-        getPlaylists()
         initUI()
         setUpImagePicker()
         
@@ -89,6 +90,7 @@ class ProfileViewController: UIViewController {
                 print(retrievedName)
                 //self.tableView.reloadData()
                 self.nameLabel.text = retrievedName
+                self.getPlaylists()
             } else {
                 print(self.currentID)
                 print(snapshot)
@@ -140,12 +142,12 @@ class ProfileViewController: UIViewController {
         case 0 :
             playlistTitleList = onames
             playlistLastPlayed = ocodes
-            getPlaylists()
+            playlistImageList = oimages
             self.tableView.reloadData()
         case 1:
             playlistTitleList = mnames
             playlistLastPlayed = mcodes
-            getPlaylists()
+            playlistImageList = mimages
             self.tableView.reloadData()
         default: break
         }

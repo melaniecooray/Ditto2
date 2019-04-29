@@ -38,9 +38,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         cell.playlistLastPlayed.textColor = UIColor(hexString: "7383C5")
         cell.playButton.addTarget(self, action: #selector(playCode(sender:)), for: .touchUpInside)
         cell.playButton.isEnabled = true
-        if playlistImageList.count == playlistTitleList.count {
-            cell.playlistPhoto.image = playlistImageList[indexPath.row]
-        }
+        cell.playlistPhoto.image = playlistImageList[indexPath.row]
         return cell
     }
     
@@ -51,6 +49,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         cell.playButton.isEnabled = false
         
         let indexPath = tableView.indexPath(for: cell)?.row
+        print(indexPath)
         self.tabBarController?.selectedIndex = 1
         let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
         let resultVC = CurrentPlaylistViewController()
