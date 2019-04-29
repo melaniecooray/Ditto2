@@ -64,6 +64,10 @@ class ProfileViewController: UIViewController {
         self.tableView.reloadData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        customSC.selectedSegmentIndex = 0
+    }
+    
     func getUserInformation() {
         print(currentID)
         print("just tried to print current id")
