@@ -57,7 +57,7 @@ extension PreviewPlaylistViewController {
         liveLabel.font = UIFont(name: "Roboto-Light", size: 18)
         liveLabel.textColor = UIColor(hexString: "#7383C5")
         liveLabel.textAlignment = .center
-        liveLabel.text = "Live in playlist"
+        liveLabel.text = "Playlist Members"
         view.addSubview(liveLabel)
     }
     

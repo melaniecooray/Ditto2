@@ -15,7 +15,6 @@ extension EditPlaylistViewController {
         backgroundImage = UIImageView(frame: view.frame)
         backgroundImage.image = UIImage(named: "editback")
         backgroundImage.contentMode = .scaleAspectFill
-        backgroundImage.alpha = 1
         view.addSubview(backgroundImage)
     }
     
@@ -54,28 +53,25 @@ extension EditPlaylistViewController {
     }
     
     func setUpSearchBar() {
-        mainSearchBar = UISearchBar(frame: CGRect(x: view.frame.width / 7, y: view.frame.height/10, width: view.frame.width, height: view.frame.width/6))
-        //        pokemonTable.contentInset = UIEdgeInsetsMake(view.frame.height/30, 0, self.tabBarController!.tabBar.frame.height - view.frame.height/50, 0)
-        
-        mainSearchBar.placeholder = "search for songs in playlist..."
-        mainSearchBar.backgroundColor = UIColor.white
+        mainSearchBar = UISearchBar(frame: CGRect(x: view.frame.width / 8, y: view.frame.height/10, width: view.frame.width * 3.5/4, height: view.frame.width/6))
         mainSearchBar.backgroundColor = UIColor.clear
         mainSearchBar.tintColor = UIColor.clear
         mainSearchBar.barTintColor = UIColor.clear
         mainSearchBar.backgroundImage = UIImage()
         mainSearchBar.scopeBarBackgroundImage = UIImage()
         mainSearchBar.isTranslucent = true
-        //mainSearchBar.layer.borderColor = UIImage()
-        //        mainSearchBar.layer.borderWidth = 1
-        //
-        //        mainSearchBar.layer.borderColor = UIColor.clear
-        mainSearchBar.isTranslucent = true
-        //mainSearchBar = UISearchBar.Style(minimal)
+        mainSearchBar.placeholder = "search for songs in playlist..."
+        mainSearchBar.delegate = self
+
+
         let textFieldInsideSearchBar = mainSearchBar.value(forKey: "searchField") as? UITextField
         textFieldInsideSearchBar?.textColor = UIColor.black
         
         view.addSubview(mainSearchBar)
     }
+    
+
+    
     
     
     

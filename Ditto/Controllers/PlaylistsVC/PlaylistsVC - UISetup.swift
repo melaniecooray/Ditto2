@@ -17,6 +17,8 @@ extension PlaylistsViewController {
         backgroundImage.contentMode = .scaleAspectFill
         backgroundImage.alpha = 0.5
         view.addSubview(backgroundImage)
+        
+        setUpSearchBar()
     }
     
     func setUpAddButton() {
@@ -52,22 +54,10 @@ extension PlaylistsViewController {
     }
     
     func setUpSearchBar() {
-        mainSearchBar = UISearchBar(frame: CGRect(x: view.frame.width * 0.20, y: view.frame.height/8.5, width: view.frame.width, height: view.frame.width/6))
+        mainSearchBar = UISearchBar(frame: CGRect(x: view.frame.width * 0.15, y: view.frame.height/8.5, width: view.frame.width * 3.5/5, height: view.frame.width/6))
 //        pokemonTable.contentInset = UIEdgeInsetsMake(view.frame.height/30, 0, self.tabBarController!.tabBar.frame.height - view.frame.height/50, 0)
         
-        mainSearchBar.placeholder = "search for a playlist..."
-//        mainSearchBar.backgroundColor = UIColor.white
-//
-//        mainSearchBar.tintColor = UIColor.white
-//        mainSearchBar.barTintColor = UIColor.white
-//        mainSearchBar.backgroundImage = UIImage()
-//        mainSearchBar.layer.borderColor = UIColor.white.cgColor
-//        //mainSearchBar.layer.borderColor = UIImage()
-////        mainSearchBar.layer.borderWidth = 1
-////
-////        mainSearchBar.layer.borderColor = UIColor.clear
-//        mainSearchBar.isTranslucent = true
-        //mainSearchBar = UISearchBar.Style(minimal)
+        mainSearchBar.placeholder = "   search for a playlist..."
         mainSearchBar.backgroundColor = UIColor.clear
         mainSearchBar.tintColor = UIColor.clear
         mainSearchBar.barTintColor = UIColor.clear
@@ -94,6 +84,10 @@ extension PlaylistsViewController {
         emptyLabel.text = "No joined playlists"
         emptyLabel.font = UIFont(name: "Roboto-Bold", size: 20)
         view.addSubview(emptyLabel)
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)  {
+        searchBar.resignFirstResponder()
     }
     
     

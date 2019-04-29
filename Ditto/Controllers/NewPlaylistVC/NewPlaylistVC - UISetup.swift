@@ -28,6 +28,7 @@ extension NewPlaylistViewController {
         //codeInput.keyboardType = UIKeyboardType.numberPad
         newPlaylistTextField.attributedPlaceholder = NSAttributedString(string: "playlist name",
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor(hexString: "7383C5")])
+        newPlaylistTextField.delegate = self
         view.addSubview(newPlaylistTextField)
         
         var bottomLine = UILabel(frame: CGRect(x: 0, y: newPlaylistTextField.frame.maxY * 1.2, width: view.frame.width * 3/5, height: 3))
@@ -71,4 +72,5 @@ extension NewPlaylistViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+
 }

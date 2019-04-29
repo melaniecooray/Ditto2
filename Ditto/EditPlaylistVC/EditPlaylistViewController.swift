@@ -156,11 +156,13 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
             isSearching = false
             view.endEditing(true)
             tableView.reloadData()
+            mainSearchBar.resignFirstResponder()
         } else {
             isSearching = true
             filteredArray = songTitleList.filter({$0.range(of: mainSearchBar.text!, options: .caseInsensitive) != nil})
             tableView.reloadData()
             print("seachworkedhere2")
+            mainSearchBar.resignFirstResponder()
             
         }
     }
@@ -193,9 +195,9 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
             filteredArray = songTitleList.filter({$0.range(of: mainSearchBar.text!, options: .caseInsensitive) != nil})
             tableView.reloadData()
             print("seachworkedhere2")
-
         }
     }
+    
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         (viewController as? CurrentPlaylistViewController)?.pause = self.pause

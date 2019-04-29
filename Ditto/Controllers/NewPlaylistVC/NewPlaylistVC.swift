@@ -88,6 +88,13 @@ class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        textField.resignFirstResponder()
+        print("return was pressed")
+        return true
+    }
+    
     func makeCode() -> String {
         var key = "";
         for _ in 1...6 {
