@@ -38,7 +38,7 @@ class EditSongCell: UITableViewCell {
         //playlistName.text = "vibe station"
         contentView.addSubview(songName)
         
-        songArtist = UILabel(frame: CGRect(x: songPhoto.frame.maxX * 3/4.5, y: songName.frame.minY * 2.7, width: size.width/3, height: size.height/3))
+        songArtist = UILabel(frame: CGRect(x: songPhoto.frame.maxX * 3/4.5, y: songName.frame.minY * 2.7, width: size.width * 2/3, height: size.height/3))
         //playlistLastPlayed.center = CGPoint(x: playlistPhoto.frame.maxX + 18, y: size.height * 2/3)
         songArtist.adjustsFontSizeToFitWidth = true
         songArtist.font = UIFont(name: "Roboto-Light", size: 15)

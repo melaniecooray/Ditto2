@@ -46,6 +46,10 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
         self.view.endEditing(true)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        searchButton.isEnabled = true
+    }
+    
     //dismiss keyboard when you press return
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -60,55 +64,59 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func filter(_ sender: UIButton) {
-        searchButton.isEnabled = false
         //actually filter here?
         if code == "" {
             showError(title: "Invalid", message: "Please enter in a playlist code.")
+            searchButton.isEnabled = true
             return
         } else if code.count != 6 {
             showError(title: "Invalid", message: "A playlist code is 6 characters.")
+            searchButton.isEnabled = true
             return
         } else if code.contains(" ") {
             showError(title: "Invalid", message: "A playlist code cannot have spaces.")
-        }
-        let db = Database.database().reference()
-        let playlistNode = db.child("playlists")
-        let userNode = db.child("users")
-        
-        playlistNode.child(self.code).observeSingleEvent(of: .value, with: { (snapshot) in
-            if snapshot.exists() {
-                UserDefaults.standard.set(self.code, forKey: "code")
-                print("code worked")
-                let dict = snapshot.value as! [String : Any]
-                var owner = dict["owner"] as! String
-                var previousMembers = dict["members"] as! [String]
-                if owner != Auth.auth().currentUser!.uid {
-                    if !previousMembers.contains(Auth.auth().currentUser!.uid) {
-                        previousMembers.append(UserDefaults.standard.value(forKey: "id") as! String)
-                        playlistNode.child(self.code).updateChildValues(["members" : previousMembers])
+            searchButton.isEnabled = true
+        } else {
+            let db = Database.database().reference()
+            let playlistNode = db.child("playlists")
+            let userNode = db.child("users")
+            
+            playlistNode.child(self.code).observeSingleEvent(of: .value, with: { (snapshot) in
+                if snapshot.exists() {
+                    UserDefaults.standard.set(self.code, forKey: "code")
+                    print("code worked")
+                    let dict = snapshot.value as! [String : Any]
+                    var owner = dict["owner"] as! String
+                    var previousMembers = dict["members"] as! [String]
+                    if owner != Auth.auth().currentUser!.uid {
+                        if !previousMembers.contains(Auth.auth().currentUser!.uid) {
+                            previousMembers.append(UserDefaults.standard.value(forKey: "id") as! String)
+                            playlistNode.child(self.code).updateChildValues(["members" : previousMembers])
+                        }
+                        userNode.child(Auth.auth().currentUser!.uid).observeSingleEvent(of: .value, with: { (snapshot) in
+                            let dict2 = snapshot.value as! [String : Any]
+                            var currentMemPlaylistCodes : [String] = []
+                            var currentMemPlaylistNames : [String] = []
+                            if let codes = dict2["member playlist codes"] as? [String] {
+                                currentMemPlaylistCodes = codes
+                                currentMemPlaylistNames = dict2["member playlist names"] as! [String]
+                            }
+                            if !currentMemPlaylistCodes.contains(dict["code"] as! String) {
+                                currentMemPlaylistCodes.append(dict["code"] as! String)
+                                currentMemPlaylistNames.append(dict["name"] as! String)
+                                userNode.child(Auth.auth().currentUser!.uid).updateChildValues(["member playlist codes" : currentMemPlaylistCodes, "member playlist names" : currentMemPlaylistNames])
+                            }
+                        })
                     }
-                    userNode.child(Auth.auth().currentUser!.uid).observeSingleEvent(of: .value, with: { (snapshot) in
-                        let dict2 = snapshot.value as! [String : Any]
-                        var currentMemPlaylistCodes : [String] = []
-                        var currentMemPlaylistNames : [String] = []
-                        if let codes = dict2["member playlist codes"] as? [String] {
-                            currentMemPlaylistCodes = codes
-                            currentMemPlaylistNames = dict2["member playlist names"] as! [String]
-                        }
-                        if !currentMemPlaylistCodes.contains(dict["code"] as! String) {
-                            currentMemPlaylistCodes.append(dict["code"] as! String)
-                            currentMemPlaylistNames.append(dict["name"] as! String)
-                            userNode.child(Auth.auth().currentUser!.uid).updateChildValues(["member playlist codes" : currentMemPlaylistCodes, "member playlist names" : currentMemPlaylistNames])
-                        }
-                    })
+                    self.makePlaylist(dict: dict, previousMembers: previousMembers)
+                    self.searchButton.isEnabled = false
+                } else {
+                    print("error with " + self.code)
+                    print(snapshot)
+                    self.showError(title: "Error", message: "A playlist with that code does not exist.")
                 }
-                self.makePlaylist(dict: dict, previousMembers: previousMembers)
-            } else {
-                print("error with " + self.code)
-                print(snapshot)
-                self.showError(title: "Error", message: "A playlist with that code does not exist.")
-            }
-        })
+            })
+        }
     }
     
     func makePlaylist(dict: [String: Any], previousMembers: [String]) {
