@@ -42,6 +42,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
 
     var code: String!
     let parameters: HTTPHeaders = ["Accept":"application/json", "Authorization":"Bearer \(UserDefaults.standard.value(forKey: "accessToken")!)"]
+    let url = "https://api.spotify.com/v1/tracks/"
     
     var timer : Timer!
     var time = 0
@@ -86,6 +87,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        listenAddedSongs()
         if self.timer != nil {
             self.timer.invalidate()
         }
@@ -101,21 +103,26 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
             let playlistNode = db.child("playlists")
             playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observe(.value, with: { (snapshot) in
                 let dict = snapshot.value as! [String : Any]
+                let isPlayingValue = dict["isPlaying"] as! Bool
                 if let currSong = dict["song"] as? Int {
                     //print(currSong)
                     //print(self.currentIndex)
                     if self.currentIndex != currSong {
-                        print("updating current index")
-                        self.currentIndex = currSong
-                        self.player?.skipNext({ (error) in
-                            if error != nil {
-                                print("error going to next song")
-                                return
-                            } else {
-                                print("went to the next song")
-                                self.findSong()
-                            }
-                        })
+                            print("updating current index")
+                            self.currentIndex = currSong
+                            self.player?.skipNext({ (error) in
+                                if error != nil {
+                                    print("error going to next song")
+                                    return
+                                } else {
+                                    print("went to the next song")
+                                    if !isPlayingValue {
+                                        started = false
+                                    } else {
+                                        self.findSong()
+                                    }
+                                }
+                            })
                     } else {
                         self.currentIndex = currSong
                     }
@@ -128,7 +135,6 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
                     self.time = currTime
                 }
                 
-                let isPlayingValue = dict["isPlaying"] as! Bool
                 if (isPlayingValue) {
                     //print("isPlaying is true")
                     self.ownerLabel.removeFromSuperview()
@@ -460,6 +466,57 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
         if self.owner {
             playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["song" : self.currentIndex, "time": self.time, "isPlaying" : true])
         }
+    }
+    
+    func listenAddedSongs() {
+        let db = Database.database().reference()
+        let playlistNode = db.child("playlists")
+        playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observe(.value, with: {
+            (snapshot) in
+            let dict = snapshot.value as! [String:Any]
+            let currentCount = dict["songs"] as! [String]
+            if currentCount.count > self.songs.count {
+                var index = self.songs.count
+                let names = dict["names"] as! [String]
+                let artists = dict["artists"] as! [String]
+                let lengths = dict["lengths"] as! [Int]
+                while index < currentCount.count {
+                    self.songs.append(Song(id: currentCount[index], song: ["name" : names[index], "artists" : artists[index], "length" : lengths[index]]))
+                    index += 1
+                }
+                
+                
+                
+                
+                let dispatchGroup = DispatchGroup()
+                for (index, songuri) in currentCount.enumerated() {
+                    dispatchGroup.enter()
+                    let indexString = songuri.index(songuri.startIndex, offsetBy: 14)
+                    let trackID = String(songuri[indexString...])
+                    AF.request(self.url + trackID, headers: self.parameters).responseJSON(completionHandler: {
+                        response in
+                        do {
+                            var track = try JSONSerialization.jsonObject(with: response.data!, options: .mutableContainers) as! JSONStandard
+                            
+                            if let album = track["album"] as? JSONStandard {
+                                if let images = album["images"] as? [JSONStandard] {
+                                    let imageData = images[0]
+                                    let mainImageURL = URL(string: imageData["url"] as! String)
+                                    let mainImageData = NSData(contentsOf: mainImageURL!)
+                                    let mainImage = UIImage(data: mainImageData as! Data)
+                                    self.songs[index].image = mainImage
+                                    
+                                    dispatchGroup.leave()
+                                }
+                            }
+                        } catch {
+                            print(error)
+                        }
+                    })
+                }
+                
+            }
+        })
     }
     
 }

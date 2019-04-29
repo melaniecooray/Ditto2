@@ -43,6 +43,7 @@ class ProfileViewController: UIViewController {
     var mnames : [String] = []
     var ocodes : [String] = []
     var mcodes : [String] = []
+    var playlistImageList : [UIImage] = []
     
     var playlist : Playlist!
     let url = "https://api.spotify.com/v1/tracks/"
@@ -52,6 +53,7 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getUserInformation()
+        getPlaylists()
         initUI()
         setUpImagePicker()
         
@@ -85,7 +87,7 @@ class ProfileViewController: UIViewController {
                 }
                 print("fullnameretrieved")
                 print(retrievedName)
-                self.tableView.reloadData()
+                //self.tableView.reloadData()
                 self.nameLabel.text = retrievedName
             } else {
                 print(self.currentID)
@@ -133,14 +135,17 @@ class ProfileViewController: UIViewController {
     }
     
     @objc func indexChanged(_ sender: Any) {
+        playlistImageList = []
         switch customSC.selectedSegmentIndex {
         case 0 :
             playlistTitleList = onames
             playlistLastPlayed = ocodes
+            getPlaylists()
             self.tableView.reloadData()
         case 1:
             playlistTitleList = mnames
             playlistLastPlayed = mcodes
+            getPlaylists()
             self.tableView.reloadData()
         default: break
         }

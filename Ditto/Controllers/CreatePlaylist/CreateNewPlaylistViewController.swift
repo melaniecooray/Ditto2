@@ -49,6 +49,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
     var artistList : [String] = []
     var new = true
     var owner = true
+    var playlistOwner : String!
     
     var searchURL = String()
     //var createPlaylistURL = "https://api.spotify.com/v1/playlists"
@@ -84,7 +85,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         view.addSubview(loadingIcon)
     }
 
-
+/*
     override func viewWillDisappear(_ animated: Bool) {
         if self.navigationController?.topViewController == self {
             if !new {
@@ -93,6 +94,8 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
             }
         }
     }
+ */
+
 
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
@@ -228,6 +231,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                     self.userID = user_id as? String
                     //print(UserDefaults.standard.value(forKey: "id")!)
                     if self.new {
+                        self.playlistOwner = UserDefaults.standard.value(forKey: "id") as! String
                         playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).updateChildValues(["songs": self.songuris, "members" : [UserDefaults.standard.value(forKey: "id")], "owner" : UserDefaults.standard.value(forKey: "id"), "lengths" : self.lengths, "names" : self.nameList, "artists" : self.artistList])
                         self.playlists.append(UserDefaults.standard.value(forKey: "code") as! String)
                         self.names.append(self.name)
@@ -272,6 +276,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
                     } else {
                         playlistNode.child(UserDefaults.standard.value(forKey: "code") as! String).observeSingleEvent(of: .value, with: { (snapshot) in
                             let dict = snapshot.value as! [String : Any]
+                            self.playlistOwner = dict["owner"] as! String
                             var toAdd : [String] = []
                             var addLengths : [Int] = []
                             var addNames : [String] = []
@@ -331,7 +336,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
         let resultVC = CurrentPlaylistViewController()
         resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
-        resultVC.playlist = Playlist(id: playlistID!, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs, "owner" : UserDefaults.standard.value(forKey: "id")!])
+        resultVC.playlist = Playlist(id: playlistID!, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs, "owner" : self.playlistOwner])
         resultVC.owner = self.owner
         var toSend = previousSongs
         toSend.append(contentsOf: selectedSongs)
@@ -340,6 +345,8 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         resultVC.songs = toSend
         loadingIcon.stopAnimating()
         navController.popToRootViewController(animated: false)
+        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+        self.navigationController?.popToRootViewController(animated: true)
         navController.pushViewController(resultVC, animated: true)
     }
     

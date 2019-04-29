@@ -38,6 +38,9 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         cell.playlistLastPlayed.textColor = UIColor(hexString: "7383C5")
         cell.playButton.addTarget(self, action: #selector(playCode(sender:)), for: .touchUpInside)
         cell.playButton.isEnabled = true
+        if playlistImageList.count == playlistTitleList.count {
+            cell.playlistPhoto.image = playlistImageList[indexPath.row]
+        }
         return cell
     }
     
