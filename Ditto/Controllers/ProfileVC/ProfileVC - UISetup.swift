@@ -82,6 +82,7 @@ extension ProfileViewController {
         tableView.rowHeight = view.frame.height/8
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: view.frame.height/8, right: 0)
         tableView.separatorColor = UIColor.gray
+        tableView.allowsSelection = false
         view.addSubview(tableView)
     }
     

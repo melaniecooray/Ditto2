@@ -149,6 +149,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         if let previewVC = segue.destination as? PreviewPlaylistViewController {
             previewVC.code = code.text!
             previewVC.playlist = playlist
+            previewVC.guest = true
+        }
+        
+        if let result = segue.destination as? CurrentPlaylistViewController {
+            result.user = false
+        }
+        
+        if let navVC = segue.destination as? UINavigationController {
+            if let previewVC = navVC.viewControllers.first as? PreviewPlaylistViewController {
+                previewVC.code = code.text!
+                previewVC.playlist = playlist
+                previewVC.guest = true
+            }
         }
     }
     

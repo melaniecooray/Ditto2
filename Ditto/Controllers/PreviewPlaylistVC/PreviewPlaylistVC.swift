@@ -52,6 +52,7 @@ class PreviewPlaylistViewController: UIViewController, UIScrollViewDelegate {
             currentVC.code = code
             currentVC.playlist = playlist
             currentVC.songs = playlist.songs
+            currentVC.user = !self.guest
         }
     }
 }

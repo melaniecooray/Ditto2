@@ -118,12 +118,16 @@ extension CurrentPlaylistViewController {
     }
     
     @objc func exit() {
-        self.navigationController?.popToRootViewController(animated: true)
         self.isPlayingSong = false
         first = true
         self.player?.logout()
         if self.timer != nil {
             self.timer.invalidate()
+        }
+        if user {
+            self.navigationController?.popToRootViewController(animated: true)
+        } else {
+            self.performSegue(withIdentifier: "returnToLogin", sender: self)
         }
     }
     
@@ -134,17 +138,21 @@ extension CurrentPlaylistViewController {
         if self.timer != nil {
             self.timer.invalidate()
         }
-        self.tabBarController?.selectedIndex = 1
-        let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
-        navController.setNavigationBarHidden(false, animated: .init())
         let resultVC = EditPlaylistViewController()
-//        resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
+        //        resultVC.code = UserDefaults.standard.value(forKey: "code") as! String
         resultVC.songs = songs
         resultVC.player = player
         resultVC.pause = pause
         resultVC.playlist = playlist
         resultVC.owner = owner
-        navController.pushViewController(resultVC, animated: true)
+        if !user {
+            self.navigationController?.pushViewController(resultVC, animated: true)
+        } else {
+            self.tabBarController?.selectedIndex = 1
+            let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
+            navController.setNavigationBarHidden(false, animated: .init())
+            navController.pushViewController(resultVC, animated: true)
+        }
     }
     
     func setUpPlaylistName() {
@@ -347,5 +355,16 @@ extension CurrentPlaylistViewController {
                     self.findSong()
                 }
             })
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let resultVC = segue.destination as? EditPlaylistViewController {
+            resultVC.songs = songs
+            resultVC.player = player
+            resultVC.pause = pause
+            resultVC.playlist = playlist
+            resultVC.owner = owner
+        }
     }
 }

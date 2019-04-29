@@ -23,7 +23,7 @@
                     <connections>
                         <segue destination="p8A-R9-1BG" kind="show" identifier="toSignUp" id="FPd-zu-OTQ"/>
                         <segue destination="UIE-NL-Uri" kind="show" identifier="loggedIn" id="kMD-M7-tv2"/>
-                        <segue destination="57K-8U-Swn" kind="show" identifier="joinedCode" id="QKN-Uv-Wzt"/>
+                        <segue destination="YXl-eu-dAI" kind="show" identifier="joinedCode" id="IY2-XR-9eC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0st-HB-aR1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -133,6 +133,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="e2d-IY-xpe"/>
                     </view>
+                    <navigationItem key="navigationItem" id="d28-nW-bB2"/>
                     <connections>
                         <segue destination="jDB-hF-Xkw" kind="show" identifier="toPlaylist" id="Zsg-WU-i85"/>
                     </connections>
@@ -153,11 +154,28 @@
                     </view>
                     <connections>
                         <segue destination="XAm-xc-xmV" kind="show" identifier="toEdit" id="Tga-2c-ckQ"/>
+                        <segue destination="VmA-bx-LBv" kind="show" identifier="returnToLogin" id="PYe-Ea-a44"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eZ0-xj-Dgh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="7794" y="154"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="AvM-1A-Lcq">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gSe-yO-7Df" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController id="YXl-eu-dAI" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="rpP-ms-AsE">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="57K-8U-Swn" kind="relationship" relationship="rootViewController" id="EOm-Iw-kgs"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="6452" y="959"/>
         </scene>
         <!--Edit Playlist View Controller-->
         <scene sceneID="l8V-Zi-0hZ">
@@ -290,7 +308,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="kMD-M7-tv2"/>
-        <segue reference="QKN-Uv-Wzt"/>
-        <segue reference="ebl-aY-Xac"/>
+        <segue reference="EOm-Iw-kgs"/>
+        <segue reference="2aW-xw-dQ1"/>
     </inferredMetricsTieBreakers>
 </document>
