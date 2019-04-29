@@ -62,6 +62,7 @@ class ProfileViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         getUserInformation()
+        getPlaylists()
         self.tableView.reloadData()
     }
     

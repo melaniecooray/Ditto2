@@ -67,7 +67,6 @@ class PlaylistsViewController: UIViewController {
         setUpBackground()
         setUpTable()
         //getUserInformation()
-        setUpSearchBar()
         //setUpBackground()
         setUpLabel()
         setUpAddButton()

@@ -66,6 +66,7 @@ class CurrentPlaylistViewController: UIViewController, SPTAudioStreamingDelegate
     
     var status = true
     var once = true
+    var user = true
     
     typealias JSONStandard = [String : AnyObject]
     

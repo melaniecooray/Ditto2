@@ -36,7 +36,7 @@ extension CreateNewPlaylistTableViewController {
     }
     
     func setUpSearchBar() {
-        searchBar = UISearchBar(frame: CGRect(x: view.frame.width / 7, y: view.frame.height/10, width: view.frame.width - view.frame.width/17, height: view.frame.width/6))
+        searchBar = UISearchBar(frame: CGRect(x: view.frame.width / 7, y: view.frame.height/10, width: view.frame.width * 3/4, height: view.frame.width/6))
 //        searchBar.placeholder = "search for songs and artists..."
         searchBar.backgroundColor = UIColor.clear
         searchBar.tintColor = UIColor.clear
