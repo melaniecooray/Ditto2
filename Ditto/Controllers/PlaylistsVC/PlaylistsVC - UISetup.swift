@@ -31,9 +31,10 @@ extension PlaylistsViewController {
     
     func setUpLabel() {
         recentlyPlayedLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height / 10))
-        recentlyPlayedLabel.center = CGPoint(x: view.frame.width/1.11, y: tableView.frame.minY * 0.90 )
+        recentlyPlayedLabel.center = CGPoint(x: view.frame.width/2, y: tableView.frame.minY * 0.90 )
         recentlyPlayedLabel.font = UIFont(name: "Roboto-Bold", size: 20)
         recentlyPlayedLabel.text = "all playlists"
+        recentlyPlayedLabel.textAlignment = .center
         view.addSubview(recentlyPlayedLabel)
     }
     

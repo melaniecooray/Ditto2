@@ -23,7 +23,7 @@
                     <connections>
                         <segue destination="p8A-R9-1BG" kind="show" identifier="toSignUp" id="FPd-zu-OTQ"/>
                         <segue destination="UIE-NL-Uri" kind="show" identifier="loggedIn" id="kMD-M7-tv2"/>
-                        <segue destination="YXl-eu-dAI" kind="show" identifier="joinedCode" id="IY2-XR-9eC"/>
+                        <segue destination="57K-8U-Swn" kind="show" identifier="joinedCode" id="Aqf-Mv-qBT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0st-HB-aR1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -161,22 +161,6 @@
             </objects>
             <point key="canvasLocation" x="7794" y="154"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="AvM-1A-Lcq">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gSe-yO-7Df" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <navigationController id="YXl-eu-dAI" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="rpP-ms-AsE">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="57K-8U-Swn" kind="relationship" relationship="rootViewController" id="EOm-Iw-kgs"/>
-                    </connections>
-                </navigationController>
-            </objects>
-            <point key="canvasLocation" x="6452" y="959"/>
-        </scene>
         <!--Edit Playlist View Controller-->
         <scene sceneID="l8V-Zi-0hZ">
             <objects>
@@ -308,7 +292,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="kMD-M7-tv2"/>
-        <segue reference="EOm-Iw-kgs"/>
+        <segue reference="Aqf-Mv-qBT"/>
         <segue reference="2aW-xw-dQ1"/>
     </inferredMetricsTieBreakers>
 </document>

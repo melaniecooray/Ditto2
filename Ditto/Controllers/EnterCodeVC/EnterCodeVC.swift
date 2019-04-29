@@ -21,6 +21,9 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
     
     var code = ""
     var playlist : Playlist!
+    var songs : [Song] = []
+    var segue = false
+    var loadingView : UIView!
     var loadingIcon : UIActivityIndicatorView!
     
     var getUserURL = "https://api.spotify.com/v1/me"
@@ -38,6 +41,16 @@ class EnterCodeViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        if segue {
+            loadingView = UIView(frame: self.view.frame)
+            loadingView.backgroundColor = .white
+            loadingIcon = UIActivityIndicatorView(style: .whiteLarge)
+            let resultVC = CurrentPlaylistViewController()
+            resultVC.code = code
+            resultVC.playlist = playlist
+            resultVC.songs = songs
+            self.navigationController?.pushViewController(resultVC, animated: true)
+        }
         self.codeInput.delegate = self
         searchButton.isEnabled = true
     }

@@ -108,7 +108,9 @@ extension CurrentPlaylistViewController {
         barsButton.setImage(UIImage(named: "bars"), for: .normal)
         barsButton.imageView?.contentMode = .scaleAspectFit
         barsButton.addTarget(self, action: #selector(editPressed), for: .touchUpInside)
-        view.addSubview(barsButton)
+        if user {
+            view.addSubview(barsButton)
+        }
         exitButton = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.width * 0.06, height: view.frame.width * 0.06))
         exitButton.center = CGPoint(x: view.frame.width / 14, y: codeLabel.frame.midY)
         exitButton.setImage(UIImage(named: "x"), for: .normal)
@@ -145,14 +147,10 @@ extension CurrentPlaylistViewController {
         resultVC.pause = pause
         resultVC.playlist = playlist
         resultVC.owner = owner
-        if !user {
-            self.navigationController?.pushViewController(resultVC, animated: true)
-        } else {
-            self.tabBarController?.selectedIndex = 1
-            let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
-            navController.setNavigationBarHidden(false, animated: .init())
-            navController.pushViewController(resultVC, animated: true)
-        }
+        self.tabBarController?.selectedIndex = 1
+        let navController = self.tabBarController?.viewControllers![1] as! UINavigationController
+        navController.setNavigationBarHidden(false, animated: .init())
+        navController.pushViewController(resultVC, animated: true)
     }
     
     func setUpPlaylistName() {

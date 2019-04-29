@@ -50,6 +50,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
     var new = true
     var owner = true
     var playlistOwner : String!
+    var guest = false
     
     var searchURL = String()
     //var createPlaylistURL = "https://api.spotify.com/v1/playlists"
@@ -345,7 +346,7 @@ class CreateNewPlaylistTableViewController: UIViewController, UISearchBarDelegat
         resultVC.songs = toSend
         loadingIcon.stopAnimating()
         navController.popToRootViewController(animated: false)
-        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+        //self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
         self.navigationController?.popToRootViewController(animated: true)
         navController.pushViewController(resultVC, animated: true)
     }
