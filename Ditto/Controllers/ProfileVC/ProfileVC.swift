@@ -68,6 +68,10 @@ class ProfileViewController: UIViewController {
         customSC.selectedSegmentIndex = 0
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        customSC.selectedSegmentIndex = 0
+    }
+    
     func getUserInformation() {
         print(currentID)
         print("just tried to print current id")
