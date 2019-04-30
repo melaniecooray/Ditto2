@@ -8,8 +8,9 @@
 
 import UIKit
 import Firebase
+import SafariServices
 
-class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate {
+class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate, SFSafariViewControllerDelegate {
     
     var dummyLogButton: UIButton!
     var dummyProfileButton: UIButton!
@@ -19,6 +20,8 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
     var session: SPTSession!
     var player: SPTAudioStreamingController?
     var audioStreaming : SPTAudioStreamingController?
+    
+    var safari : SFSafariViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,12 +63,24 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
             UIApplication.shared.open(appURL, options: [:], completionHandler: nil)
         } else {
             //Present a web browser in the app that lets the user sign in to Spotify
-            UIApplication.shared.open(webURL, options: [:], completionHandler: nil)
+            safari = SFSafariViewController(url: webURL, entersReaderIfAvailable: true)
+            safari.delegate = self
+            
+            present(safari, animated: true)
+            //UIApplication.shared.open(webURL, options: [:], completionHandler: nil)
         }
+    }
+    
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        dismiss(animated: true)
     }
     
     @objc func receievedUrlFromSpotify(_ notification: Notification) {
         guard let url = notification.object as? URL else { return }
+        
+        if safari != nil {
+            safari?.dismiss(animated: true, completion: nil)
+        }
         
         //spotifyAuthWebView?.dismiss(animated: true, completion: nil)
         NotificationCenter.default.removeObserver(self,
@@ -145,6 +160,7 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
                 UserDefaults.standard.set(Auth.auth().currentUser?.uid, forKey: "id")
                 self.performSegue(withIdentifier: "connectedLogin", sender: self)
             } else {
+                print("going to login screen")
                 self.performSegue(withIdentifier: "toLogin", sender: self)
             }
         }
