@@ -63,56 +63,86 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
             UIApplication.shared.open(appURL, options: [:], completionHandler: nil)
         } else {
             //Present a web browser in the app that lets the user sign in to Spotify
-            safari = SFSafariViewController(url: webURL, entersReaderIfAvailable: true)
-            safari.delegate = self
+            let config = SFSafariViewController.Configuration()
+            config.entersReaderIfAvailable = true
             
-            present(safari, animated: true)
+            safari = SFSafariViewController(url: webURL, configuration: config)
+            //Present a web browser in the app that lets the user sign in to Spotify
+            present(safari, animated: true, completion: nil)
             //UIApplication.shared.open(webURL, options: [:], completionHandler: nil)
         }
-    }
-    
-    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        dismiss(animated: true)
     }
     
     @objc func receievedUrlFromSpotify(_ notification: Notification) {
         guard let url = notification.object as? URL else { return }
         
         if safari != nil {
-            safari?.dismiss(animated: true, completion: nil)
-        }
-        
-        //spotifyAuthWebView?.dismiss(animated: true, completion: nil)
-        NotificationCenter.default.removeObserver(self,
-                                                  name: NSNotification.Name.Spotify.authURLOpened,
-                                                  object: nil)
-        UserDefaults.standard.set(url.absoluteString, forKey: "url")
-        
-        SPTAuth.defaultInstance().handleAuthCallback(withTriggeredAuthURL: url) { (error, session) in
-            //Check if there is an error because then there won't be a session.
-            if let error = error {
-                self.displayErrorMessage(error: error)
-                return
-            }
-            
-            // Check if there is a session
-            if let session = session {
-                print("there is a session")
-                UserDefaults.standard.setValue(session.accessToken, forKey: "accessToken")
-                // If there is use it to login to the audio streaming controller where we can play music.
+            safari.dismiss(animated: true, completion: {
+                //spotifyAuthWebView?.dismiss(animated: true, completion: nil)
+                NotificationCenter.default.removeObserver(self,
+                                                          name: NSNotification.Name.Spotify.authURLOpened,
+                                                          object: nil)
+                UserDefaults.standard.set(url.absoluteString, forKey: "url")
                 
-                if self.player == nil {
-                    self.player = SPTAudioStreamingController.sharedInstance()
-                    if !(self.player?.loggedIn)! {
-                        self.player?.delegate = self
-                        self.player?.playbackDelegate = self
-                        self.player?.login(withAccessToken: session.accessToken)
+                SPTAuth.defaultInstance().handleAuthCallback(withTriggeredAuthURL: url) { (error, session) in
+                    //Check if there is an error because then there won't be a session.
+                    if let error = error {
+                        self.displayErrorMessage(error: error)
+                        return
+                    }
+                    
+                    // Check if there is a session
+                    if let session = session {
+                        print("there is a session")
+                        UserDefaults.standard.setValue(session.accessToken, forKey: "accessToken")
+                        // If there is use it to login to the audio streaming controller where we can play music.
+                        
+                        if self.player == nil {
+                            self.player = SPTAudioStreamingController.sharedInstance()
+                            if !(self.player?.loggedIn)! {
+                                self.player?.delegate = self
+                                self.player?.playbackDelegate = self
+                                self.player?.login(withAccessToken: session.accessToken)
+                            }
+                        }
+                        
+                        
                     }
                 }
- 
+            })
+        } else {
+            NotificationCenter.default.removeObserver(self,
+                                                      name: NSNotification.Name.Spotify.authURLOpened,
+                                                      object: nil)
+            UserDefaults.standard.set(url.absoluteString, forKey: "url")
+            
+            SPTAuth.defaultInstance().handleAuthCallback(withTriggeredAuthURL: url) { (error, session) in
+                //Check if there is an error because then there won't be a session.
+                if let error = error {
+                    self.displayErrorMessage(error: error)
+                    return
+                }
                 
+                // Check if there is a session
+                if let session = session {
+                    print("there is a session")
+                    UserDefaults.standard.setValue(session.accessToken, forKey: "accessToken")
+                    // If there is use it to login to the audio streaming controller where we can play music.
+                    
+                    if self.player == nil {
+                        self.player = SPTAudioStreamingController.sharedInstance()
+                        if !(self.player?.loggedIn)! {
+                            self.player?.delegate = self
+                            self.player?.playbackDelegate = self
+                            self.player?.login(withAccessToken: session.accessToken)
+                        }
+                    }
+                    
+                    
+                }
             }
         }
+        
     }
     
     func displayErrorMessage(error: Error) {
@@ -161,7 +191,9 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
                 self.performSegue(withIdentifier: "connectedLogin", sender: self)
             } else {
                 print("going to login screen")
-                self.performSegue(withIdentifier: "toLogin", sender: self)
+                DispatchQueue.main.async {
+                    self.getTopMostViewController()?.performSegue(withIdentifier: "toLogin", sender: self)
+                }
             }
         }
     }
@@ -187,6 +219,16 @@ class ConnectViewController: UIViewController, SPTAudioStreamingDelegate, SPTAud
         connectButton.backgroundColor = UIColor(red:(29.0 / 255.0), green:(185.0 / 255.0), blue:(84.0 / 255.0), alpha:1.0)
         connectButton.setTitle("Connect To Spotify", for: .normal)
         displayErrorMessage(error: error)
+    }
+    
+    func getTopMostViewController() -> UIViewController? {
+        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+        
+        while let presentedViewController = topMostViewController?.presentedViewController {
+            topMostViewController = presentedViewController
+        }
+        
+        return topMostViewController
     }
     
 }
