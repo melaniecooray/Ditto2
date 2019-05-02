@@ -40,11 +40,7 @@ class PreviewPlaylistViewController: UIViewController, UIScrollViewDelegate {
     @objc func toPlaylist(_ sender: UIButton) {
         let db = Database.database().reference()
         let playlistNode = db.child("playlists").child(code)
-        //playlistNode.updateChildValues(["playing" : true, "song" : 0, "time": 0])
         performSegue(withIdentifier: "toPlaylist", sender: self)
-        //let currentVC = CurrentPlaylistViewController()
-        //currentVC.code = code
-        //present(currentVC, animated: true, completion: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

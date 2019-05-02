@@ -36,12 +36,6 @@ class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
         setUpImagePicker()
         self.navigationController?.navigationBar.isHidden = false
         addTapDismiss()
-        //self.navigationController?.navigationBar.barTintColor = UIColor(red:0.45, green:0.51, blue:0.77, alpha:1.0)
-        //self.navigationController?.navigationItem.leftBarButtonItem?.tintColor = .black
-        //self.navigationController?.navigationBar.isTranslucent = true
-        //self.navigationController?.view.backgroundColor = UIColor(red:0.45, green:0.51, blue:0.77, alpha:1.0)
-
-        // Do any additional f setup after loading the view.
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -60,12 +54,7 @@ class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
             UserDefaults.standard.set(code, forKey: "code")
             UserDefaults.standard.set("new", forKey: "playlistStatus")
             
-            //self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
-            
-            
             let imageRef = Storage.storage().reference().child("images").child(code)
-            //let data = chosenImage!.pngData()!
-            //lowest quality compression for jpeg
             if chosenImage == nil {
                 self.performSegue(withIdentifier: "toCreatePlaylist", sender: self)
             } else {
@@ -86,18 +75,11 @@ class NewPlaylistViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.view.endEditing(true)
-        textField.resignFirstResponder()
-        print("return was pressed")
-        return true
-    }
     
     func makeCode() -> String {
         var key = "";
         for _ in 1...6 {
             key += String(Int.random(in: 0...9))
-            //key += ((Int.random(in: 0...9) * Int(truncating: NSDecimalNumber(decimal: pow(10, num) - 1))))
         }
         let db = Database.database().reference()
         let playlistNode = db.child("playlists")

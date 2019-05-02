@@ -44,11 +44,9 @@ extension EditPlaylistViewController {
         tableView.backgroundColor = UIColor.clear
         tableView.layoutMargins = UIEdgeInsets.zero
         tableView.separatorInset = UIEdgeInsets.zero
-        //tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         tableView.rowHeight = view.frame.height/8
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: view.frame.height/7, right: 0)
         tableView.separatorColor = UIColor(hexString: "7383C5")
-        //tableView.separatorStyle
         view.addSubview(tableView)
     }
     

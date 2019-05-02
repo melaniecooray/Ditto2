@@ -51,6 +51,7 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
     
     var first = true
     var owner = true
+    var guest = false
     
     
     override func viewDidLoad() {
@@ -59,10 +60,6 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
         getPlaylistSongs()
         setUpBackground()
         addTapDismiss()
-        //setUpSearchBar()
-        //setUpTable()
-        //setUpLabel()
-        //setUpAddButton()
         
         self.navigationController?.delegate = self
         
@@ -105,6 +102,7 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
         //        resultVC.playlist = Playlist(id: playlistID!, playlist: ["name": name, "code": UserDefaults.standard.value(forKey: "code"), "songs": selectedSongs])
         resultVC.previousSongs = songs
         resultVC.owner = self.owner
+        resultVC.guest = self.guest
         UserDefaults.standard.set("update", forKey: "playlistStatus")
         navController.pushViewController(resultVC, animated: true)
     }
@@ -190,5 +188,6 @@ class EditPlaylistViewController: UIViewController, UISearchBarDelegate, UINavig
     }
     
 }
+
 
 
